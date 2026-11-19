@@ -1,0 +1,5965 @@
+{
+	"spell": [
+		{
+			"name": "Absorb Elements",
+			"source": "XGE",
+			"system": {
+				"target.affects.type": "self"
+			},
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "reaction",
+						"condition": "which you take when you take acid, cold, fire, lightning, or thunder damage"
+					},
+					"effects": [
+						{
+							"foundryId": "absorbElements1"
+						},
+						{
+							"foundryId": "absorbElements2"
+						},
+						{
+							"foundryId": "absorbElements3"
+						},
+						{
+							"foundryId": "absorbElements4"
+						},
+						{
+							"foundryId": "absorbElements5"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "absorbElements1",
+					"name": "Acid Resistance",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "acid"
+						}
+					]
+				},
+				{
+					"foundryId": "absorbElements2",
+					"name": "Cold Resistance",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "cold"
+						}
+					]
+				},
+				{
+					"foundryId": "absorbElements3",
+					"name": "Fire Resistance",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "fire"
+						}
+					]
+				},
+				{
+					"foundryId": "absorbElements4",
+					"name": "Lightning Resistance",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "lightning"
+						}
+					]
+				},
+				{
+					"foundryId": "absorbElements5",
+					"name": "Thunder Resistance",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "thunder"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Arcane Gate",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"template": {
+							"units": "ft",
+							"type": "wall",
+							"size": "10",
+							"count": "2",
+							"width": "5",
+							"height": "5"
+						},
+						"affects": {
+							"count": "2",
+							"type": "space",
+							"special": "Large, unoccupied spaces"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Arcane Vigor",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Cast",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"roll": {
+						"formula": "@attributes.hd.largest",
+						"name": "Roll Largest Hit Die"
+					}
+				},
+				{
+					"name": "Expend d6 Hit Dice",
+					"type": "heal",
+					"activation": {
+						"type": ""
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "hitDice",
+								"value": "2",
+								"target": "d6",
+								"scaling": {
+									"mode": "amount",
+									"formula": "1"
+								}
+							}
+						]
+					},
+					"healing": {
+						"number": 2,
+						"denomination": 6,
+						"bonus": "@mod",
+						"types": [
+							"healing"
+						],
+						"custom": {
+							"formula": "2d@attributes.hd.largestFace + @mod"
+						},
+						"scaling": {
+							"mode": "whole",
+							"number": 1
+						}
+					}
+				},
+				{
+					"name": "Expend d8 Hit Dice",
+					"type": "heal",
+					"activation": {
+						"type": ""
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "hitDice",
+								"value": "2",
+								"target": "d8",
+								"scaling": {
+									"mode": "amount",
+									"formula": "1"
+								}
+							}
+						]
+					},
+					"healing": {
+						"number": 2,
+						"denomination": 8,
+						"bonus": "@mod",
+						"types": [
+							"healing"
+						],
+						"custom": {
+							"formula": "2d@attributes.hd.largestFace + @mod"
+						},
+						"scaling": {
+							"mode": "whole",
+							"number": 1
+						}
+					}
+				},
+				{
+					"name": "Expend d10 Hit Dice",
+					"type": "heal",
+					"activation": {
+						"type": ""
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "hitDice",
+								"value": "2",
+								"target": "d10",
+								"scaling": {
+									"mode": "amount",
+									"formula": "1"
+								}
+							}
+						]
+					},
+					"healing": {
+						"number": 2,
+						"denomination": 10,
+						"bonus": "@mod",
+						"types": [
+							"healing"
+						],
+						"custom": {
+							"formula": "2d@attributes.hd.largestFace + @mod"
+						},
+						"scaling": {
+							"mode": "whole",
+							"number": 1
+						}
+					}
+				},
+				{
+					"name": "Expend d12 Hit Dice",
+					"type": "heal",
+					"activation": {
+						"type": ""
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "hitDice",
+								"value": "2",
+								"target": "d12",
+								"scaling": {
+									"mode": "amount",
+									"formula": "1"
+								}
+							}
+						]
+					},
+					"healing": {
+						"number": 2,
+						"denomination": 12,
+						"bonus": "@mod",
+						"types": [
+							"healing"
+						],
+						"custom": {
+							"formula": "2d@attributes.hd.largestFace + @mod"
+						},
+						"scaling": {
+							"mode": "whole",
+							"number": 1
+						}
+					}
+				},
+				{
+					"name": "Expend d12 Hit Dice",
+					"type": "heal",
+					"activation": {
+						"type": ""
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "hitDice",
+								"value": "2",
+								"target": "d12",
+								"scaling": {
+									"mode": "amount",
+									"formula": "1"
+								}
+							}
+						]
+					},
+					"healing": {
+						"number": 2,
+						"denomination": 12,
+						"bonus": "@mod",
+						"types": [
+							"healing"
+						],
+						"custom": {
+							"formula": "2d@attributes.hd.largestFace + @mod"
+						},
+						"scaling": {
+							"mode": "whole",
+							"number": 1
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Armor of Agathys",
+			"source": "PHB",
+			"activities": [
+				{
+					"type": "heal",
+					"healing": {
+						"custom": {
+							"enabled": true,
+							"formula": "5"
+						},
+						"types": [
+							"temphp"
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Armor of Agathys",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Cast",
+					"type": "heal",
+					"activation": {
+						"type": "action"
+					},
+					"healing": {
+						"bonus": "5",
+						"types": [
+							"temphp"
+						],
+						"custom": {
+							"formula": "5 * @item.level"
+						},
+						"scaling": {
+							"mode": "whole",
+							"formula": "5"
+						}
+					}
+				},
+				{
+					"name": "Frost Damage",
+					"type": "damage",
+					"activation": {
+						"type": "",
+						"condition": "when a creature hits you with a melee attack"
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"damage": {
+						"parts": [
+							{
+								"custom": {
+									"formula": "(5 * @item.level)d1[cold]"
+								},
+								"bonus": "5",
+								"types": [
+									"cold"
+								],
+								"scaling": {
+									"mode": "whole",
+									"formula": "5"
+								}
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Arms of Hadar",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 6,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"str"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "armsOfHadar"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "armsOfHadar",
+					"name": "No Reactions",
+					"duration": {
+						"turns": 1
+					},
+					"description": "The target can't take Reactions until the start of its next turn."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Aura of Evasion",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "auraOfEvasion"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "auraOfEvasion",
+					"name": "Aura",
+					"duration": {
+						"units": "seconds"
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Aura of Purity",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Create Aura",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "auraOfPurity"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "auraOfPurity",
+					"duration": {
+						"seconds": 600
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "poison"
+						}
+					],
+					"description": "While in the aura, you and your allies have Resistance to Poison damage and Advantage on saving throws to avoid or end effects that include the &Reference[Blinded apply=false], &Reference[Charmed apply=false], &Reference[Deafened apply=false], &Reference[Frightened apply=false], &Reference[Paralyzed apply=false], &Reference[Poisoned apply=false], or &Reference[Stunned apply=false] condition."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Aura of Vitality",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Create Aura",
+					"type": "heal",
+					"img": "systems/dnd5e/icons/svg/trait-damage-immunities.svg",
+					"activation": {
+						"type": "action"
+					},
+					"healing": {
+						"number": 2,
+						"denomination": 6,
+						"types": [
+							"healing"
+						]
+					}
+				},
+				{
+					"name": "Start of Turn Heal",
+					"type": "heal",
+					"activation": {
+						"type": "",
+						"condition": "start of your turn"
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "30"
+					},
+					"healing": {
+						"number": 2,
+						"denomination": 6,
+						"types": [
+							"healing"
+						],
+						"scaling": {
+							"number": 1
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Banishing Smite",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Damage and Banish",
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 5,
+								"denomination": 10,
+								"types": [
+									"force"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"cha"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "banishingSmite"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "banishingSmite",
+					"name": "Banished",
+					"duration": {
+						"seconds": 60
+					},
+					"statuses": [
+						"incapacitated"
+					],
+					"description": "The target is transported to a harmless demiplane for the duration. While there, the target has the &Reference[Incapacitated apply=false] condition. When the spell ends, the target reappears in the space it left or in the nearest unoccupied space if that space is occupied."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Battle Familiar",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"name": "Brute",
+							"uuid": "@creature[battle familiar (brute)|au]"
+						},
+						{
+							"name": "Flyer",
+							"uuid": "@creature[battle familiar (flyer)|au]"
+						},
+						{
+							"name": "Stalker",
+							"uuid": "@creature[battle familiar (stalker)|au]"
+						}
+					],
+					"creatureTypes": [
+						"celestial",
+						"fey",
+						"fiend"
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "5 * (@item.level - 2)"
+					},
+					"match": {
+						"attacks": true,
+						"disposition": true,
+						"proficiency": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Blade Ward",
+			"source": "PHB",
+			"effects": [
+				{
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "CUSTOM",
+							"value": "bludgeoning",
+							"priority": 20
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "CUSTOM",
+							"value": "piercing",
+							"priority": 20
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "CUSTOM",
+							"value": "slashing",
+							"priority": 20
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Blade Ward",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"roll": {
+						"visible": true,
+						"name": "Attack Penalty",
+						"formula": "1d4"
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Blinding Smite",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "damage",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 3,
+								"denomination": 8,
+								"types": [
+									"radiant"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"effects": [
+						{
+							"foundryId": "blindingSmite"
+						}
+					]
+				},
+				{
+					"name": "End of Turn Save",
+					"type": "save",
+					"activation": {
+						"type": ""
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "blindingSmite"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "blindingSmite",
+					"name": "Blinded",
+					"duration": {
+						"seconds": 60
+					},
+					"statuses": [
+						"blinded"
+					],
+					"description": "The target has the Blinded condition until the spell ends. At the end of each of its turns, the Blinded target makes a [[/save ability=con]] saving throw, ending the spell on itself on a success."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Booming Blade",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "damage",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						},
+						"template": {
+							"units": ""
+						}
+					},
+					"damage": {
+						"parts": [
+							{
+								"custom": {
+									"enabled": true,
+									"formula": "(floor(((@details.level + @attributes.spell.level) + 1) / 6))d8[on hit]"
+								},
+								"types": [
+									"thunder"
+								]
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Catnap",
+			"source": "AU",
+			"system": {
+				"target.affects.count": "@item.level"
+			},
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "catnap"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "catnap",
+					"name": "Unconscious",
+					"duration": {
+						"value": 10,
+						"units": "minutes"
+					},
+					"statuses": [
+						"unconscious"
+					],
+					"description": "You have the &Reference[Unconscious] condition for the spell's duration."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Circle of Power",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "circleOfPower"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "circleOfPower",
+					"name": "Circle's Power",
+					"duration": {
+						"seconds": 600
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Cloud of Daggers",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "damage",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 4,
+								"denomination": 4,
+								"types": [
+									"slashing"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 2
+								}
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Compelled Duel",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "compelledDuel"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "compelledDuel",
+					"name": "Compelled",
+					"duration": {
+						"seconds": 60
+					},
+					"description": "The target has Disadvantage on attack rolls against creatures other than you, and it can't willingly move to a space that is more than 30 feet away from you."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Conjure Volley",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 8,
+								"denomination": 8,
+								"types": [
+									"force"
+								]
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"dex"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Cordon of Arrows",
+			"source": "XPHB",
+			"system": {
+				"target.affects.count": "2 * @item.level"
+			},
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": ""
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "1"
+							}
+						]
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "30"
+					},
+					"damage": {
+						"onSave": "none",
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 4,
+								"types": [
+									"piercing"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"dex"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				},
+				{
+					"name": "Cast",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "@item.uses.value - (2 * @item.level)"
+							}
+						]
+					},
+					"target": {
+						"template": {
+							"units": "ft",
+							"type": "sphere",
+							"size": "30"
+						},
+						"affects": {
+							"choice": true,
+							"type": "creature"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Crown of Madness",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "crownOfMadness"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "crownOfMadness",
+					"name": "Spectral Crown",
+					"duration": {
+						"rounds": 1,
+						"seconds": 60
+					},
+					"statuses": [
+						"charmed"
+					],
+					"description": "The target must use its action before moving on each of its turns to make a melee attack against a creature other than itself that you mentally choose. The target can act normally on its turn if you choose no creature or if no creature is within its reach. The target repeats the [[/save ability=wis]] save at the end of each of its turns, ending the spell on itself on a success."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Crusader's Mantle",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "crusadersMantle"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "crusadersMantle",
+					"name": "Crusader's Mantle",
+					"duration": {
+						"seconds": 60
+					},
+					"changes": [
+						{
+							"key": "system.bonuses.mwak.damage",
+							"mode": "ADD",
+							"value": "1d4[radiant]"
+						},
+						{
+							"key": "system.bonuses.rwak.damage",
+							"mode": "ADD",
+							"value": "1d4[radiant]"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Destructive Wave",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 5,
+								"denomination": 6,
+								"types": [
+									"thunder"
+								],
+								"scaling": {
+									"number": 1
+								}
+							},
+							{
+								"number": 5,
+								"denomination": 6,
+								"types": [
+									"radiant",
+									"necrotic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "destructiveWave"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "destructiveWave",
+					"name": "Prone",
+					"statuses": [
+						"prone"
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Detonate",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Detonate Target",
+					"type": "save",
+					"description": "The target makes a Constitution saving throw, taking [[/damage average]] damage on a failed save or half as much damage on a successful one.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 10,
+								"denomination": 10,
+								"types": [
+									"fire"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				},
+				{
+					"foundryId": "detonate",
+					"name": "Explosion",
+					"type": "save",
+					"description": "Each creature in the [[lookup @target.template.size activity=detonate]]-foot Emanation, other than the original target, makes a Dexterity saving throw, taking [[/damage average]] damage on a failed save or half as much damage on a successful one. If the initial damage reduced the original target to 0 Hit Points, make these saving throws with Disadvantage.",
+					"activation": {
+						"type": "special"
+					},
+					"target": {
+						"template": {
+							"units": "ft",
+							"type": "radius",
+							"size": "60"
+						},
+						"affects": {
+							"type": "creature"
+						}
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 10,
+								"denomination": 10,
+								"types": [
+									"fire"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"dex"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Disruptive Tune",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Disruptive Tune",
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "disruptiveTune"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "disruptiveTune",
+					"name": "Disadv. CON Saves",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"changes": [
+						{
+							"key": "system.attributes.concentration.roll.mode",
+							"value": -1,
+							"mode": "ADD"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Distorted Distance",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Dizzying Elongation",
+					"type": "save",
+					"description": "Choose this effect for an eligible creature in the Sphere. The creature makes an Intelligence saving throw. On a failed save, roll the Psychic damage and treat the Sphere as &Reference[Difficult Terrain] for that creature until the end of its turn.",
+					"activation": {
+						"type": "special"
+					},
+					"target": {
+						"affects": {
+							"type": "creature"
+						}
+					},
+					"damage": {
+						"onSave": "none",
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 10,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"int"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				},
+				{
+					"name": "Shortened Space",
+					"type": "utility",
+					"description": "Choose this effect for an eligible creature in the Sphere. Apply the Shortened Space effect to increase the creature's Speed by 20 feet until the end of its next turn.",
+					"activation": {
+						"type": "special"
+					},
+					"target": {
+						"affects": {
+							"type": "creature"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "distortedDistanc"
+						}
+					]
+				},
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "Create the 60-foot-radius Sphere. Choose Dizzying Elongation or Shortened Space for each eligible creature in the Sphere.",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"template": {
+							"units": "ft",
+							"type": "sphere",
+							"size": "60"
+						},
+						"affects": {
+							"type": "space",
+							"count": "1"
+						}
+					}
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "distortedDistanc",
+					"name": "+20 Speed",
+					"duration": {
+						"units": "seconds",
+						"expiry": "targetEnd"
+					},
+					"changes": [
+						{
+							"key": "system.attributes.movement.bonus",
+							"value": 20,
+							"mode": "ADD"
+						}
+					],
+					"description": "Your Speed is increased by 20 feet until the end of your next turn."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Dueling Ground",
+			"source": "AU",
+			"system": {
+				"target.affects.count": "@item.level"
+			},
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "Place the 15-foot-radius Sphere and designate the willing creatures participating in the duel. Apply the {@b Dueling Ground Target} active effect to each designated creature.",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "duelingGround"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "duelingGround",
+					"name": "Mark Dueling Ground Target",
+					"duration": {
+						"value": 1,
+						"units": "hours"
+					},
+					"statuses": [
+						"marked"
+					],
+					"descriptionEntries": [
+						"You are a designated target of {@spell Dueling Ground|AU}."
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Elemental Weapon",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "enchant",
+					"activation": {
+						"type": "action"
+					},
+					"restrictions": {
+						"type": "weapon"
+					},
+					"effects": [
+						{
+							"foundryId": "elementalWeapon"
+						},
+						{
+							"foundryId": "elementalWeapon1"
+						},
+						{
+							"foundryId": "elementalWeapon2"
+						},
+						{
+							"foundryId": "elementalWeapon3"
+						},
+						{
+							"foundryId": "elementalWeapon4"
+						},
+						{
+							"foundryId": "elementalWeapon5"
+						},
+						{
+							"foundryId": "elementalWeapon6"
+						},
+						{
+							"foundryId": "elementalWeapon7"
+						},
+						{
+							"foundryId": "elementalWeapon8"
+						},
+						{
+							"foundryId": "elementalWeapon9"
+						},
+						{
+							"foundryId": "elementalWeapo10"
+						},
+						{
+							"foundryId": "elementalWeapo11"
+						},
+						{
+							"foundryId": "elementalWeapo12"
+						},
+						{
+							"foundryId": "elementalWeapo13"
+						},
+						{
+							"foundryId": "elementalWeapo14"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "elementalWeapon",
+					"name": "Elemental Acid +1",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 1
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"1d4",
+									"acid"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 3,
+									"max": 4
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon1",
+					"name": "Elemental Cold +1",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 1
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"1d4",
+									"cold"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 3,
+									"max": 4
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon2",
+					"name": "Elemental Fire +1",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 1
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"1d4",
+									"fire"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 3,
+									"max": 4
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon3",
+					"name": "Elemental Lightning +1",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 1
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"1d4",
+									"lightning"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 3,
+									"max": 4
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon4",
+					"name": "Elemental Thunder +1",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 1
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"1d4",
+									"thunder"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 3,
+									"max": 4
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon5",
+					"name": "Elemental Acid +2",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 2
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"2d4",
+									"acid"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 5,
+									"max": 6
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon6",
+					"name": "Elemental Cold +2",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 2
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"2d4",
+									"cold"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 5,
+									"max": 6
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon7",
+					"name": "Elemental Fire +2",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 2
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"2d4",
+									"fire"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 5,
+									"max": 6
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon8",
+					"name": "Elemental Lightning +2",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 2
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"2d4",
+									"lightning"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 5,
+									"max": 6
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapon9",
+					"name": "Elemental Thunder +2",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 2
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"2d4",
+									"thunder"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 5,
+									"max": 6
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapo10",
+					"name": "Elemental Acid +3",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 3
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"3d4",
+									"acid"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 7
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapo11",
+					"name": "Elemental Cold +3",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 3
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"3d4",
+									"cold"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 7
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapo12",
+					"name": "Elemental Fire +3",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 3
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"3d4",
+									"fire"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 7
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapo13",
+					"name": "Elemental Lightning +3",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 3
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"3d4",
+									"lightning"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 7
+								}
+							}
+						}
+					}
+				},
+				{
+					"foundryId": "elementalWeapo14",
+					"name": "Elemental Thunder +3",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "mgc"
+						},
+						{
+							"key": "system.attack.bonus",
+							"mode": "ADD",
+							"value": 3
+						},
+						{
+							"key": "system.damage.parts",
+							"mode": "ADD",
+							"value": [
+								[
+									"3d4",
+									"thunder"
+								]
+							]
+						}
+					],
+					"flags": {
+						"dnd5e": {
+							"enchantment": {
+								"level": {
+									"min": 7
+								}
+							}
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Enervation",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Initial Life Drain",
+					"type": "save",
+					"description": "The target makes a [[/save format=long]]. On a failed save, roll the Necrotic damage and maintain the spell on that target. On a successful save, apply half damage and end the spell.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 6,
+								"denomination": 8,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"dex"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				},
+				{
+					"name": "Drain Life",
+					"type": "damage",
+					"description": "Deal [[/damage]] damage to the creature affected by this casting of {@spell Enervation|XGE}.",
+					"activation": {
+						"type": "bonus"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 8,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Entrancing Mirrors",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Save",
+					"type": "save",
+					"description": "Each target makes an Intelligence saving throw. On a failed save, the target takes Psychic damage and gains the &Reference[Stunned apply=false] condition. On a successful save, the target takes half damage only.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 7,
+								"denomination": 6,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"int"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "entrancingMirror"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "entrancingMirror",
+					"name": "Stunned",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"statuses": [
+						"stunned"
+					],
+					"changes": [
+						{
+							"key": "system.attributes.movement.multiplier",
+							"value": 0.5,
+							"mode": "MULTIPLY"
+						}
+					],
+					"description": "You have the &Reference[Stunned apply=false] condition. While Stunned by this spell, your Speed is halved."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Feign Death",
+			"source": "XPHB",
+			"effects": [
+				{
+					"name": "Cataleptic",
+					"duration": {
+						"seconds": 3600
+					},
+					"changes": [
+						{
+							"key": "system.attributes.movement.walk",
+							"mode": "DOWNGRADE",
+							"value": 0
+						},
+						{
+							"key": "system.attributes.movement.fly",
+							"mode": "DOWNGRADE",
+							"value": 0
+						},
+						{
+							"key": "system.attributes.movement.climb",
+							"mode": "DOWNGRADE",
+							"value": 0
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "acid"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "bludgeoning"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "cold"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "fire"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "force"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "lightning"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "necrotic"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "piercing"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "poison"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "radiant"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "slashing"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "thunder"
+						},
+						{
+							"key": "system.traits.ci.value",
+							"mode": "ADD",
+							"value": "poisoned"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Festering Blast",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"description": "A line of festering miasma blasts from you. Creatures caught in the Line make a Constitution saving throw, taking Necrotic damage and becoming Poisoned on a failed save.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "none",
+						"parts": [
+							{
+								"number": 4,
+								"denomination": 10,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "festeringBlast"
+						}
+					]
+				},
+				{
+					"name": "Ongoing Poison Damage",
+					"type": "damage",
+					"description": "A creature Poisoned by {@spell Festering Blast|AU} takes Poison damage at the start of its turn.",
+					"activation": {
+						"type": "special"
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1",
+							"special": "Poisoned by the spell"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 10,
+								"types": [
+									"poison"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Repeat Save",
+					"type": "save",
+					"description": "At the end of its turn, a creature Poisoned by {@spell Festering Blast|AU} repeats the Constitution saving throw, ending the spell on itself on a success.",
+					"activation": {
+						"type": "special"
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "festeringBlast",
+					"name": "Poisoned",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"statuses": [
+						"poisoned"
+					],
+					"description": "The target is &Reference[Poisoned apply=false] for one minute."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Fount of Moonlight",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Blinding Reaction",
+					"type": "save",
+					"activation": {
+						"type": "reaction",
+						"condition": "you take damage from a creature you can see within range"
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "60"
+					},
+					"damage": {
+						"onSave": "half"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "fountOfMoonlight"
+						}
+					]
+				},
+				{
+					"name": "Cast",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "fountOfMoonligh1"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "fountOfMoonligh1",
+					"name": "Wreathed in Light",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"seconds": 600
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"mode": "ADD",
+							"value": "radiant"
+						},
+						{
+							"key": "system.bonuses.mwak.damage",
+							"mode": "ADD",
+							"value": "2d6[radiant]"
+						},
+						{
+							"key": "system.bonuses.msak.damage",
+							"mode": "ADD",
+							"value": "2d6[radiant]"
+						}
+					]
+				},
+				{
+					"foundryId": "fountOfMoonlight",
+					"name": "Blinded",
+					"duration": {
+						"rounds": 1
+					},
+					"statuses": [
+						"blinded"
+					],
+					"description": "The creature has the &Reference[Blinded apply=false] condition until the end of your next turn."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Fractured Awareness",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"description": "The target is flooded with conflicting visions of possible futures. It makes an Intelligence saving throw, taking Psychic damage and suffering fractured awareness on a failed save.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 12,
+								"denomination": 10,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"int"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "fracturedAwarene"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "fracturedAwarene",
+					"name": "Disadv. D20 Tests",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"changes": [
+						{
+							"key": "system.rolls.attack.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.rolls.ability.check.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.rolls.ability.save.mode",
+							"value": -1,
+							"mode": "ADD"
+						}
+					],
+					"description": "Conflicting visions disrupt the target's ability to act decisively, imposing Disadvantage on their D20 Tests."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Friends",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "friends"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "friends",
+					"name": "Charmed",
+					"duration": {
+						"seconds": 60
+					},
+					"statuses": [
+						"charmed"
+					],
+					"description": "The spell ends early if the &Reference[Charmed apply=false] target takes damage or if you make an attack roll, deal damage, or force anyone to make a saving throw. When the spell ends, the target knows it was Charmed by you."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Grave Ground",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"description": "Skeletal hands burst from the ground. Enemies caught in the area make a Strength saving throw, taking Necrotic damage and weakening their damage rolls on a failed save.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "none",
+						"parts": [
+							{
+								"number": 6,
+								"denomination": 6,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"str"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"behaviors": [
+						{
+							"type": "difficultTerrain"
+						}
+					],
+					"effects": [
+						{
+							"foundryId": "graveGround"
+						}
+					]
+				},
+				{
+					"name": "Grave Ground Save",
+					"type": "save",
+					"description": "An enemy that enters the grave ground or ends its turn there makes a Strength saving throw. On a failed save, the skeletal hands deal Necrotic damage and weaken the creature's damage rolls.",
+					"activation": {
+						"type": "special",
+						"condition": "When an enemy enters the area or ends its turn there"
+					},
+					"target": {
+						"affects": {
+							"type": "enemy",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"damage": {
+						"onSave": "none",
+						"parts": [
+							{
+								"number": 6,
+								"denomination": 6,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"str"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "graveGround"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "graveGround",
+					"name": "-1d6 Damage Penalty",
+					"duration": {
+						"units": "seconds",
+						"expiry": "targetEnd"
+					},
+					"changes": [
+						{
+							"key": "damage",
+							"value": "-1d6",
+							"mode": "DND5E.BONUS"
+						}
+					],
+					"description": "Skeletal hands sap the creature's strength. It subtracts 1d6 from its damage rolls until the end of its next turn."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Green-Flame Blade",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "damage",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						},
+						"template": {
+							"units": ""
+						}
+					},
+					"damage": {
+						"parts": [
+							{
+								"custom": {
+									"enabled": true,
+									"formula": "(floor(((@details.level + @attributes.spell.level) + 1) / 6))d8[on hit]"
+								},
+								"types": [
+									"fire"
+								]
+							},
+							{
+								"custom": {
+									"enabled": true,
+									"formula": "@mod + (floor(((@details.level + @attributes.spell.level) + 1) / 6))d8[splash]"
+								},
+								"types": [
+									"fire"
+								]
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Hail of Thorns",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"template": {
+							"units": "ft",
+							"type": "radius",
+							"size": "5"
+						},
+						"affects": {
+							"type": "creature"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 10,
+								"types": [
+									"piercing"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"dex"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Hindsight",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "You peer backward through the fabric of time, witnessing visions of events that occurred within range during the past 10 years.",
+					"activation": {
+						"type": "action"
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Hunger of Hadar",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Open Gateway",
+					"type": "utility",
+					"img": "systems/dnd5e/icons/svg/activity/summon.svg",
+					"activation": {
+						"type": "action"
+					}
+				},
+				{
+					"name": "Start of Turn Damage",
+					"type": "damage",
+					"activation": {
+						"type": ""
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 6,
+								"types": [
+									"cold"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "End of Turn Save",
+					"type": "save",
+					"activation": {
+						"type": ""
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 6,
+								"types": [
+									"acid"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						],
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"dex"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Illusory Dragon",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Study Illusion",
+					"type": "check",
+					"description": "A creature studies the shadowy dragon, making an Intelligence (Investigation) check against the caster's spell save DC to discern its illusory nature.",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "any"
+					},
+					"check": {
+						"associated": [
+							"inv"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true,
+						"ability": "int"
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Inflict Doubt",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"description": "The target makes a Wisdom saving throw. On a failed save, it has Disadvantage on D20 Tests for the duration.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "inflictDoubt"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "inflictDoubt",
+					"name": "Disadv. D20 Tests",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"changes": [
+						{
+							"key": "system.rolls.attack.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.rolls.ability.check.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.rolls.ability.save.mode",
+							"value": -1,
+							"mode": "ADD"
+						}
+					],
+					"description": "The creature has Disadvantage on D20 Tests."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Invulnerability",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "You become immune to all damage until the spell ends.",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "invulnerability"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "invulnerability",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"value": 10,
+						"units": "minutes"
+					},
+					"changes": [
+						{
+							"key": "system.traits.di.value",
+							"value": "ALL",
+							"mode": "ADD"
+						}
+					],
+					"description": "You have Immunity to all damage until the spell ends."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Iron Body",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "A willing creature you touch transforms into living metal, gaining the spell's resistances and immunities for the duration.",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "ironBody"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "ironBody",
+					"duration": {
+						"value": 1,
+						"units": "hours"
+					},
+					"changes": [
+						{
+							"key": "system.traits.dr.value",
+							"value": "bludgeoning",
+							"mode": "ADD"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"value": "fire",
+							"mode": "ADD"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"value": "piercing",
+							"mode": "ADD"
+						},
+						{
+							"key": "system.traits.dr.value",
+							"value": "slashing",
+							"mode": "ADD"
+						},
+						{
+							"key": "system.traits.di.value",
+							"value": "poison",
+							"mode": "ADD"
+						},
+						{
+							"key": "system.traits.ci.value",
+							"value": "paralyzed",
+							"mode": "ADD"
+						},
+						{
+							"key": "system.traits.ci.value",
+							"value": "petrified",
+							"mode": "ADD"
+						},
+						{
+							"key": "system.traits.ci.value",
+							"value": "poisoned",
+							"mode": "ADD"
+						}
+					],
+					"description": "The creature has Resistance to Bludgeoning, Fire, Piercing, and Slashing damage; Immunity to Poison damage; and Immunity to the Paralyzed, Petrified, and Poisoned conditions."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Jallarzi's Storm of Radiance",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"types": [
+									"radiant"
+								],
+								"custom": {
+									"enabled": true,
+									"formula": "(@item.level - 3)d10"
+								}
+							},
+							{
+								"types": [
+									"thunder"
+								],
+								"custom": {
+									"enabled": true,
+									"formula": "(@item.level - 3)d10"
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "jallarzisStormOf"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "jallarzisStormOf",
+					"name": "Senses Overwhelmed",
+					"duration": {
+						"seconds": 60
+					},
+					"statuses": [
+						"blinded",
+						"deafened",
+						"silenced"
+					],
+					"description": "While in this area, creatures have the &Reference[Blinded apply=false] and &Reference[Deafened apply=false] conditions, and they can't cast spells with a Verbal component."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Lightning Arrow",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 4,
+								"denomination": 8,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				},
+				{
+					"type": "damage",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 8,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Lightning Lure",
+			"source": "TCE",
+			"system": {
+				"range.value": 15,
+				"range.units": "ft",
+				"target.template.type": ""
+			},
+			"migrationVersion": 3
+		},
+		{
+			"name": "Lightning Ring",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Emanation Save",
+					"type": "save",
+					"description": "The creature makes a Constitution saving throw, taking [[/damage]] damage on a failed save or half as much damage on a successful one. On a failed save, it also becomes deafened for 1 minute.",
+					"activation": {
+						"type": "special",
+						"condition": "When the Emanation enters a creature's space, or a creature enters the Emanation or ends its turn there"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 3,
+								"denomination": 6,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"number": 1
+								}
+							},
+							{
+								"number": 3,
+								"denomination": 6,
+								"types": [
+									"thunder"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "lightningRing"
+						}
+					]
+				},
+				{
+					"name": "Lightning Line",
+					"type": "save",
+					"description": "You emit a 60-foot-long, 5-foot-wide Line of lightning. Creatures in the Line make a Dexterity saving throw, taking [[/damage]] damage on a failed save or half as much damage on a successful one.",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"template": {
+							"units": "ft",
+							"type": "line",
+							"size": "60",
+							"width": "5"
+						},
+						"affects": {
+							"type": "creature"
+						}
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 6,
+								"denomination": 6,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"dex"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "lightningRing",
+					"name": "Deafened",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"statuses": [
+						"deafened"
+					],
+					"description": "The target is &Reference[deafened apply=false] for one minute."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Magic Stone",
+			"source": "XGE",
+			"system": {
+				"range.value": 60,
+				"range.units": "ft"
+			},
+			"activities": [
+				{
+					"type": "damage",
+					"activation": {
+						"value": 1,
+						"type": "action"
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						},
+						"template": {
+							"units": ""
+						}
+					},
+					"damage": {
+						"parts": [
+							{
+								"custom": {
+									"enabled": true,
+									"formula": "1d6 + @mod"
+								},
+								"types": [
+									"bludgeoning"
+								]
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Mind Sliver",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 6,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						],
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"int"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "mindSliver"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "mindSliver",
+					"name": "Slivered",
+					"duration": {
+						"rounds": 1
+					},
+					"changes": [
+						{
+							"key": "system.bonuses.abilities.save",
+							"mode": "ADD",
+							"value": "-1d4"
+						}
+					],
+					"description": "The target subtracts 1d4 from the next saving throw it makes before the end of your next turn."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Moment of Prescience",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "Change the roll of your failed D20 test to a 20, or turn the roll of the triggering attack roll into a 1.",
+					"activation": {
+						"type": "action"
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Mordenkainen's Lucubration",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "You can recover up to two expended spell slots of the level allowed by the spell slot used to cast this spell.",
+					"activation": {
+						"type": "action"
+					}
+				},
+				{
+					"name": "Recover 1st-Level Slot",
+					"type": "utility",
+					"description": "Recover one 1st-level spell slot.",
+					"activation": {
+						"type": "special",
+						"condition": "After casting the spell."
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "attribute",
+								"value": "-1",
+								"target": "spells.spell1.value"
+							}
+						]
+					}
+				},
+				{
+					"name": "Recover 2nd-Level Slot",
+					"type": "utility",
+					"description": "Recover one 2nd-level spell slot.",
+					"activation": {
+						"type": "special",
+						"condition": "After casting the spell."
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "attribute",
+								"value": "-1",
+								"target": "spells.spell2.value"
+							}
+						]
+					}
+				},
+				{
+					"name": "Recover 3rd-Level Slot",
+					"type": "utility",
+					"description": "Recover one 3rd-level spell slot.",
+					"activation": {
+						"type": "special",
+						"condition": "After casting the spell."
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "attribute",
+								"value": "-1",
+								"target": "spells.spell3.value"
+							}
+						]
+					}
+				},
+				{
+					"name": "Recover 4th-Level Slot",
+					"type": "utility",
+					"description": "Recover one 4th-level spell slot.",
+					"activation": {
+						"type": "special",
+						"condition": "After casting the spell."
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "attribute",
+								"value": "-1",
+								"target": "spells.spell4.value"
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Negative Energy Flood",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Save: Living Target",
+					"type": "save",
+					"description": "A non-Undead creature makes a Constitution saving throw, taking [[/damage]] damage on a failed save or half as much damage on a successful one.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 3,
+								"denomination": 10,
+								"bonus": "25",
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				},
+				{
+					"name": "Heal: Undead Target",
+					"type": "heal",
+					"description": "An Undead target gains [[/healing]] Temporary Hit Points.",
+					"activation": {
+						"type": "action"
+					},
+					"healing": {
+						"types": [
+							"temphp"
+						],
+						"scaling": {
+							"number": 1
+						},
+						"number": 3,
+						"denomination": 10
+					}
+				},
+				{
+					"name": "Raise Zombie",
+					"type": "summon",
+					"description": "A humanoid killed by this spell rises as a zombie at the start of your next turn.",
+					"activation": {
+						"type": "special",
+						"condition": "At the start of your next turn after a Humanoid is killed by this spell"
+					},
+					"duration": {
+						"units": "hour",
+						"value": "24"
+					},
+					"profiles": [
+						{
+							"uuid": "@creature[zombie|xmm]"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Power Word Fortify",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "-120"
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Power Word Pain",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "damage",
+					"description": "The target takes [[/damage]] Force damage. If it has 100 Hit Points or fewer, apply the {@b Power Word Pain} active effect.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 6,
+								"denomination": 8,
+								"types": [
+									"force"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"effects": [
+						{
+							"foundryId": "powerWordPain"
+						}
+					]
+				},
+				{
+					"name": "Spellcasting Save",
+					"type": "save",
+					"description": "The affected creature makes a Constitution saving throw before casting its spell. On a failed save, resolve the failed-casting consequences described in {@spell Power Word Pain|XGE}.",
+					"activation": {
+						"type": "special"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				},
+				{
+					"name": "Repeat Save",
+					"type": "save",
+					"description": "At the end of its turn, the affected creature makes a Constitution saving throw, ending {@spell Power Word Pain|XGE} on itself on a successful save.",
+					"activation": {
+						"type": "special"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "powerWordPain",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"statuses": [
+						"charmed"
+					],
+					"changes": [
+						{
+							"key": "system.rolls.attack.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.rolls.ability.check.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.abilities.str.save.roll.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.abilities.dex.save.roll.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.abilities.int.save.roll.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.abilities.wis.save.roll.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.abilities.cha.save.roll.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.attributes.death.roll.mode",
+							"value": -1,
+							"mode": "ADD"
+						},
+						{
+							"key": "system.attributes.movement.speeds.walk",
+							"value": 10,
+							"mode": "DOWNGRADE"
+						},
+						{
+							"key": "system.attributes.movement.speeds.burrow",
+							"value": 10,
+							"mode": "DOWNGRADE"
+						},
+						{
+							"key": "system.attributes.movement.speeds.climb",
+							"value": 10,
+							"mode": "DOWNGRADE"
+						},
+						{
+							"key": "system.attributes.movement.speeds.fly",
+							"value": 10,
+							"mode": "DOWNGRADE"
+						}
+					],
+					"description": "The target is &Reference[Charmed apply=false]. Its Speed can be no more than 10 feet, and it has Disadvantage on D20 Tests except Constitution saving throws."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Reweave Fate",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "The creature that failed the triggering D20 Test can reroll it with Advantage and must use the new roll.",
+					"activation": {
+						"type": "action"
+					}
+				},
+				{
+					"name": "Strengthened Fate",
+					"type": "heal",
+					"description": "If the rerolled D20 Test succeeds, the creature gains [[/healing]] Temporary Hit Points.",
+					"activation": {
+						"type": "special"
+					},
+					"healing": {
+						"types": [
+							"temphp"
+						],
+						"scaling": {
+							"number": 1
+						},
+						"number": 6,
+						"denomination": 10
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Spirit Lantern",
+			"source": "AU",
+			"system": {
+				"uses.max": "@attributes.spell.mod"
+			},
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"description": "You conjure the spirit lantern, which sheds Dim Light in a 60-foot radius for the spell's duration.",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "spiritLantern"
+						}
+					]
+				},
+				{
+					"name": "Drain Life",
+					"type": "save",
+					"description": "The soul fragment darts at a creature of your choice that you can see within 60 feet of yourself. The target makes a [[/save format=long]], taking Necrotic damage equal to 4d8 plus your spellcasting ability modifier on a failed save or half as much damage on a successful one.",
+					"activation": {
+						"type": "bonus"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "1"
+							}
+						]
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "60"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 4,
+								"denomination": 8,
+								"bonus": "@mod",
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				},
+				{
+					"name": "Repair Undead",
+					"type": "heal",
+					"description": "The soul fragment flies into an Undead creature of your choice that you can see within 60 feet of yourself. That creature regains Hit Points equal to 4d8 plus your spellcasting ability modifier.",
+					"activation": {
+						"type": "bonus"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "1"
+							}
+						]
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "60"
+					},
+					"healing": {
+						"types": [
+							"healing"
+						],
+						"scaling": {
+							"number": 1
+						},
+						"number": 4,
+						"denomination": 8,
+						"bonus": "@mod"
+					}
+				},
+				{
+					"name": "Ward Ally",
+					"type": "utility",
+					"description": "The soul fragment darts around a creature of your choice that you can see within 60 feet of yourself. Other creatures have Disadvantage on attack rolls against the chosen creature until the start of your next turn.",
+					"activation": {
+						"type": "bonus"
+					},
+					"duration": {
+						"units": "round",
+						"value": "1"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "1"
+							}
+						]
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "60"
+					},
+					"effects": [
+						{
+							"foundryId": "spiritLantern1"
+						}
+					]
+				},
+				{
+					"name": "Capture Soul",
+					"type": "utility",
+					"description": "When an eligible enemy dies within the lantern's Dim Light, use this activity to store 1 soul fragment, up to the lantern's maximum capacity.",
+					"activation": {
+						"type": "special"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "-1"
+							}
+						]
+					}
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "spiritLantern",
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"value": 10,
+						"units": "minutes"
+					},
+					"changes": [
+						{
+							"key": "token.light.dim",
+							"value": 60,
+							"mode": "UPGRADE"
+						}
+					],
+					"description": "A ghostly black lantern hovers above you and sheds Dim Light in a 60-foot radius."
+				},
+				{
+					"foundryId": "spiritLantern1",
+					"name": "Ward Ally",
+					"duration": {
+						"units": "seconds",
+						"expiry": "sourceStart"
+					},
+					"description": "Other creatures have Disadvantage on attack rolls against this creature until the start of the caster's next turn."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Spirit of Death",
+			"source": "BMT",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Reaper Spirit",
+							"uuid": "@creature[reaper spirit|bmt]"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Spirit Shroud",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": []
+					},
+					"roll": {
+						"formula": "(floor(((@item.level) - 1) / 2))d8"
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Staggering Smite",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "full",
+						"parts": [
+							{
+								"number": 4,
+								"denomination": 6,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Aberration",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Beholderkin",
+							"uuid": "@creature[aberrant spirit (beholderkin)|tce]"
+						},
+						{
+							"name": "Slaad",
+							"uuid": "@creature[aberrant spirit (slaad)|tce]"
+						},
+						{
+							"name": "Star Spawn",
+							"uuid": "@creature[aberrant spirit (star spawn)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 4) * 10",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Aberration",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"uuid": "@creature[aberrant spirit (beholderkin)|xphb]"
+						},
+						{
+							"uuid": "@creature[aberrant spirit (slaad)|xphb]"
+						},
+						{
+							"uuid": "@creature[aberrant spirit (mind flayer)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "10 * (@item.level - 4)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Beast",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Air",
+							"uuid": "@creature[bestial spirit (air)|tce]"
+						},
+						{
+							"name": "Land",
+							"uuid": "@creature[bestial spirit (land)|tce]"
+						},
+						{
+							"name": "Water",
+							"uuid": "@creature[bestial spirit (water)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 2) * 5",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Beast",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"uuid": "@creature[bestial spirit (air)|xphb]"
+						},
+						{
+							"uuid": "@creature[bestial spirit (land)|xphb]"
+						},
+						{
+							"uuid": "@creature[bestial spirit (water)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "5 * (@item.level - 2)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Celestial",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Avenger",
+							"uuid": "@creature[celestial spirit (avenger)|tce]"
+						},
+						{
+							"name": "Defender",
+							"uuid": "@creature[celestial spirit (defender)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 5) * 10",
+						"attackDamage": "@item.level",
+						"healing": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Celestial",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"name": "Avenger",
+							"uuid": "@creature[celestial spirit (avenger)|xphb]"
+						},
+						{
+							"name": "Defender",
+							"uuid": "@creature[celestial spirit (defender)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "10 * (@item.level - 5)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"proficiency": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Construct",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Clay",
+							"uuid": "@creature[construct spirit (clay)|tce]"
+						},
+						{
+							"name": "Metal",
+							"uuid": "@creature[construct spirit (metal)|tce]"
+						},
+						{
+							"name": "Stone",
+							"uuid": "@creature[construct spirit (stone)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 4) * 15",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Construct",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"name": "Clay",
+							"uuid": "@creature[construct spirit (clay)|xphb]"
+						},
+						{
+							"name": "Metal",
+							"uuid": "@creature[construct spirit (metal)|xphb]"
+						},
+						{
+							"name": "Stone",
+							"uuid": "@creature[construct spirit (stone)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "15 * (@item.level - 4)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Dinosaur",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Summon Dinosaur",
+					"type": "summon",
+					"description": "Summon one Dinosaur Spirit, choosing Ankylosaur, Triceratops, or Tyrannosaur.",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"uuid": "@creature[dinosaur spirit (ankylosaur)|au]",
+							"level": {
+								"min": 6,
+								"max": 9
+							}
+						},
+						{
+							"uuid": "@creature[dinosaur spirit (triceratops)|au]",
+							"level": {
+								"min": 6,
+								"max": 9
+							}
+						},
+						{
+							"uuid": "@creature[dinosaur spirit (tyrannosaur)|au]",
+							"level": {
+								"min": 6,
+								"max": 9
+							}
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "10 * (@item.level - 6)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"disposition": true,
+						"proficiency": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Draconic Spirit",
+			"source": "FTD",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Chromatic",
+							"uuid": "@creature[draconic spirit (chromatic)|ftd]"
+						},
+						{
+							"name": "Gem",
+							"uuid": "@creature[draconic spirit (gem)|ftd]"
+						},
+						{
+							"name": "Metallic",
+							"uuid": "@creature[draconic spirit (metallic)|ftd]"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Elemental",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Air",
+							"uuid": "@creature[elemental spirit (air)|tce]"
+						},
+						{
+							"name": "Earth",
+							"uuid": "@creature[elemental spirit (earth)|tce]"
+						},
+						{
+							"name": "Fire",
+							"uuid": "@creature[elemental spirit (fire)|tce]"
+						},
+						{
+							"name": "Water",
+							"uuid": "@creature[elemental spirit (water)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 4) * 10",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Elemental",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"name": "Air",
+							"uuid": "@creature[elemental spirit (air)|xphb]"
+						},
+						{
+							"name": "Earth",
+							"uuid": "@creature[elemental spirit (earth)|xphb]"
+						},
+						{
+							"name": "Fire",
+							"uuid": "@creature[elemental spirit (fire)|xphb]"
+						},
+						{
+							"name": "Water",
+							"uuid": "@creature[elemental spirit (water)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "10 * (@item.level - 4)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Fey",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Fuming",
+							"uuid": "@creature[fey spirit (fuming)|tce]"
+						},
+						{
+							"name": "Mirthful",
+							"uuid": "@creature[fey spirit (mirthful)|tce]"
+						},
+						{
+							"name": "Tricksy",
+							"uuid": "@creature[fey spirit (tricksy)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 3) * 10",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Fey",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"uuid": "@creature[fey spirit (fuming)|xphb]"
+						},
+						{
+							"uuid": "@creature[fey spirit (mirthful)|xphb]"
+						},
+						{
+							"uuid": "@creature[fey spirit (tricksy)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "10 * (@item.level - 3)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"saves": true,
+						"proficiency": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Fiend",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Demon",
+							"uuid": "@creature[fiendish spirit (demon)|tce]"
+						},
+						{
+							"name": "Devil",
+							"uuid": "@creature[fiendish spirit (devil)|tce]"
+						},
+						{
+							"name": "Yugoloth",
+							"uuid": "@creature[fiendish spirit (yugoloth)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "15 * @item.level",
+						"attackDamage": "@item.level",
+						"saveDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"proficiency": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Fiend",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"name": "Demon",
+							"uuid": "@creature[fiendish spirit (demon)|xphb]"
+						},
+						{
+							"name": "Devil",
+							"uuid": "@creature[fiendish spirit (devil)|xphb]"
+						},
+						{
+							"name": "Yugoloth",
+							"uuid": "@creature[fiendish spirit (yugoloth)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "15 * (@item.level - 6)",
+						"attackDamage": "@item.level",
+						"saveDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"proficiency": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Plant",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Summon Plant",
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"name": "Fungus",
+							"uuid": "@creature[plant spirit (fungus)|au]"
+						},
+						{
+							"name": "Tree",
+							"uuid": "@creature[plant spirit (tree)|au]"
+						},
+						{
+							"name": "Vine",
+							"uuid": "@creature[plant spirit (vine)|au]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "10 * (@item.level - 5)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"disposition": true,
+						"proficiency": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Shadowspawn",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Fury",
+							"uuid": "@creature[shadow spirit (fury)|tce]"
+						},
+						{
+							"name": "Despair",
+							"uuid": "@creature[shadow spirit (despair)|tce]"
+						},
+						{
+							"name": "Fear",
+							"uuid": "@creature[shadow spirit (fear)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 3) * 15",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Undead",
+			"source": "TCE",
+			"activities": [
+				{
+					"type": "summon",
+					"profiles": [
+						{
+							"name": "Ghostly",
+							"uuid": "@creature[undead spirit (ghostly)|tce]"
+						},
+						{
+							"name": "Putrid",
+							"uuid": "@creature[undead spirit (putrid)|tce]"
+						},
+						{
+							"name": "Skeletal",
+							"uuid": "@creature[undead spirit (skeletal)|tce]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "(@item.level - 3) * 10",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"attacks": true,
+						"proficiency": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Summon Undead",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "summon",
+					"activation": {
+						"type": "action"
+					},
+					"profiles": [
+						{
+							"uuid": "@creature[undead spirit (ghostly)|xphb]"
+						},
+						{
+							"uuid": "@creature[undead spirit (putrid)|xphb]"
+						},
+						{
+							"uuid": "@creature[undead spirit (skeletal)|xphb]"
+						}
+					],
+					"bonuses": {
+						"ac": "@item.level",
+						"hp": "10 * (@item.level - 3)",
+						"attackDamage": "@item.level"
+					},
+					"match": {
+						"proficiency": true,
+						"attacks": true,
+						"saves": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Swift Quiver",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Cast",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					}
+				},
+				{
+					"name": "Cast and Enchant",
+					"type": "enchant",
+					"activation": {
+						"type": "action"
+					},
+					"restrictions": {
+						"allowMagical": true,
+						"categories": [
+							"simpleR",
+							"martialR"
+						],
+						"properties": [
+							"amm"
+						],
+						"type": "weapon"
+					},
+					"effects": [
+						{
+							"foundryId": "swiftQuiver"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "swiftQuiver",
+					"name": "Endless Ammunition",
+					"type": "enchantment",
+					"duration": {
+						"seconds": 60
+					},
+					"changes": [
+						{
+							"key": "system.properties",
+							"mode": "ADD",
+							"value": "-amm"
+						},
+						{
+							"key": "name",
+							"mode": "OVERRIDE",
+							"value": "Swift {}"
+						}
+					]
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Synaptic Static",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 8,
+								"denomination": 6,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						],
+						"onSave": "half"
+					},
+					"save": {
+						"ability": [
+							"int"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "synapticStatic"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "synapticStatic",
+					"name": "Muddled Thoughts",
+					"duration": {
+						"seconds": 60
+					},
+					"changes": [
+						{
+							"key": "system.bonuses.mwak.attack",
+							"mode": "ADD",
+							"value": "- 1d6"
+						},
+						{
+							"key": "system.bonuses.msak.attack",
+							"mode": "ADD",
+							"value": "- 1d6"
+						},
+						{
+							"key": "system.bonuses.rsak.attack",
+							"mode": "ADD",
+							"value": "- 1d6"
+						},
+						{
+							"key": "system.bonuses.rwak.attack",
+							"mode": "ADD",
+							"value": "- 1d6"
+						},
+						{
+							"key": "system.bonuses.abilities.check",
+							"mode": "ADD",
+							"value": "- 1d6"
+						},
+						{
+							"key": "system.attributes.concentration.bonuses.save",
+							"mode": "ADD",
+							"value": "- 1d6"
+						}
+					],
+					"description": "The target subtracts 1d6 from all its attack rolls and ability checks, as well as any Constitution saving throws to maintain Concentration. The target makes an [[/save ability=int format=long]] at the end of each of its turns, ending the effect on itself on a success."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Tasha's Bubbling Cauldron",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Create Cauldron",
+					"type": "utility",
+					"img": "systems/dnd5e/icons/svg/activity/summon.svg",
+					"activation": {
+						"type": "action"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "-@attributes.spell.dc"
+							}
+						]
+					},
+					"target": {
+						"template": {
+							"units": "ft",
+							"type": "square",
+							"size": "5"
+						},
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				},
+				{
+					"name": "Withdraw Potion",
+					"type": "utility",
+					"img": "systems/dnd5e/icons/svg/ink-pot.svg",
+					"activation": {
+						"type": "bonus",
+						"condition": "you or an ally"
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "1"
+							}
+						]
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "object"
+						}
+					},
+					"range": {
+						"units": "touch"
+					},
+					"roll": {
+						"visible": true
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Telepathy",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Create Telepathic Link",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					},
+					"effects": [
+						{
+							"foundryId": "telepathy"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "telepathy",
+					"name": "Telepathically Linked",
+					"duration": {
+						"seconds": 86400
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Thorn Whip",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Attack and Pull",
+					"type": "attack",
+					"activation": {
+						"type": "action"
+					},
+					"attack": {
+						"type": {
+							"value": "melee"
+						}
+					},
+					"damage": {
+						"includeBase": true,
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 6,
+								"types": [
+									"piercing"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Thunderous Smite",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "damage",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 6,
+								"types": [
+									"thunder"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					}
+				},
+				{
+					"name": "Save vs. Push",
+					"type": "save",
+					"activation": {
+						"type": ""
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"str"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "thunderousSmite"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "thunderousSmite",
+					"name": "Prone",
+					"statuses": [
+						"prone"
+					],
+					"description": "Due to being pushed 10 feet away, the target is &Reference[prone apply=false]."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Toll the Dead",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Healthy Target",
+					"type": "save",
+					"img": "systems/dnd5e/icons/svg/hit-points.svg",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature",
+							"special": "undamaged creature"
+						}
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 8,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						],
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				},
+				{
+					"name": "Damaged Target",
+					"type": "save",
+					"img": "systems/dnd5e/icons/svg/trait-damage-vulnerabilities.svg",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature",
+							"special": "creature missing any of its Hit Points"
+						}
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 12,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						],
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Transfix",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"description": "One creature you can see within 60 feet makes a Charisma saving throw. On a failed save, it becomes Charmed and Incapacitated by this spell. For subsequent targets and damaging-terrain saves during this casting, use this card's Charisma saving throw without activating the spell again.",
+					"activation": {
+						"type": "action"
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "60"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"cha"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "transfix"
+						}
+					]
+				},
+				{
+					"name": "Psychic Damage",
+					"type": "damage",
+					"description": "Roll the Psychic damage when a creature Charmed by this casting ends its turn within 5 feet of you.",
+					"activation": {
+						"type": "special"
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"range": {
+						"units": "ft",
+						"value": "5"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 4,
+								"denomination": 8,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					}
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "transfix",
+					"name": "Charmed & Incapacitated",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"statuses": [
+						"charmed",
+						"incapacitated"
+					],
+					"description": "This creature is &Reference[Charmed apply=false] and &Reference[Incapacitated apply=false] for the duration."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Uncertain Footing",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"description": "Up to three creatures make an Intelligence saving throw. On a failed save, apply the Hampered effect. At the end of a hampered creature's turn, use this card's Intelligence saving throw without activating the spell again.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"int"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "uncertainFooting"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "uncertainFooting",
+					"name": "Hampered",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"changes": [
+						{
+							"key": "system.attributes.movement.multiplier",
+							"value": 0.5,
+							"mode": "ADD"
+						}
+					],
+					"description": "The creature's Speed is halved, and it can't take the &Reference[Dash] action."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Vision of Elapsing Eons",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"description": "One creature makes an Intelligence saving throw. On a failed save, it takes [[/damage]] Psychic damage and becomes &Reference[Paralyzed apply=false] for the duration.",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "none",
+						"parts": [
+							{
+								"number": 10,
+								"denomination": 12,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"int"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "visionOfElapsing"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "visionOfElapsing",
+					"name": "Paralyzed",
+					"duration": {
+						"value": 1,
+						"units": "minutes"
+					},
+					"statuses": [
+						"paralyzed"
+					],
+					"description": "The target is &Reference[Paralyzed apply=false] condition for the duration."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Wail of the Banshee",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 12,
+								"denomination": 10,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "wailOfTheBanshee"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "wailOfTheBanshee",
+					"name": "Deafened",
+					"duration": {
+						"value": 1,
+						"units": "hours"
+					},
+					"statuses": [
+						"deafened"
+					],
+					"description": "The target is &Reference[Deafened apply=false] condition for 1 hour."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Waves of Exhaustion",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Emit Wave",
+					"type": "save",
+					"activation": {
+						"type": "bonus"
+					},
+					"damage": {
+						"onSave": "none"
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					},
+					"effects": [
+						{
+							"foundryId": "wavesOfExhaustio"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "wavesOfExhaustio",
+					"name": "Exhaustion",
+					"duration": {
+						"units": "seconds"
+					},
+					"statuses": [
+						"exhaustion"
+					],
+					"description": "The target gains a level of &Reference[Exhaustion apply=false]."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Witch Bolt",
+			"source": "PHB",
+			"activities": [
+				{
+					"type": "attack",
+					"activation": {
+						"type": "action"
+					},
+					"attack": {
+						"type": {
+							"value": "ranged",
+							"classification": "spell"
+						}
+					},
+					"damage": {
+						"includeBase": true,
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 12,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"effects": [
+						{
+							"foundryId": "witchBolt"
+						}
+					]
+				},
+				{
+					"name": "Action Damage",
+					"type": "damage",
+					"activation": {
+						"type": "action"
+					},
+					"duration": {
+						"units": "inst",
+						"concentration": false,
+						"override": true
+					},
+					"consumption": {
+						"scaling": {
+							"allowed": false
+						},
+						"spellSlot": false
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 12,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Witch Bolt",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "attack",
+					"activation": {
+						"type": "action"
+					},
+					"attack": {
+						"type": {
+							"value": "ranged",
+							"classification": "spell"
+						}
+					},
+					"damage": {
+						"includeBase": true,
+						"parts": [
+							{
+								"number": 2,
+								"denomination": 12,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"effects": [
+						{
+							"foundryId": "witchBolt"
+						}
+					]
+				},
+				{
+					"name": "Bonus Action Damage",
+					"type": "damage",
+					"activation": {
+						"type": "bonus"
+					},
+					"duration": {
+						"units": "inst",
+						"concentration": false,
+						"override": true
+					},
+					"consumption": {
+						"scaling": {
+							"allowed": false
+						},
+						"spellSlot": false
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 12,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						]
+					}
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "witchBolt",
+					"name": "Sustained Lightning",
+					"duration": {
+						"rounds": 1,
+						"seconds": 60
+					},
+					"description": "On each of your subsequent turns, you can take a Bonus Action to deal [[/damage 1d12 type=lightning]] damage to the target automatically, even if the first attack missed. The spell ends if the target is ever outside the spell's range or if it has &Reference[totalcover] from you."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Wither and Bloom",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell: Wither",
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "half",
+						"parts": [
+							{
+								"number": 3,
+								"denomination": 6,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"con"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						},
+						"visible": true
+					}
+				},
+				{
+					"name": "Bloom",
+					"type": "heal",
+					"description": "Choose one creature in the spell's area. That creature can roll and expend the number of unexpended Hit Point Dice allowed by this casting, then regains Hit Points equal to the total rolled plus your spellcasting ability modifier once.",
+					"activation": {
+						"type": "special"
+					},
+					"target": {
+						"affects": {
+							"type": "creature",
+							"count": "1"
+						}
+					},
+					"healing": {
+						"types": [
+							"healing"
+						],
+						"custom": {
+							"enabled": true,
+							"formula": "@attributes.spell.mod"
+						},
+						"scaling": {
+							"number": 1
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Wrathful Smite",
+			"source": "XPHB",
+			"activities": [
+				{
+					"type": "save",
+					"activation": {
+						"type": "action"
+					},
+					"damage": {
+						"onSave": "full",
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 6,
+								"types": [
+									"necrotic"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "wrathfulSmite"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "wrathfulSmite",
+					"name": "Frightened",
+					"duration": {
+						"seconds": 60
+					},
+					"statuses": [
+						"frightened"
+					],
+					"description": "The target has the &Reference[frightened apply=false] condition until the spell ends. At the end of each of its turns, the Frightened target repeats the [[/save ability=wis]] save, ending the spell on itself on a success."
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Yolande's Regal Presence",
+			"source": "XPHB",
+			"activities": [
+				{
+					"name": "Surround Self",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					}
+				},
+				{
+					"name": "Emanation Save",
+					"type": "save",
+					"descriptionChat": "Push 10 ft. and &Reference[prone] on failure",
+					"activation": {
+						"type": "",
+						"condition": "a creature is within the Emanation"
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"range": {
+						"value": "10",
+						"units": "ft"
+					},
+					"damage": {
+						"parts": [
+							{
+								"number": 4,
+								"denomination": 6,
+								"types": [
+									"psychic"
+								],
+								"scaling": {
+									"number": 1
+								}
+							}
+						],
+						"onSave": "half"
+					},
+					"save": {
+						"ability": [
+							"wis"
+						],
+						"dc": {
+							"calculation": "spellcasting"
+						}
+					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Zone of Amicability",
+			"source": "AU",
+			"activities": [
+				{
+					"name": "Cast Spell",
+					"type": "utility",
+					"activation": {
+						"type": "action"
+					}
+				}
+			],
+			"effects": [
+				{
+					"disabled": true,
+					"transfer": true,
+					"duration": {
+						"value": 10,
+						"units": "minutes"
+					},
+					"changes": [
+						{
+							"key": "check",
+							"value": 10,
+							"mode": "DND5E.MINIMUM"
+						}
+					],
+					"description": "Enable this effect when making an ability check to influence a creature within the spell's Emanation, then disable it after the check."
+				}
+			],
+			"migrationVersion": 3
+		}
+	]
+}

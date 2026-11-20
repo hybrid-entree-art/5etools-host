@@ -86,6 +86,24 @@ Gli esempi D&D Beyond confermano una direzione: lettura lunga e consultazione ra
 
 **Applicazione:** nella proposta A il lettore prende da D&D Beyond la barra capitoli e il `Jump to`; la scheda incantesimo prende la griglia dati a due colonne; il mostro prende lo stat block a pergamena ma con lore collassabile. La proposta B può usare la pergamena e le immagini grandi; la C può usare i link contestuali come base per i correlati.
 
+## Pattern Ruleholder mobile
+
+Ruleholder conferma la struttura che avevamo scelto: breadcrumb, tab locali, accordion per livello, tabella di progressione e card espandibili. È la base più vicina al nostro prodotto.
+
+| Prendere | Correggere |
+|---|---|
+| Breadcrumb `Manuale > Classi > Artificer` sempre visibile. | Non affollare l'header con quattro icone: ricerca, menu, al massimo una utility. |
+| Tab locali `Caratteristiche / Descrizione / Confronto`. | Etichette corte e scroll orizzontale; mai tab troncate. |
+| Accordion per livello e “Espandi tutto”. | Non duplicare tabella e card con le stesse informazioni: la tabella è panoramica, le card sono dettaglio. |
+| Nome italiano + nome inglese in sottotitolo. | Non ripetere lo stesso titolo sopra e sotto la copertina. |
+| Badge fonte (`EFA`) con tooltip “fonte ufficiale”. | Tooltip tap-to-show su mobile; non coprire il testo. |
+| Avviso onesto sullo stato della traduzione. | Posizionarlo vicino al titolo, non come banner permanente. |
+| Tabella di progressione con link alle abilità. | Su mobile: scroll orizzontale evidente o card per livello; non tagliare la colonna a destra. |
+| Pulsante d20 e “vista libro” come azioni rapide. | Non usare FAB che coprono tabella o artwork; etichettare le azioni ambigue. |
+| Card classe con dado vita, sottoclassi e tipo incantatore. | Card troppo alte: prevedere una vista compatta per la consultazione. |
+
+**Applicazione:** la proposta A adotta breadcrumb, tab locali e accordion; la B usa hero art e card classe; la C usa “Espandi tutto” e i link contestuali. La tabella di progressione resta un componente unico, non viene duplicata in card.
+
 ## Cosa non fare
 
 

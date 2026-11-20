@@ -104,6 +104,19 @@ Ruleholder conferma la struttura che avevamo scelto: breadcrumb, tab locali, acc
 
 **Applicazione:** la proposta A adotta breadcrumb, tab locali e accordion; la B usa hero art e card classe; la C usa “Espandi tutto” e i link contestuali. La tabella di progressione resta un componente unico, non viene duplicata in card.
 
+## Pattern Ruleholder — navigazione, home e liste
+
+| Prendere | Correggere |
+|---|---|
+| Menu globale a categorie: Regole, Master, Generale, Libreria, con icone e ricerca. | Pulsante “Trova” ridondante accanto alla ricerca; account troppo prominente; X lontana dal pollice. |
+| Home con una card in evidenza a tutta larghezza + griglia di categorie. | Manca un overlay/gradiente su alcune card; icona ricerca duplicata; FAB sopra le card. |
+| Liste con breadcrumb, ricerca, toolbar filtri/ordinamento/vista e sezioni per manuale. | Icone toolbar senza etichette né stato attivo; placeholder troncato; fonte ripetuta su ogni card. |
+| Card con nome italiano, nome inglese sotto, immagine e badge fonte. | Card troppo alte; sigla fonte piccola e poco contrastata; troppa aria tra testo e immagine. |
+| Dettaglio con breadcrumb, titolo IT/EN, badge fonte, preferiti e card contenuto. | Icona avviso senza etichetta; FAB che coprono testo; lore senza indice interno. |
+| Evidenziazione dei termini di gioco e link verdi. | Link solo colore; breadcrumb troncato; badge senza tooltip. |
+
+**Decisione:** il menu globale di Ruleholder è la struttura giusta per 5E ATLAS, ma va ridotto a `Home / Library / Compendium / Search / Menu`. Nelle liste, la fonte va nell’intestazione di sezione, non ripetuta in ogni riga. Le card devono avere una vista compatta per la consultazione e una vista illustrata per la scoperta.
+
 ## Cosa non fare
 
 

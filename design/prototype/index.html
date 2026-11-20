@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5E ATLAS — prototipo UX/UI</title>
+<style>
+@font-face{font-family:'AtlasHead';src:url('fonts/modesto.woff2') format('woff2');font-weight:400 700;font-display:swap}
+@font-face{font-family:'AtlasCond';src:url('fonts/modesto-condensed.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'AtlasCond';src:url('fonts/modesto-condensed-bold.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'AtlasBody';src:url('fonts/mulish.woff2') format('woff2');font-weight:400 800;font-display:swap}
+@font-face{font-family:'AtlasBook';src:url('fonts/lora.woff2') format('woff2');font-weight:400 700;font-display:swap}
+:root{
+ --bg:#0b0f14;--surface:#141a21;--surface-2:#1b232c;--ink:#eef3f6;--muted:#c2ccd5;--faint:#9aa8b4;
+ --amber:#f0a742;--teal:#5fd0c0;--line:rgba(182,194,204,.18);--glow:rgba(240,167,66,.22);
+ --paper:#f3e9d2;--paper-2:#eadcc0;--paper-ink:#2a2118;--paper-muted:#6b5a44;--paper-line:#c9b28a;
+ --ui:'AtlasBody',system-ui,sans-serif;--head:'AtlasCond','AtlasHead',Georgia,serif;--book:'AtlasBook',Georgia,serif;
+ --gutter:clamp(16px,4vw,32px);--touch:44px;--radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:
+ radial-gradient(900px 500px at 15% -10%,rgba(240,167,66,.08),transparent 60%),
+ radial-gradient(700px 500px at 100% 10%,rgba(95,208,192,.06),transparent 55%),var(--bg);
+ color:var(--ink);font:400 15px/1.55 var(--ui);min-height:100dvh;padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;box-shadow:0 0 0 4px var(--glow)}
+.skip{position:absolute;left:-999px;top:8px;z-index:100;background:var(--amber);color:#15100a;padding:10px 14px;border-radius:8px}
+.skip:focus{left:8px}
+.top{position:sticky;top:0;z-index:40;height:64px;display:flex;align-items:center;gap:12px;padding:0 var(--gutter);
+ background:rgba(11,15,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font:700 17px var(--ui);letter-spacing:.01em}
+.mark{width:36px;height:36px;border-radius:10px;border:1px solid var(--amber);display:grid;place-items:center;
+ color:var(--amber);font:700 12px var(--ui);box-shadow:0 0 16px var(--glow);background:rgba(240,167,66,.06)}
+.brand b{color:var(--amber)}
+.top-nav{display:none;align-items:center;gap:4px;margin-left:18px}
+.top-nav button{padding:10px 12px;border:0;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;min-height:var(--touch)}
+.top-nav button[aria-current="page"]{color:var(--ink);background:var(--surface-2)}
+.top-nav button:hover{color:var(--amber)}
+.actions{margin-left:auto;display:flex;gap:6px}
+.icon-btn{width:var(--touch);height:var(--touch);display:grid;place-items:center;border:1px solid transparent;background:transparent;color:var(--muted);border-radius:10px;cursor:pointer}
+.icon-btn:hover{border-color:var(--line);color:var(--amber);background:var(--surface)}
+.icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+main{max-width:1180px;margin:0 auto;padding:calc(var(--gutter) + 8px) var(--gutter)}
+.view{display:none;animation:rise .22s ease-out}
+.view.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.eyebrow{font:700 12px var(--ui);letter-spacing:.15em;text-transform:uppercase;color:var(--amber)}
+h1,h2,h3{font-family:var(--head);margin:0}
+.hero{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:26px}
+.hero-card{position:relative;min-height:330px;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+ background:linear-gradient(90deg,rgba(11,15,20,.92) 0%,rgba(11,15,20,.68) 46%,rgba(11,15,20,.06) 100%),
+ url('https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/book/XPHB/000-01-013.opening-art.webp') center/cover no-repeat}
+.hero-copy{padding:clamp(24px,5vw,46px);max-width:600px}
+.hero h1{font:700 clamp(34px,6.4vw,58px)/1.02 var(--head);margin:10px 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--muted);max-width:46ch;margin:0 0 20px}
+.search{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 16px;border:1px solid rgba(240,167,66,.65);
+ border-radius:999px;background:rgba(20,26,33,.96);box-shadow:0 0 22px var(--glow);max-width:540px}
+.search svg{width:19px;height:19px;stroke:var(--amber);fill:none;stroke-width:2;flex:none}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font-size:16px}
+.search input::placeholder{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:var(--touch);padding:0 18px;
+ border:1px solid var(--line);border-radius:999px;background:var(--surface-2);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--amber);box-shadow:0 0 16px var(--glow)}
+.btn.primary{background:var(--amber);color:#161008;border-color:var(--amber);font-weight:800}
+.btn.ghost{background:transparent;color:var(--amber);border-color:rgba(240,167,66,.55)}
+.hero-side{display:none}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 12px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.section-head h2{font:700 clamp(22px,3vw,30px) var(--head)}
+.section-head span{font-size:13px;color:var(--faint)}
+.book-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.book{position:relative;min-height:240px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);
+ display:flex;align-items:flex-end;padding:14px;cursor:pointer}
+.book img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.book:after{content:"";position:absolute;inset:18% 0 0;background:linear-gradient(transparent,rgba(11,15,20,.97) 68%)}
+.book span{position:relative;z-index:2;display:flex;flex-direction:column;gap:3px}
+.book strong{font:700 15px var(--ui)}
+.book small{font-size:13px;color:var(--teal)}
+.book:hover{border-color:var(--amber);box-shadow:0 0 20px var(--glow)}
+.book:before{content:"↗";position:absolute;z-index:3;top:12px;right:12px;width:28px;height:28px;display:grid;place-items:center;border:1px solid rgba(240,167,66,.55);border-radius:8px;background:rgba(11,15,20,.7);color:var(--amber);font-size:14px}
+.cat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.cat{position:relative;min-height:156px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);
+ padding:14px;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
+.cat:before{content:"";position:absolute;inset:0;background:var(--art) center/cover no-repeat;opacity:.75}
+.cat:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 18%,rgba(11,15,20,.94))}
+.cat b,.cat small{position:relative;z-index:2}
+.cat b{font:700 18px var(--head)}
+.cat small{color:var(--teal);font-size:13px}
+.cat:hover{border-color:var(--amber);box-shadow:0 0 20px var(--glow)}
+.crumbs{display:flex;flex-wrap:wrap;gap:7px;align-items:center;font-size:12px;color:var(--faint);margin-bottom:14px}
+.crumbs a{color:var(--muted)}
+.crumbs a:hover{color:var(--amber)}
+.crumbs .sep{opacity:.5}
+.page-head{margin:0 0 18px}
+.page-head h1{font:700 clamp(32px,5vw,46px)/1.05 var(--head)}
+.page-head p{margin:6px 0 0;color:var(--muted)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:var(--touch);padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--amber);color:var(--amber);background:rgba(240,167,66,.1);box-shadow:0 0 14px var(--glow)}
+.count{font-size:13px;color:var(--faint);margin:6px 0 10px}
+.rows{display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);
+ border-radius:12px;background:var(--surface);cursor:pointer;text-align:left}
+.row:hover{border-color:var(--amber);box-shadow:0 0 16px var(--glow)}
+.thumb{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:
+ radial-gradient(circle at 30% 25%,rgba(255,220,150,.95),rgba(240,167,66,.35) 35%,rgba(90,30,10,.9));color:#2a1608;font:700 17px var(--head)}
+.row b{display:block;font-size:16px}
+.row em{display:block;font-style:normal;font-size:12px;color:var(--muted);margin-top:2px}
+.row .meta{font-size:12px;color:var(--faint);text-align:right;white-space:nowrap}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.hot{color:var(--amber);border-color:rgba(240,167,66,.5)}
+.tag.tide{color:var(--teal);border-color:rgba(95,208,192,.45)}
+.paper{background:var(--paper);color:var(--paper-ink);border:1px solid var(--paper-line);border-radius:16px;
+ box-shadow:0 18px 45px rgba(0,0,0,.32)}
+.spell-card{padding:clamp(18px,4vw,32px);margin-top:16px}
+.spell-top{display:flex;gap:14px;align-items:start}
+.spell-orb{width:58px;height:58px;border-radius:50%;flex:none;background:
+ radial-gradient(circle at 35% 30%,#fff2b0,#f0a742 35%,#b3351f 65%,#3a130d 100%);
+ box-shadow:0 0 26px rgba(240,167,66,.35)}
+.spell-card h2{font:700 clamp(30px,5vw,44px)/1.02 var(--head);color:var(--paper-ink)}
+.spell-card .en{font:italic 400 16px var(--book);color:var(--paper-muted);margin:4px 0 6px}
+.spell-card .source{font:700 11px var(--ui);letter-spacing:.08em;color:#7a4a12;border:1px solid #b98a4a;border-radius:999px;padding:2px 8px}
+.rule{height:1px;background:var(--paper-line);margin:16px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.stat span{display:block;font:700 10px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:#8a6a45}
+.stat b{font:600 15px var(--ui);color:var(--paper-ink)}
+.prose{font:400 17px/1.65 var(--book);color:var(--paper-ink)}
+.prose p{margin:0 0 1em}
+.prose strong{font-weight:700}
+.callout{background:var(--paper-2);border-left:3px solid #8a5a2b;padding:12px 14px;border-radius:0 8px 8px 0;margin:16px 0;font:400 15px/1.55 var(--ui)}
+.callout b{font-family:var(--head);font-size:17px}
+.table-wrap{overflow-x:auto;max-width:100%;margin:14px 0}
+table{border-collapse:collapse;width:100%;min-width:340px;font:400 14px/1.45 var(--ui)}
+th,td{border:1px solid #cdb995;padding:8px 10px;text-align:left}
+th{background:#e5d5b7;font-weight:800}
+tbody tr:nth-child(even){background:rgba(0,0,0,.035)}
+.reader{display:grid;gap:16px;grid-template-columns:1fr;min-width:0}
+.reader>*{min-width:0}
+.reader-paper{min-width:0}
+.reader-bar{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(20,26,33,.97);position:sticky;top:72px;z-index:20;backdrop-filter:blur(10px)}
+.reader-bar .progress{flex:1;height:4px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.reader-bar .progress i{display:block;height:100%;width:14%;background:var(--amber);box-shadow:0 0 10px var(--glow)}
+.reader-paper{padding:clamp(18px,4vw,38px);}
+.reader-paper h1{font:700 clamp(34px,6vw,52px)/1.02 var(--head);margin:0 0 8px}
+.reader-paper .lede{font:italic 400 16px var(--book);color:var(--paper-muted);margin:0 0 18px}
+.reader-paper h2{font:700 24px var(--head);margin:26px 0 8px}
+.reader-paper h3{font:700 19px var(--head);margin:18px 0 6px}
+.pager{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:16px}
+.pager .btn{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.pager .btn:hover{border-color:var(--amber)}
+.pager .mid{font-size:12px;color:var(--faint);text-align:center}
+.toc-fab{display:none;
+ box-shadow:0 8px 24px rgba(0,0,0,.5),0 0 18px var(--glow)}
+dialog{width:min(560px,calc(100vw - 24px));border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);padding:0;box-shadow:0 24px 70px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
+.dialog-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.dialog-head b{font:700 18px var(--head)}
+.dialog-body{padding:12px 16px 18px;max-height:min(70dvh,560px);overflow:auto}
+.toc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.toc-list a{display:flex;gap:10px;align-items:center;min-height:var(--touch);padding:6px 8px;border-radius:8px;color:var(--muted)}
+.toc-list a:hover{background:var(--surface-2);color:var(--ink)}
+.toc-list .n{color:var(--amber);font:700 12px var(--ui);width:24px}
+.menu-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.menu-list a{display:flex;align-items:center;gap:10px;min-height:var(--touch);padding:6px 8px;border-radius:8px;color:var(--muted)}
+.menu-list a:hover{background:var(--surface-2);color:var(--ink)}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:35;display:grid;grid-template-columns:repeat(5,1fr);
+ background:rgba(11,15,20,.96);border-top:1px solid var(--line);backdrop-filter:blur(12px);padding-bottom:env(safe-area-inset-bottom)}
+.bottom button{border:0;background:transparent;color:var(--faint);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:64px;font-size:11px;cursor:pointer}
+.bottom button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+.bottom button[aria-current="page"]{color:var(--amber)}
+.bottom button:hover{color:var(--ink)}
+@media(min-width:760px){
+ body{padding-bottom:0}
+ .top-nav{display:flex}
+ .bottom{display:none}
+ .hero{grid-template-columns:1.35fr .65fr}
+ .hero-side{display:block;border:1px solid var(--line);border-radius:20px;background:var(--surface);padding:18px;align-self:stretch}
+ .hero-side h3{font:700 20px var(--head);margin-bottom:8px}
+ .hero-side p{color:var(--muted);font-size:13px;margin:0 0 12px}
+ .book-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .cat-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .reader{grid-template-columns:minmax(0,1fr) 240px;align-items:start}
+ .reader-side{display:block;position:sticky;top:84px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:14px}
+ .reader-side h4{font:700 15px var(--head);margin:0 0 8px}
+ .reader-side a{display:block;padding:7px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
+ .reader-side a:hover{color:var(--amber)}
+ .toc-fab{display:none}
+}
+@media(max-width:640px){.book:nth-child(3){grid-column:1/-1;min-height:190px}}
+@media(max-width:400px){.row{grid-template-columns:40px minmax(0,1fr)}.row .meta{grid-column:2;text-align:left;white-space:normal}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Salta al contenuto</a>
+<header class="top">
+  <a class="brand" href="#home" data-go="home" aria-label="5E ATLAS, home"><span class="mark">d20</span><span>5E <b>ATLAS</b></span></a>
+  <nav class="top-nav" aria-label="Navigazione principale">
+    <button data-go="home" aria-current="page">Home</button>
+    <button data-go="library">Biblioteca</button>
+    <button data-go="spells">Compendio</button>
+    <button data-go="reader">Lettore</button>
+  </nav>
+  <div class="actions">
+    <button class="icon-btn" data-go="spells" aria-label="Cerca nel compendio"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+    <button class="icon-btn" id="menuBtn" aria-label="Apri il menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="view active" id="view-home">
+    <div class="hero">
+      <div class="hero-card">
+        <div class="hero-copy">
+          <div class="eyebrow">Reference compendium · 2024 rules</div>
+          <h1>Tutto il regolamento. Un solo posto.</h1>
+          <p>Tre manuali base, il compendio completo e il lettore che non ti fa perdere il segno. Inglese originale, interfaccia italiana.</p>
+          <label class="search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input type="search" placeholder="Cerca nel compendio…" aria-label="Cerca nel compendio">
+          </label>
+        </div>
+      </div>
+      <aside class="hero-side">
+        <div class="eyebrow">In evidenza</div>
+        <h3>Player’s Handbook</h3>
+        <p>12 capitoli, regole 2024, lettura mobile con indice flottante.</p>
+        <button class="btn primary" data-go="reader">Apri il lettore</button>
+      </aside>
+    </div>
+
+    <div class="section-head"><h2>Manuali base</h2><span>3 volumi · 29 capitoli</span></div>
+    <div class="book-grid">
+      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XPHB.webp" alt="" loading="lazy"><span><strong>Manuale del Giocatore</strong><small>Player’s Handbook · 2024</small></span></a>
+      <a class="book" data-go="library" href="#library"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XDMG.webp" alt="" loading="lazy"><span><strong>Manuale del Master</strong><small>Dungeon Master’s Guide · 2024</small></span></a>
+      <a class="book" data-go="library" href="#library"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XMM.webp" alt="" loading="lazy"><span><strong>Manuale dei Mostri</strong><small>Monster Manual · 2024</small></span></a>
+    </div>
+
+    <div class="section-head"><h2>Compendio</h2><span>2024 core + altre fonti</span></div>
+    <div class="cat-grid">
+      <a class="cat" data-go="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Incantesimi</b><small>391 del 2024</small></a>
+      <a class="cat" data-go="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/monsters-bg.webp')"><b>Mostri</b><small>503 del 2024</small></a>
+      <a class="cat" data-go="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Oggetti magici</b><small>584 del 2024</small></a>
+      <a class="cat" data-go="library" href="#library" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Classi</b><small>12 del 2024</small></a>
+    </div>
+  </section>
+
+  <section class="view" id="view-library">
+    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><span aria-current="page">Biblioteca</span></nav>
+    <div class="page-head"><h1>Biblioteca</h1><p>68 libri indicizzati. Parti dai tre manuali base o sfoglia per edizione e ambientazione.</p></div>
+    <div class="toolbar">
+      <div class="chips" role="group" aria-label="Filtra la biblioteca">
+        <button class="chip" aria-pressed="true">2024 core</button>
+        <button class="chip" aria-pressed="false">Tutte le fonti</button>
+        <button class="chip" aria-pressed="false">Avventure</button>
+        <button class="chip" aria-pressed="false">Legacy</button>
+      </div>
+    </div>
+    <div class="section-head"><h2>Manuali base</h2><span>2024</span></div>
+    <div class="book-grid">
+      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XPHB.webp" alt="" loading="lazy"><span><strong>Manuale del Giocatore</strong><small>XPHB · 12 capitoli</small></span></a>
+      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XDMG.webp" alt="" loading="lazy"><span><strong>Manuale del Master</strong><small>XDMG · 12 capitoli</small></span></a>
+      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XMM.webp" alt="" loading="lazy"><span><strong>Manuale dei Mostri</strong><small>XMM · 5 capitoli</small></span></a>
+    </div>
+    <div class="section-head"><h2>Ambientazioni e supplementi</h2><span>selezione</span></div>
+    <div class="rows">
+      <button class="row"><span class="thumb">FR</span><span><b>Forgotten Realms: Heroes of Faerûn</b><em>FRHoF · 2025</em></span><span class="meta">Supplemento</span></button>
+      <button class="row"><span class="thumb">FR</span><span><b>Forgotten Realms: Adventures in Faerûn</b><em>FRAiF · 2025</em></span><span class="meta">Avventura</span></button>
+      <button class="row"><span class="thumb">EF</span><span><b>Eberron: Forge of the Artificer</b><em>EFA · 2025</em></span><span class="meta">Ambientazione</span></button>
+    </div>
+  </section>
+
+  <section class="view" id="view-spells">
+    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#library" data-go="library">Compendio</a><span class="sep">/</span><span aria-current="page">Incantesimi</span></nav>
+    <div class="page-head"><h1>Incantesimi</h1><p>391 del 2024 core · 1.038 da tutte le fonti. Cerca per nome, livello, scuola o fonte.</p></div>
+    <label class="search" style="max-width:none"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="spellSearch" type="search" placeholder="Cerca un incantesimo…" aria-label="Cerca un incantesimo"></label>
+    <div class="toolbar">
+      <div class="chips" role="group" aria-label="Filtri incantesimi">
+        <button class="chip" aria-pressed="true" data-filter="core">2024 core</button>
+        <button class="chip" aria-pressed="false" data-filter="all">Tutte le fonti</button>
+        <button class="chip" aria-pressed="false" data-filter="cantrip">Trucchetti</button>
+        <button class="chip" aria-pressed="false" data-filter="level3">Livello 3</button>
+      </div>
+    </div>
+    <div class="count" id="spellCount">6 incantesimi mostrati</div>
+    <div class="rows" id="spellRows">
+      <button class="row" data-name="Palla di fuoco Fireball" data-tags="core level3" data-go="detail"><span class="thumb">F</span><span><b>Palla di fuoco</b><em>Fireball · Livello 3 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">150 ft</span><span class="tag tide">V, S, M</span></div></span><span class="meta">Danno</span></button>
+      <button class="row" data-name="Dardo incantato Magic Missile" data-tags="core level1"><span class="thumb">M</span><span><b>Dardo incantato</b><em>Magic Missile · Livello 1 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">120 ft</span></div></span><span class="meta">Danno</span></button>
+      <button class="row" data-name="Scudo Shield" data-tags="core level1"><span class="thumb">S</span><span><b>Scudo</b><em>Shield · Livello 1 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag tide">V, S</span></div></span><span class="meta">Difesa</span></button>
+      <button class="row" data-name="Luce Light" data-tags="core cantrip"><span class="thumb">L</span><span><b>Luce</b><em>Light · Trucchetto · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">Contatto</span></div></span><span class="meta">Utilità</span></button>
+      <button class="row" data-name="Individuazione del magico Detect Magic" data-tags="core level1"><span class="thumb">D</span><span><b>Individuazione del magico</b><em>Detect Magic · Livello 1 · Divinazione · XPHB</em><div class="tags"><span class="tag tide">Rituale</span><span class="tag">Sé</span></div></span><span class="meta">Utilità</span></button>
+      <button class="row" data-name="Controincantesimo Counterspell" data-tags="core level3"><span class="thumb">C</span><span><b>Controincantesimo</b><em>Counterspell · Livello 3 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag">60 ft</span></div></span><span class="meta">Controllo</span></button>
+    </div>
+  </section>
+
+  <section class="view" id="view-detail">
+    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#spells" data-go="spells">Incantesimi</a><span class="sep">/</span><span aria-current="page">Palla di fuoco</span></nav>
+    <div class="page-head"><h1>Palla di fuoco</h1><p>Fireball · Evocazione · Livello 3</p></div>
+    <div class="paper spell-card">
+      <div class="spell-top">
+        <div class="spell-orb" aria-hidden="true"></div>
+        <div><h2>Palla di fuoco</h2><div class="en">Fireball</div><span class="source">XPHB · 2024</span></div>
+      </div>
+      <div class="rule"></div>
+      <div class="stats">
+        <div class="stat"><span>Livello</span><b>3</b></div>
+        <div class="stat"><span>Tempo di lancio</span><b>1 azione</b></div>
+        <div class="stat"><span>Gittata</span><b>150 piedi</b></div>
+        <div class="stat"><span>Componenti</span><b>V, S, M <small style="font:400 11px var(--ui);color:#8a6a45">(palla di guano e zolfo)</small></b></div>
+        <div class="stat"><span>Durata</span><b>Istantanea</b></div>
+        <div class="stat"><span>Tiro salvezza</span><b>Destrezza</b></div>
+      </div>
+      <div class="rule"></div>
+      <div class="prose">
+        <p>Un lampo luminoso scatta da te verso un punto che scegli entro la gittata, poi sboccia con un boato sordo in un’esplosione infuocata. Ogni creatura in una sfera di 20 piedi di raggio centrata su quel punto effettua un tiro salvezza su Destrezza: subisce <strong>8d6</strong> danni da fuoco se fallisce, oppure la metà se riesce.</p>
+        <p>Gli oggetti infiammabili nell’area che non sono indossati o trasportati iniziano a bruciare.</p>
+      </div>
+      <div class="callout"><b>Slot di livello superiore.</b> I danni aumentano di 1d6 per ogni livello di slot superiore al 3°.</div>
+      <div class="tags"><span class="tag">Danno</span><span class="tag tide">Bardo</span><span class="tag tide">Mago</span><span class="tag tide">Stregone</span></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-reader">
+    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#library" data-go="library">Biblioteca</a><span class="sep">/</span><span>Manuale del Giocatore</span><span class="sep">/</span><span aria-current="page">Capitolo 1</span></nav>
+    <div class="reader">
+      <div>
+        <div class="reader-bar">
+          <span style="font-size:12px;color:var(--muted)">Capitolo 1 di 12</span>
+          <span class="progress" aria-hidden="true"><i></i></span>
+          <button class="btn ghost" id="tocBtn" aria-label="Apri l’indice del capitolo" aria-haspopup="dialog"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Indice</button>
+        </div>
+        <article class="paper reader-paper">
+          <div class="eyebrow" style="color:#8a5a2b">Manuale del Giocatore · 2024</div>
+          <h1>Playing the Game</h1>
+          <p class="lede">Immaginazione, regole e dado a venti: come si gioca, davvero.</p>
+          <div class="prose">
+            <p>Dungeons &amp; Dragons è un gioco cooperativo in cui i personaggi che interpreti vivono avventure insieme, in mondi fantastici pieni di mostri e magia. L’azione si svolge nell’immaginazione dei giocatori e viene narrata da tutti insieme.</p>
+            <div class="callout"><b>Regole al tavolo.</b> Se un termine non ti è chiaro, consulta il glossario delle regole. Le eccezioni specifiche battono sempre la regola generale.</div>
+            <h2>Rhythm of Play</h2>
+            <p>I tre pilastri del gioco sono l’interazione sociale, l’esplorazione e il combattimento. Il ritmo di base è sempre lo stesso: il DM descrive una scena, i giocatori dicono cosa fanno i personaggi, il DM narra il risultato.</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Fase</th><th>Cosa succede</th></tr></thead>
+                <tbody>
+                  <tr><td>1. Descrivere</td><td>Il DM presenta la scena e ciò che circonda i personaggi.</td></tr>
+                  <tr><td>2. Agire</td><td>I giocatori scelgono cosa fanno i loro personaggi.</td></tr>
+                  <tr><td>3. Risolvere</td><td>Il DM narra le conseguenze e riporta al punto 1.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <h2>Player or DM?</h2>
+            <p>Per giocare serve una persona che faccia il Dungeon Master e da tre a sei giocatori. Il DM costruisce le avventure, guida la storia e arbitra le regole; i giocatori creano un personaggio, collaborano e affrontano le sfide.</p>
+            <p>Se stai imparando, inizia da un tiro di dado e da una scena semplice. Non serve conoscere ogni regola: serve sapere dove cercarla.</p>
+          </div>
+          <div class="pager">
+            <button class="btn" disabled>← Capitolo precedente</button>
+            <span class="mid">1 / 12</span>
+            <button class="btn">Capitolo successivo →</button>
+          </div>
+        </article>
+      </div>
+      <aside class="reader-side" aria-label="Indice del capitolo">
+        <h4>In questo capitolo</h4>
+        <a href="#view-reader">Rhythm of Play</a>
+        <a href="#view-reader">Player or DM?</a>
+        <a href="#view-reader">Dice</a>
+        <a href="#view-reader">The Six Abilities</a>
+        <a href="#view-reader">D20 Tests</a>
+      </aside>
+    </div>
+
+  </section>
+</main>
+
+<nav class="bottom" aria-label="Navigazione mobile">
+  <button data-go="home" aria-current="page"><svg viewBox="0 0 24 24"><path d="m4 11 8-7 8 7v9a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>Home</button>
+  <button data-go="library"><svg viewBox="0 0 24 24"><path d="M5 4h5v16H5zM14 4h5v16h-5z"/></svg>Biblioteca</button>
+  <button data-go="spells"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8l7-5 7 5"/><circle cx="12" cy="14" r="3"/></svg>Compendio</button>
+  <button data-go="reader"><svg viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Lettore</button>
+  <button id="menuBtn2"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button>
+</nav>
+
+<dialog id="toc" aria-labelledby="tocTitle">
+  <div class="dialog-head"><b id="tocTitle">Indice del capitolo</b><button class="icon-btn" data-close aria-label="Chiudi indice"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+  <div class="dialog-body">
+    <ol class="toc-list">
+      <li><a href="#view-reader" data-close><span class="n">01</span> Playing the Game</a></li>
+      <li><a href="#view-reader" data-close><span class="n">02</span> Rhythm of Play</a></li>
+      <li><a href="#view-reader" data-close><span class="n">03</span> Player or DM?</a></li>
+      <li><a href="#view-reader" data-close><span class="n">04</span> Dice</a></li>
+      <li><a href="#view-reader" data-close><span class="n">05</span> The Six Abilities</a></li>
+      <li><a href="#view-reader" data-close><span class="n">06</span> D20 Tests</a></li>
+    </ol>
+  </div>
+</dialog>
+
+<dialog id="menu" aria-labelledby="menuTitle">
+  <div class="dialog-head"><b id="menuTitle">Menu</b><button class="icon-btn" data-close aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+  <div class="dialog-body">
+    <ul class="menu-list">
+      <li><a href="#home" data-go="home" data-close>Home</a></li>
+      <li><a href="#library" data-go="library" data-close>Biblioteca</a></li>
+      <li><a href="#spells" data-go="spells" data-close>Incantesimi</a></li>
+      <li><a href="#reader" data-go="reader" data-close>Lettore</a></li>
+      <li><a href="#library" data-go="library" data-close>Impostazioni</a></li>
+    </ul>
+  </div>
+</dialog>
+
+<script>
+const views = ['home','library','spells','detail','reader'];
+const buttons = [...document.querySelectorAll('[data-go]')];
+function show(name){
+  const target = views.includes(name) ? name : 'home';
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id === 'view-'+target));
+  buttons.forEach(b=>b.setAttribute('aria-current', b.dataset.go === target ? 'page' : 'false'));
+  if(location.hash !== '#'+target) history.replaceState(null,'','#'+target);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+buttons.forEach(b=>b.addEventListener('click', e=>{ if(b.tagName==='A') e.preventDefault(); show(b.dataset.go); }));
+if(location.hash) show(location.hash.slice(1));
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+
+const search=document.getElementById('spellSearch');
+const rows=[...document.querySelectorAll('#spellRows .row')];
+const count=document.getElementById('spellCount');
+let filter='core';
+function apply(){
+  const q=search.value.toLowerCase().trim();
+  let n=0;
+  rows.forEach(r=>{
+    const text=(r.dataset.name+' '+r.textContent).toLowerCase();
+    const okQ=!q || text.includes(q);
+    const tags=r.dataset.tags.split(' ');
+    const okF=filter==='all' || tags.includes(filter);
+    const on=okQ && okF;
+    r.style.display=on?'grid':'none';
+    if(on)n++;
+  });
+  count.textContent=n+' incantesimi mostrati';
+}
+search.addEventListener('input',apply);
+document.querySelectorAll('[data-filter]').forEach(chip=>chip.addEventListener('click',()=>{
+  filter=chip.dataset.filter;
+  document.querySelectorAll('[data-filter]').forEach(c=>c.setAttribute('aria-pressed', c===chip ? 'true':'false'));
+  apply();
+}));
+apply();
+
+function openDialog(d){ if(!d.open) d.showModal(); }
+function closeDialog(d){ if(d.open) d.close(); }
+document.getElementById('tocBtn').addEventListener('click',()=>openDialog(document.getElementById('toc')));
+document.getElementById('tocFab').addEventListener('click',()=>openDialog(document.getElementById('toc')));
+const menu=document.getElementById('menu');
+document.getElementById('menuBtn').addEventListener('click',()=>openDialog(menu));
+document.getElementById('menuBtn2').addEventListener('click',()=>openDialog(menu));
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',e=>{closeDialog(b.closest('dialog'));}));
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d) closeDialog(d);}));
+</script>
+</body>
+</html>

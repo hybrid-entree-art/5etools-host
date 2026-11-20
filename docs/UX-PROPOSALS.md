@@ -52,7 +52,25 @@ La home è un atlante di categorie illustrate, con breadcrumb persistente e rice
 4. `Spell / Detail` — Fireball: livello 3, Evocation, 1 action, 150 ft.
 5. `Home` e `Library` — solo dopo che i primi tre flussi sono approvati.
 
+## Pattern dagli esempi app
+
+Gli esempi mostrano un compendio mobile ben riconoscibile: lista scura, ricerca subito sotto l'header, card con nome e fonte, tag colorati per le meccaniche, dettaglio con titolo italiano e originale inglese, metadati a icone, cerchi delle caratteristiche e chip delle classi. Sono pattern utili, ma vanno corretti nei punti in cui l'app li ripete o li comprime.
+
+| Prendere | Correggere |
+|---|---|
+| Ricerca sempre visibile e filtro nell'header. | Icona filtro a imbuto, non tre linee ambigue; etichetta della tab completa, mai troncata. |
+| Tag colorati per concentrazione, rituale, componenti materiali. | Colore più testo o icona, mai solo colore; niente tag duplicati nella stessa scheda. |
+| Titolo italiano con originale inglese in corsivo sotto. | Non ripetere il titolo nell'header e nel corpo: l'header mostra il titolo solo dopo lo scroll. |
+| Metadati a icone: tempo, gittata, durata, componenti. | Una sola griglia, allineata; niente concentrazione scritta due volte. |
+| Card mostro/oggetto con immagine, nome, CR/rarità e fonte. | Due colonne solo per i cataloghi visivi; per gli incantesimi righe più dense. Immagini con fondo coerente, non bianco su dark. |
+| Cerchi delle caratteristiche e chip delle classi. | Chip leggibili come pulsanti; lore lunga collassabile o con indice interno. |
+| Bottom navigation per le sezioni principali. | Per 5E ATLAS: Home, Library, Compendium, Search, Menu. Non Spells/Monsters/Sheet come app character-centric. |
+| Dettaglio con immagine, dati, descrizione, correlati. | Separatori e respiro; prezzi e note secondarie in stile coerente, non tutti in corsivo. |
+
+**Applicazione alla proposta A:** lista incantesimi a righe con tag; mostri e oggetti a griglia 2 colonne; dettaglio con header contestuale, metadati una volta, immagine con fondo scuro, classi come chip. **Proposta B:** la stessa scheda può usare copertine e immagini più grandi, ma non cambiare la struttura dei dati. **Proposta C:** i correlati e le lore collassabili sono il punto di partenza.
+
 ## Cosa non fare
+
 
 - Non nascondere il chrome di 5e.tools con CSS per metterne sopra un altro.
 - Non duplicare il menu globale dentro l'indice del libro.

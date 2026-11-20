@@ -69,6 +69,23 @@ Gli esempi mostrano un compendio mobile ben riconoscibile: lista scura, ricerca 
 
 **Applicazione alla proposta A:** lista incantesimi a righe con tag; mostri e oggetti a griglia 2 colonne; dettaglio con header contestuale, metadati una volta, immagine con fondo scuro, classi come chip. **Proposta B:** la stessa scheda può usare copertine e immagini più grandi, ma non cambiare la struttura dei dati. **Proposta C:** i correlati e le lore collassabili sono il punto di partenza.
 
+## Pattern D&D Beyond mobile
+
+Gli esempi D&D Beyond confermano una direzione: lettura lunga e consultazione rapida possono convivere, purché la scheda sia strutturata e non un muro di testo.
+
+| Prendere | Correggere |
+|---|---|
+| Barra `Previous chapter / Next chapter` e `Jump to...` nel lettore. | Aggiungere un breadcrumb o un ritorno esplicito alla biblioteca; non lasciare il solo tasto indietro. |
+| Titoli serif + corpo sans; callout su fondo carta per le regole. | Non usare il rosso su pergamena per testi lunghi: contrasto debole. |
+| Griglia dati a due colonne nella scheda incantesimo. | Ridurre l’immagine decorativa: non deve occupare mezza schermata prima dei dati. |
+| Stat block a pergamena con caratteristiche 3×2 e separazione tratti/azioni. | Lore collassabile o con indice interno; non lasciare blocchi densi senza punti di salto. |
+| Chip di categoria, ricerca e filtro primario nella lista mostri. | Icone ambigue e link che sembrano disabilitati; il filtro deve avere un’icona a imbuto e uno stato chiaro. |
+| Tag `Legacy` e fonte sempre visibile. | Raggruppare le varianti Legacy invece di duplicare le voci; fonte completa, non troncata. |
+| Link contestuali nel testo (condizioni, regole). | Sottolineare i link, non affidarsi solo al colore. |
+| Card con nome, CR/rarità, fonte e azione `+`. | Etichettare l’azione `+` e non usare la stessa icona per azioni diverse. |
+
+**Applicazione:** nella proposta A il lettore prende da D&D Beyond la barra capitoli e il `Jump to`; la scheda incantesimo prende la griglia dati a due colonne; il mostro prende lo stat block a pergamena ma con lore collassabile. La proposta B può usare la pergamena e le immagini grandi; la C può usare i link contestuali come base per i correlati.
+
 ## Cosa non fare
 
 

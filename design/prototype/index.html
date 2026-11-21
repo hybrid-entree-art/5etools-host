@@ -312,10 +312,20 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
       <a class="cat" data-go="spells" data-cat="equipment" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Equipaggiamento</b><small data-count="equipment">—</small></a>
       <a class="cat" data-go="spells" data-cat="classes" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Classi</b><small data-count="classes">—</small></a>
       <a class="cat" data-go="spells" data-cat="subclasses" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Sottoclassi</b><small data-count="subclasses">—</small></a>
+      <a class="cat" data-go="spells" data-cat="class-options" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Opzioni di classe</b><small data-count="class-options">—</small></a>
       <a class="cat" data-go="spells" data-cat="feats" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Talenti</b><small data-count="feats">—</small></a>
       <a class="cat" data-go="spells" data-cat="backgrounds" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Background</b><small data-count="backgrounds">—</small></a>
       <a class="cat" data-go="spells" data-cat="species" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/monsters-bg.webp')"><b>Specie</b><small data-count="species">—</small></a>
       <a class="cat" data-go="spells" data-cat="bastions" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Bastioni</b><small data-count="bastions">—</small></a>
+      <a class="cat" data-go="spells" data-cat="languages" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Lingue</b><small data-count="languages">—</small></a>
+      <a class="cat" data-go="spells" data-cat="deities" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Divinità</b><small data-count="deities">—</small></a>
+      <a class="cat" data-go="spells" data-cat="skills" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Abilità</b><small data-count="skills">—</small></a>
+      <a class="cat" data-go="spells" data-cat="mastery" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Maestria armi</b><small data-count="mastery">—</small></a>
+      <a class="cat" data-go="spells" data-cat="properties" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Proprietà armi</b><small data-count="properties">—</small></a>
+      <a class="cat" data-go="spells" data-cat="treasure" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Tesori</b><small data-count="treasure">—</small></a>
+      <a class="cat" data-go="spells" data-cat="item-types" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Tipi di oggetto</b><small data-count="item-types">—</small></a>
+      <a class="cat" data-go="spells" data-cat="cards" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Carte</b><small data-count="cards">—</small></a>
+      <a class="cat" data-go="spells" data-cat="legendary-groups" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/monsters-bg.webp')"><b>Gruppi leggendari</b><small data-count="legendary-groups">—</small></a>
       <a class="cat" data-go="spells" data-cat="glossary" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Glossario</b><small data-count="glossary">—</small></a>
     </div>
   </section>
@@ -480,6 +490,10 @@ function facetsFor(cat){
   if(cat==='classes') return [{key:'primary',label:'Abilità primaria',values:unique(items,'primary').sort()}];
   if(cat==='subclasses') return [{key:'className',label:'Classe',values:unique(items,'className').sort()}];
   if(cat==='feats') return [{key:'category',label:'Categoria',values:unique(items,'category').sort()}];
+  if(cat==='class-options'||cat==='languages'||cat==='treasure') return [{key:'typeLabel',label:'Tipo',values:unique(items,'typeLabel').sort()}];
+  if(cat==='deities') return [{key:'pantheon',label:'Pantheon',values:unique(items,'pantheon').sort()}];
+  if(cat==='skills') return [{key:'ability',label:'Abilità',values:unique(items,'ability').sort()}];
+  if(cat==='cards') return [{key:'set',label:'Mazzo',values:unique(items,'set').sort()}];
   if(cat==='bastions') return [{key:'facilityType',label:'Tipo di struttura',values:unique(items,'facilityType').sort()}];
   return [];
 }
@@ -554,7 +568,7 @@ function subtitle(item,withSource=true){
     case 'species': return `${item.types||'Specie'} · ${item.size||'—'}${src}`;
     case 'bastions': return `${item.facilityType||'Struttura'} · Livello ${item.level??'—'}${src}`;
     case 'glossary': return `Regola${src}`;
-    default: return sourceOf(item);
+    default: return item.subtitle?item.subtitle+src:sourceOf(item);
   }
 }
 function metaFor(item){
@@ -567,10 +581,11 @@ function metaFor(item){
     case 'feats': return item.category||'—';
     case 'species': return item.size||'—';
     case 'bastions': return item.facilityType||'—';
-    default: return sourceOf(item);
+    default: return item.meta||sourceOf(item);
   }
 }
 function rowTags(item){
+  if(Array.isArray(item.tags)) return item.tags.slice(0,4);
   const out=[];
   if(CATEGORY==='spells'){
     if(item.level===0) out.push({text:'Trucchetto'});
@@ -614,6 +629,7 @@ function setCategory(key){
 function statsFor(item,cat){
   const s=[];
   const add=(label,value)=>{ if(value!==undefined&&value!==null&&value!=='') s.push([label,value]); };
+  if(Array.isArray(item.stats)){ item.stats.forEach(([k,v])=>add(k,v)); return s; }
   if(cat==='spells'){
     add('Livello',levelLabel(item.level)); add('Tempo di lancio',item.time); add('Gittata',item.range);
     add('Componenti',item.components); add('Durata',item.duration);

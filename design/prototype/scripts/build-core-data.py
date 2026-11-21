@@ -331,6 +331,117 @@ def make_rule(x, kind):
     }
 
 
+FEATURE_TYPES = {"EI": "Invocazione occulta", "MV:B": "Manovra", "MM": "Metamagica"}
+
+
+def make_optional(x):
+    types = [FEATURE_TYPES.get(t, t) for t in (x.get("featureType") or [])]
+    label = ", ".join(types) or "Opzione di classe"
+    prereq = flat(x.get("prerequisite"))
+    return {
+        "name": x["name"], "source": x.get("source", "XPHB"), "typeLabel": label,
+        "prerequisite": prereq, "entries": flat(x.get("entries")),
+        "subtitle": label, "meta": label,
+        "tags": [{"text": label, "tide": True}],
+        "stats": [["Tipo", label], ["Prerequisito", prereq]],
+    }
+
+
+def make_language(x):
+    kind = {"standard": "Standard", "rare": "Rara"}.get(x.get("type"), "Lingua")
+    speakers = ", ".join(clean(v) for v in (x.get("typicalSpeakers") or []))
+    return {
+        "name": x["name"], "source": x.get("source", "XPHB"), "typeLabel": kind,
+        "entries": flat(x.get("entries")), "subtitle": kind, "meta": kind,
+        "tags": [{"text": kind, "tide": True}],
+        "stats": [["Tipo", kind], ["Parlanti", speakers]],
+    }
+
+
+def make_deity(x):
+    return {
+        "name": x["name"], "source": x.get("source", "XDMG"), "pantheon": x.get("pantheon", ""),
+        "title": x.get("title", ""), "worshipers": x.get("worshipers", ""),
+        "plane": x.get("plane", ""), "symbol": x.get("symbol", ""),
+        "entries": flat(x.get("entries")), "subtitle": x.get("pantheon", "Divinità"),
+        "meta": x.get("pantheon", ""),
+        "tags": [{"text": x.get("pantheon", "Divinità"), "tide": True}],
+        "stats": [["Pantheon", x.get("pantheon", "")], ["Titolo", x.get("title", "")],
+                  ["Adoratori", x.get("worshipers", "")], ["Piano", x.get("plane", "")],
+                  ["Simbolo", x.get("symbol", "")]],
+    }
+
+
+def make_skill(x):
+    ab = ABILITIES.get(x.get("ability", ""), x.get("ability", ""))
+    return {
+        "name": x["name"], "source": x.get("source", "XPHB"), "ability": ab,
+        "entries": flat(x.get("entries")), "subtitle": ab, "meta": ab,
+        "tags": [{"text": ab, "tide": True}],
+        "stats": [["Abilità", ab]],
+    }
+
+
+def make_mastery(x):
+    return {
+        "name": x["name"], "source": x.get("source", "XPHB"), "typeLabel": "Maestria",
+        "entries": flat(x.get("entries")), "subtitle": "Maestria", "meta": "Maestria",
+        "tags": [{"text": "Maestria", "tide": True}],
+        "stats": [["Tipo", "Maestria"]],
+    }
+
+
+def make_property(x):
+    entry = (x.get("entries") or [{}])[0]
+    name = clean(entry.get("name") or x.get("abbreviation") or "")
+    return {
+        "name": name, "source": x.get("source", "XPHB"), "typeLabel": "Proprietà",
+        "abbreviation": x.get("abbreviation", ""), "entries": flat(x.get("entries")),
+        "subtitle": "Proprietà", "meta": "Proprietà",
+        "tags": [{"text": "Proprietà", "tide": True}],
+        "stats": [["Tipo", "Proprietà"], ["Abbreviazione", x.get("abbreviation", "")]],
+    }
+
+
+def make_treasure(x, kind):
+    return {
+        "name": x["name"], "source": x.get("source", "XDMG"), "typeLabel": kind,
+        "entries": flat(x.get("table") or x.get("entries")), "subtitle": kind, "meta": kind,
+        "tags": [{"text": kind, "tide": True}],
+        "stats": [["Tipo", kind]],
+    }
+
+
+def make_item_type(x):
+    return {
+        "name": x["name"], "source": x.get("source", "XPHB"), "typeLabel": "Tipo di oggetto",
+        "abbreviation": x.get("abbreviation", ""), "entries": flat(x.get("entries")),
+        "subtitle": "Tipo di oggetto", "meta": x.get("abbreviation", "Tipo"),
+        "tags": [{"text": "Tipo di oggetto", "tide": True}],
+        "stats": [["Tipo", "Tipo di oggetto"], ["Abbreviazione", x.get("abbreviation", "")]],
+    }
+
+
+def make_legendary(x):
+    return {
+        "name": x["name"], "source": x.get("source", "XMM"), "typeLabel": "Gruppo leggendario",
+        "entries": flat(x.get("regionalEffects") or []), "subtitle": "Gruppo leggendario",
+        "meta": "Gruppo leggendario",
+        "tags": [{"text": "Gruppo leggendario", "tide": True}],
+        "stats": [["Tipo", "Gruppo leggendario"]],
+    }
+
+
+def make_card(x):
+    return {
+        "name": x["name"], "source": x.get("source", "XDMG"), "set": x.get("set", ""),
+        "entries": flat(x.get("entries")), "subtitle": x.get("set", "Carta"),
+        "meta": x.get("set", "Carta"),
+        "tags": [{"text": x.get("set", "Carta"), "tide": True}],
+        "stats": [["Mazzo", x.get("set", "")]],
+    }
+
+
 def main():
     spells = [make_spell(x) for x in load("spells/spells-xphb.json").get("spell", []) if x.get("source") == "XPHB"]
     monsters = []
@@ -339,6 +450,10 @@ def main():
     items = load("items.json").get("item", [])
     magic = [make_item(x) for x in items if x.get("source") == "XDMG"]
     seen_magic = {x["name"] for x in magic}
+    for x in load("items-base.json").get("itemEntry", []):
+        if x.get("source") == "XDMG" and x["name"] not in seen_magic:
+            magic.append(make_item(x))
+            seen_magic.add(x["name"])
     for x in load("magicvariants.json").get("magicvariant", []):
         inh = x.get("inherits") or {}
         if any("|XDMG" in s for s in (inh.get("reprintedAs") or [])) and x["name"] not in seen_magic:
@@ -347,6 +462,10 @@ def main():
     equipment = [make_item(x) for x in items if x.get("source") == "XPHB"]
     base = load("items-base.json").get("baseitem", [])
     seen_equipment = {x["name"] for x in equipment}
+    for x in load("vehicles.json").get("vehicle", []):
+        if x.get("source") == "XDMG" and x["name"] not in seen_equipment:
+            equipment.append(make_item(x))
+            seen_equipment.add(x["name"])
     for x in base:
         if x.get("source") == "XPHB" and x["name"] not in seen_equipment:
             equipment.append(make_item(x))
@@ -361,6 +480,18 @@ def main():
     backgrounds = [make_background(x) for x in load("backgrounds.json").get("background", []) if x.get("source") == "XPHB"]
     species = [make_species(x) for x in load("races.json").get("race", []) if x.get("source") == "XPHB"]
     bastions = [make_bastion(x) for x in load("bastions.json").get("facility", []) if x.get("source") == "XDMG"]
+    class_options = [make_optional(x) for x in load("optionalfeatures.json").get("optionalfeature", []) if x.get("source") == "XPHB"]
+    languages = [make_language(x) for x in load("languages.json").get("language", []) if x.get("source") in ("XPHB", "XMM")]
+    deities = [make_deity(x) for x in load("deities.json").get("deity", []) if x.get("source") == "XDMG"]
+    skills = [make_skill(x) for x in load("skills.json").get("skill", []) if x.get("source") == "XPHB"]
+    mastery = [make_mastery(x) for x in load("items-base.json").get("itemMastery", []) if x.get("source") == "XPHB"]
+    properties = [make_property(x) for x in load("items-base.json").get("itemProperty", []) if x.get("source") in ("XPHB", "XDMG")]
+    loot = load("loot.json")
+    treasure = [make_treasure(x, "Gemme") for x in loot.get("gems", []) if x.get("source") == "XDMG"]
+    treasure += [make_treasure(x, "Oggetti d'arte") for x in loot.get("artObjects", []) if x.get("source") == "XDMG"]
+    cards = [make_card(x) for x in load("decks.json").get("card", []) if x.get("source") == "XDMG"]
+    legendary = [make_legendary(x) for x in load("bestiary/legendarygroups.json").get("legendaryGroup", []) if x.get("source") == "XMM"]
+    item_types = [make_item_type(x) for x in load("items-base.json").get("itemType", []) if x.get("source") in ("XPHB", "XDMG", "XMM")]
     glossary = [make_glossary(x) for x in load("variantrules.json").get("variantrule", []) if x.get("source") == "XPHB"]
     seen_rules = {(x["name"], x["source"]) for x in glossary}
     for filename, key, label in [
@@ -386,10 +517,20 @@ def main():
         ("equipment", "Equipaggiamento", equipment),
         ("classes", "Classi", classes),
         ("subclasses", "Sottoclassi", subclasses),
+        ("class-options", "Opzioni di classe", class_options),
         ("feats", "Talenti", feats),
         ("backgrounds", "Background", backgrounds),
         ("species", "Specie", species),
         ("bastions", "Bastioni", bastions),
+        ("languages", "Lingue", languages),
+        ("deities", "Divinità", deities),
+        ("skills", "Abilità", skills),
+        ("mastery", "Maestria delle armi", mastery),
+        ("properties", "Proprietà delle armi", properties),
+        ("treasure", "Tesori", treasure),
+        ("item-types", "Tipi di oggetto", item_types),
+        ("cards", "Carte", cards),
+        ("legendary-groups", "Gruppi leggendari", legendary),
         ("glossary", "Glossario", glossary),
     ]
     payload = {

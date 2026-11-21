@@ -258,19 +258,27 @@ def make_item(x):
     }
 
 
-def make_class(x):
+def make_class(x, image="", feature_map=None):
     hd = x.get("hd") or {}
     prim = []
     for group in x.get("primaryAbility") or []:
         for k, v in group.items():
             if v:
                 prim.append(ABILITIES.get(k, k))
-    text = flat(x.get("classFeatures") or [])
+    features = []
+    for raw in x.get("classFeatures") or []:
+        name = raw.get("classFeature", "") if isinstance(raw, dict) else raw
+        parts = name.split("|")
+        fname = parts[0].strip()
+        f = (feature_map or {}).get((fname, x["name"])) or (feature_map or {}).get((fname, None))
+        if f:
+            features.append({"name": f["name"], "level": f.get("level"), "entries": flat(f.get("entries"))})
+    text = "\n\n".join(f"{f['name']} (Livello {f['level']}): {f['entries']}" for f in features)
     return {
-        "name": x["name"], "source": x.get("source", "XPHB"),
+        "name": x["name"], "source": x.get("source", "XPHB"), "image": image,
         "hitDie": f"d{hd.get('faces', '?')}" if hd else "",
         "primary": ", ".join(prim), "caster": ABILITIES.get(x.get("spellcastingAbility", ""), ""),
-        "entries": text,
+        "entries": text, "features": features,
     }
 
 
@@ -297,10 +305,10 @@ def make_background(x):
     }
 
 
-def make_species(x):
+def make_species(x, image=""):
     return {
-        "name": x["name"], "source": x.get("source", "XPHB"),
-        "types": ", ".join(clean(t) for t in (x.get("creatureTypes") or [])),
+        "name": x["name"], "source": x.get("source", "XPHB"), "image": image,
+        "types": ", ".join(MONSTER_TYPES.get(str(t).lower(), clean(t)) for t in (x.get("creatureTypes") or [])),
         "size": "/".join(SIZES.get(s, s) for s in (x.get("size") or [])),
         "speed": str(x.get("speed", "")), "darkvision": x.get("darkvision"),
         "resist": ", ".join(clean(r) for r in (x.get("resist") or [])),
@@ -470,15 +478,33 @@ def main():
         if x.get("source") == "XPHB" and x["name"] not in seen_equipment:
             equipment.append(make_item(x))
             seen_equipment.add(x["name"])
-    classes = []
-    subclasses = []
+    class_images = {}
+    for f in (DATA / "class").glob("fluff-class-*.json"):
+        d = json.loads(f.read_text())
+        for x in d.get("classFluff", []):
+            if x.get("source") == "XPHB" and (x.get("images") or []):
+                class_images[x["name"]] = x["images"][0].get("href", {}).get("path", "")
+    species_images = {}
+    for x in load("fluff-races.json").get("raceFluff", []):
+        if x.get("source") == "XPHB" and (x.get("images") or []):
+            species_images[x["name"]] = x["images"][0].get("href", {}).get("path", "")
+    class_features = {}
+    class_files = []
     for f in sorted((DATA / "class").glob("class-*.json")):
         d = json.loads(f.read_text())
-        classes += [make_class(x) for x in d.get("class", []) if x.get("source") == "XPHB"]
+        class_files.append(d)
+        for x in d.get("classFeature", []):
+            key = (x.get("name"), x.get("className"))
+            if key not in class_features or x.get("source") == "XPHB":
+                class_features[key] = x
+    classes = []
+    subclasses = []
+    for d in class_files:
+        classes += [make_class(x, class_images.get(x["name"], ""), class_features) for x in d.get("class", []) if x.get("source") == "XPHB"]
         subclasses += [make_subclass(x) for x in d.get("subclass", []) if x.get("source") == "XPHB"]
     feats = [make_feat(x) for x in load("feats.json").get("feat", []) if x.get("source") == "XPHB"]
     backgrounds = [make_background(x) for x in load("backgrounds.json").get("background", []) if x.get("source") == "XPHB"]
-    species = [make_species(x) for x in load("races.json").get("race", []) if x.get("source") == "XPHB"]
+    species = [make_species(x, species_images.get(x["name"], "")) for x in load("races.json").get("race", []) if x.get("source") == "XPHB"]
     bastions = [make_bastion(x) for x in load("bastions.json").get("facility", []) if x.get("source") == "XDMG"]
     class_options = [make_optional(x) for x in load("optionalfeatures.json").get("optionalfeature", []) if x.get("source") == "XPHB"]
     languages = [make_language(x) for x in load("languages.json").get("language", []) if x.get("source") in ("XPHB", "XMM")]

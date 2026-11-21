@@ -138,6 +138,15 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);
  border-radius:12px;background:var(--surface);cursor:pointer;text-align:left}
 .row:hover{border-color:var(--amber);box-shadow:0 0 16px var(--glow)}
+.entry-card{display:grid;grid-template-columns:minmax(0,1fr) 38%;min-height:138px;width:100%;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;position:relative}
+.entry-card:hover{border-color:var(--amber);box-shadow:0 0 20px var(--glow)}
+.entry-copy{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:15px 16px;min-width:0}
+.entry-copy b{font:700 22px/1.1 var(--head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.entry-copy em{font:500 13px var(--ui);color:var(--muted);font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.entry-copy small{font:600 11px var(--ui);color:var(--teal);letter-spacing:.04em}
+.entry-art{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block}
+.entry-card.classes .entry-art{object-position:center top}
+.entry-image{display:block;width:calc(100% + clamp(36px,8vw,64px));max-width:none;height:clamp(190px,46vw,300px);object-fit:cover;object-position:center 25%;margin:18px calc(-1 * clamp(18px,4vw,32px)) 18px;border-radius:0}
 .thumb{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:
  radial-gradient(circle at 30% 25%,rgba(255,220,150,.95),rgba(240,167,66,.35) 35%,rgba(90,30,10,.9));color:#2a1608;font:700 17px var(--head)}
 .row b{display:block;font-size:16px}
@@ -546,10 +555,19 @@ function applyCatalog(){
   });
   count.textContent=`${VISIBLE.length} di ${items.length} ${DATA.categories[CATEGORY].label.toLowerCase()}`;
   filterApply.textContent=`Mostra ${VISIBLE.length}`;
-  rowsEl.innerHTML=VISIBLE.length?VISIBLE.map(rowHTML).join(''):'<div class="empty">Nessun risultato. Prova a togliere un filtro o a cambiare ricerca.</div>';
+  const useCards=CATEGORY==='species'||CATEGORY==='classes';
+  rowsEl.innerHTML=VISIBLE.length?(useCards?VISIBLE.map(entryCard).join(''):VISIBLE.map(rowHTML).join('')):'<div class="empty">Nessun risultato. Prova a togliere un filtro o a cambiare ricerca.</div>';
   syncFilters();
 }
 
+const IMG_BASE='https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/';
+const imgURL=(p)=>p?IMG_BASE+p:'';
+function entryCard(item,index){
+  const isClass=CATEGORY==='classes';
+  const meta=isClass?`${item.hitDie||''}${item.primary?' · '+item.primary:''}`:`${item.types||''}${item.size?' · '+item.size:''}`;
+  const kind=isClass?'Classe':'Specie';
+  return `<button class="entry-card ${esc(CATEGORY)}" data-result="${index}"><span class="entry-copy"><b>${esc(item.name)}</b><em>${kind} · ${esc(sourceOf(item))}</em><small>${esc(meta)}</small></span>${item.image?`<img class="entry-art" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}</button>`;
+}
 function rowHTML(item,index){
   const sub=subtitle(item), tags=rowTags(item), meta=metaFor(item);
   return `<button class="row" data-result="${index}"><span class="thumb">${esc(item.name[0]||'?')}</span><span><b>${esc(item.name)}</b><em>${esc(sub)}</em><div class="tags">${tags.map(t=>`<span class="tag${t.hot?' hot':''}${t.tide?' tide':''}">${esc(t.text)}</span>`).join('')}</div></span><span class="meta">${esc(meta)}</span></button>`;
@@ -656,13 +674,14 @@ function paragraphs(text){
 function detailHTML(item){
   const stats=statsFor(item,CATEGORY);
   const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
-  return `<div class="paper spell-card">
+  return `<div class="paper spell-card ${esc(CATEGORY)}">
     <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">Scheda 2024</div><span class="source">${esc(sourceOf(item))} · 2024</span></div></div>
+    ${item.image?`<img class="entry-image" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}
     <div class="rule"></div>
     <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
     ${abilities}
     <div class="rule"></div>
-    <div class="prose detail-prose">${paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>'}</div>
+    <div class="prose detail-prose">${item.features&&item.features.length?`<div class="class-features">${item.features.map(f=>`<details class="ref-card"><summary><b>${esc(f.name)}</b><span>Livello ${esc(f.level??'—')}</span></summary><div class="ref-body">${paragraphs(f.entries)||'<p>Nessuna descrizione.</p>'}</div></details>`).join('')}</div>`:(paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>')}</div>
     ${item.higher?`<div class="callout"><b>Livelli superiori.</b> ${esc(item.higher)}</div>`:''}
     <div class="tags"><span class="tag tide">${esc(DATA.categories[CATEGORY].label)}</span></div>
   </div>`;

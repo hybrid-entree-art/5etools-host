@@ -88,6 +88,24 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .cat b{font:700 18px var(--head)}
 .cat small{color:var(--teal);font-size:13px}
 .cat:hover{border-color:var(--amber);box-shadow:0 0 20px var(--glow)}
+.cat-tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;margin:0 -2px;scrollbar-width:none}
+.cat-tabs::-webkit-scrollbar{display:none}
+.cat-tab{flex:0 0 auto;display:flex;align-items:baseline;gap:7px;min-height:42px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:600 13px var(--ui);cursor:pointer}
+.cat-tab b{font-weight:700;color:inherit}
+.cat-tab small{font-size:11px;color:var(--faint)}
+.cat-tab[aria-selected="true"]{border-color:var(--amber);background:rgba(240,167,66,.1);color:var(--amber)}
+.cat-tab[aria-selected="true"] small{color:var(--amber);opacity:.75}
+.empty{padding:40px 18px;text-align:center;color:var(--faint);border:1px dashed var(--line);border-radius:var(--radius);background:var(--surface)}
+.detail-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+.detail-stats .stat{padding:10px 12px;border:1px solid var(--paper-line);border-radius:10px;background:rgba(201,178,138,.16)}
+.detail-stats .stat span{display:block;font:600 10px var(--ui);letter-spacing:.08em;text-transform:uppercase;color:#7a5b3a}
+.detail-stats .stat b{font:700 15px var(--book);color:var(--paper-ink)}
+.detail-prose p{margin:0 0 12px;font:17px/1.65 var(--book);color:var(--paper-ink)}
+.detail-prose h3{font:700 20px var(--head);margin:18px 0 6px;color:var(--paper-ink)}
+.ability-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px}
+.ability-grid div{text-align:center;padding:7px 2px;border:1px solid var(--paper-line);border-radius:8px}
+.ability-grid span{display:block;font:600 9px var(--ui);letter-spacing:.08em;color:#7a5b3a}
+.ability-grid b{font:700 16px var(--book);color:var(--paper-ink)}
 .crumbs{display:flex;flex-wrap:wrap;gap:7px;align-items:center;font-size:12px;color:var(--faint);margin-bottom:14px}
 .crumbs a{color:var(--muted)}
 .crumbs a:hover{color:var(--amber)}
@@ -204,7 +222,7 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
  .reader-side a:hover{color:var(--amber)}
  .toc-fab{display:none}
 }
-@media(max-width:640px){.book:nth-child(3){grid-column:1/-1;min-height:190px}}
+@media(max-width:640px){.book:nth-child(3){grid-column:1/-1;min-height:190px}.cat:last-child:nth-child(odd){grid-column:1/-1;min-height:120px}}
 @media(max-width:400px){.row{grid-template-columns:40px minmax(0,1fr)}.row .meta{grid-column:2;text-align:left;white-space:normal}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -254,12 +272,19 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
       <a class="book" data-go="library" href="#library"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XMM.webp" alt="" loading="lazy"><span><strong>Manuale dei Mostri</strong><small>Monster Manual · 2024</small></span></a>
     </div>
 
-    <div class="section-head"><h2>Compendio</h2><span>2024 core + altre fonti</span></div>
+    <div class="section-head"><h2>Compendio</h2><span>solo 2024 core</span></div>
     <div class="cat-grid">
-      <a class="cat" data-go="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Incantesimi</b><small>391 del 2024</small></a>
-      <a class="cat" data-go="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/monsters-bg.webp')"><b>Mostri</b><small>503 del 2024</small></a>
-      <a class="cat" data-go="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Oggetti magici</b><small>584 del 2024</small></a>
-      <a class="cat" data-go="library" href="#library" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Classi</b><small>12 del 2024</small></a>
+      <a class="cat" data-go="spells" data-cat="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Incantesimi</b><small data-count="spells">—</small></a>
+      <a class="cat" data-go="spells" data-cat="monsters" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/monsters-bg.webp')"><b>Mostri</b><small data-count="monsters">—</small></a>
+      <a class="cat" data-go="spells" data-cat="magic-items" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Oggetti magici</b><small data-count="magic-items">—</small></a>
+      <a class="cat" data-go="spells" data-cat="equipment" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Equipaggiamento</b><small data-count="equipment">—</small></a>
+      <a class="cat" data-go="spells" data-cat="classes" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Classi</b><small data-count="classes">—</small></a>
+      <a class="cat" data-go="spells" data-cat="subclasses" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Sottoclassi</b><small data-count="subclasses">—</small></a>
+      <a class="cat" data-go="spells" data-cat="feats" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Talenti</b><small data-count="feats">—</small></a>
+      <a class="cat" data-go="spells" data-cat="backgrounds" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/classes-bg.webp')"><b>Background</b><small data-count="backgrounds">—</small></a>
+      <a class="cat" data-go="spells" data-cat="species" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/monsters-bg.webp')"><b>Specie</b><small data-count="species">—</small></a>
+      <a class="cat" data-go="spells" data-cat="bastions" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/magic-items-bg.webp')"><b>Bastioni</b><small data-count="bastions">—</small></a>
+      <a class="cat" data-go="spells" data-cat="glossary" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Glossario</b><small data-count="glossary">—</small></a>
     </div>
   </section>
 
@@ -289,50 +314,22 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
   </section>
 
   <section class="view" id="view-spells">
-    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#library" data-go="library">Compendio</a><span class="sep">/</span><span aria-current="page">Incantesimi</span></nav>
-    <div class="page-head"><h1>Incantesimi</h1><p>391 del 2024 core · 1.038 da tutte le fonti. Cerca per nome, livello, scuola o fonte.</p></div>
-    <label class="search" style="max-width:none"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="spellSearch" type="search" placeholder="Cerca un incantesimo…" aria-label="Cerca un incantesimo"></label>
+    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#spells" data-go="spells">Compendio</a><span class="sep">/</span><span id="compendioCrumb" aria-current="page">Incantesimi</span></nav>
+    <div class="page-head"><h1>Compendio 2024</h1><p id="compendioLede">Caricamento dei contenuti…</p></div>
+    <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Categorie del compendio"></div>
+    <label class="search" style="max-width:none"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="catalogSearch" type="search" placeholder="Cerca nel compendio…" aria-label="Cerca nel compendio"></label>
     <div class="filterbar">
       <button class="btn filter-open" id="filterOpen" aria-haspopup="dialog" title="Apri filtri avanzati"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>Filtri <span class="badge" id="filterBadge" hidden>0</span></button>
     </div>
     <div class="activefilters" id="activeFilters" aria-live="polite"></div>
-    <div class="count" id="spellCount">6 incantesimi mostrati</div>
-    <div class="rows" id="spellRows">
-      <button class="row" data-name="Palla di fuoco Fireball" data-source="core" data-level="3" data-school="evo" data-tags="damage" data-go="detail"><span class="thumb">F</span><span><b>Palla di fuoco</b><em>Fireball · Livello 3 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">150 ft</span><span class="tag tide">V, S, M</span></div></span><span class="meta">Danno</span></button>
-      <button class="row" data-name="Dardo incantato Magic Missile" data-source="core" data-level="1" data-school="evo" data-tags="damage"><span class="thumb">M</span><span><b>Dardo incantato</b><em>Magic Missile · Livello 1 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">120 ft</span></div></span><span class="meta">Danno</span></button>
-      <button class="row" data-name="Scudo Shield" data-source="core" data-level="1" data-school="abj" data-tags="defense"><span class="thumb">S</span><span><b>Scudo</b><em>Shield · Livello 1 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag tide">V, S</span></div></span><span class="meta">Difesa</span></button>
-      <button class="row" data-name="Luce Light" data-source="core" data-level="0" data-school="evo" data-tags="utility"><span class="thumb">L</span><span><b>Luce</b><em>Light · Trucchetto · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">Contatto</span></div></span><span class="meta">Utilità</span></button>
-      <button class="row" data-name="Individuazione del magico Detect Magic" data-source="core" data-level="1" data-school="div" data-tags="ritual utility"><span class="thumb">D</span><span><b>Individuazione del magico</b><em>Detect Magic · Livello 1 · Divinazione · XPHB</em><div class="tags"><span class="tag tide">Rituale</span><span class="tag">Sé</span></div></span><span class="meta">Utilità</span></button>
-      <button class="row" data-name="Controincantesimo Counterspell" data-source="core" data-level="3" data-school="abj" data-tags="control"><span class="thumb">C</span><span><b>Controincantesimo</b><em>Counterspell · Livello 3 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag">60 ft</span></div></span><span class="meta">Controllo</span></button>
-      <button class="row" data-name="Silvery Barbs" data-source="other" data-level="1" data-school="enc" data-tags="control"><span class="thumb">S</span><span><b>Silvery Barbs</b><em>Silvery Barbs · Livello 1 · Ammaliamento · SCC</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag">60 ft</span></div></span><span class="meta">Controllo</span></button>
-    </div>
+    <div class="count" id="catalogCount">Caricamento…</div>
+    <div class="rows" id="catalogRows" aria-live="polite"></div>
   </section>
 
   <section class="view" id="view-detail">
-    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#spells" data-go="spells">Incantesimi</a><span class="sep">/</span><span aria-current="page">Palla di fuoco</span></nav>
-    <div class="page-head"><h1>Palla di fuoco</h1><p>Fireball · Evocazione · Livello 3</p></div>
-    <div class="paper spell-card">
-      <div class="spell-top">
-        <div class="spell-orb" aria-hidden="true"></div>
-        <div><h2>Palla di fuoco</h2><div class="en">Fireball</div><span class="source">XPHB · 2024</span></div>
-      </div>
-      <div class="rule"></div>
-      <div class="stats">
-        <div class="stat"><span>Livello</span><b>3</b></div>
-        <div class="stat"><span>Tempo di lancio</span><b>1 azione</b></div>
-        <div class="stat"><span>Gittata</span><b>150 piedi</b></div>
-        <div class="stat"><span>Componenti</span><b>V, S, M <small style="font:400 11px var(--ui);color:#8a6a45">(palla di guano e zolfo)</small></b></div>
-        <div class="stat"><span>Durata</span><b>Istantanea</b></div>
-        <div class="stat"><span>Tiro salvezza</span><b>Destrezza</b></div>
-      </div>
-      <div class="rule"></div>
-      <div class="prose">
-        <p>Un lampo luminoso scatta da te verso un punto che scegli entro la gittata, poi sboccia con un boato sordo in un’esplosione infuocata. Ogni creatura in una sfera di 20 piedi di raggio centrata su quel punto effettua un tiro salvezza su Destrezza: subisce <strong>8d6</strong> danni da fuoco se fallisce, oppure la metà se riesce.</p>
-        <p>Gli oggetti infiammabili nell’area che non sono indossati o trasportati iniziano a bruciare.</p>
-      </div>
-      <div class="callout"><b>Slot di livello superiore.</b> I danni aumentano di 1d6 per ogni livello di slot superiore al 3°.</div>
-      <div class="tags"><span class="tag">Danno</span><span class="tag tide">Bardo</span><span class="tag tide">Mago</span><span class="tag tide">Stregone</span></div>
-    </div>
+    <nav class="crumbs" id="detailCrumbs" aria-label="Percorso"></nav>
+    <div class="page-head"><h1 id="detailTitle">Dettaglio</h1><p id="detailSubtitle"></p></div>
+    <div id="detailBody"></div>
   </section>
 
   <section class="view" id="view-reader">
@@ -411,29 +408,8 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 
 <dialog id="filters" aria-labelledby="filtersTitle">
   <div class="dialog-head"><b id="filtersTitle">Filtri</b><button class="icon-btn" data-close aria-label="Chiudi filtri"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
-  <div class="dialog-body">
-    <section class="filter-group"><h3>Fonte</h3><div class="filter-options">
-      <button class="filter-option" data-group="source" data-value="core" aria-pressed="true">2024 core</button>
-      <button class="filter-option" data-group="source" data-value="other" aria-pressed="false">Altre fonti</button>
-    </div></section>
-    <section class="filter-group"><h3>Livello</h3><div class="filter-options">
-      <button class="filter-option" data-group="level" data-value="0" aria-pressed="false">Trucchetti</button>
-      <button class="filter-option" data-group="level" data-value="1" aria-pressed="false">Livello 1</button>
-      <button class="filter-option" data-group="level" data-value="2" aria-pressed="false">Livello 2</button>
-      <button class="filter-option" data-group="level" data-value="3" aria-pressed="false">Livello 3</button>
-    </div></section>
-    <section class="filter-group"><h3>Scuola</h3><div class="filter-options">
-      <button class="filter-option" data-group="school" data-value="evo" aria-pressed="false">Evocazione</button>
-      <button class="filter-option" data-group="school" data-value="abj" aria-pressed="false">Abiurazione</button>
-      <button class="filter-option" data-group="school" data-value="div" aria-pressed="false">Divinazione</button>
-      <button class="filter-option" data-group="school" data-value="enc" aria-pressed="false">Ammaliamento</button>
-    </div></section>
-    <section class="filter-group"><h3>Tag</h3><div class="filter-options">
-      <button class="filter-option" data-group="tag" data-value="ritual" aria-pressed="false">Rituale</button>
-      <button class="filter-option" data-group="tag" data-value="concentration" aria-pressed="false">Concentrazione</button>
-    </div></section>
-    <div class="filter-actions"><button class="btn" id="filterReset">Azzera</button><button class="btn primary" id="filterApply">Mostra 6 incantesimi</button></div>
-  </div>
+  <div class="dialog-body" id="filterBody"></div>
+  <div class="filter-actions"><button class="btn" id="filterReset">Azzera</button><button class="btn primary" id="filterApply">Mostra</button></div>
 </dialog>
 
 <dialog id="menu" aria-labelledby="menuTitle">
@@ -442,7 +418,7 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
     <ul class="menu-list">
       <li><a href="#home" data-go="home" data-close>Home</a></li>
       <li><a href="#library" data-go="library" data-close>Biblioteca</a></li>
-      <li><a href="#spells" data-go="spells" data-close>Incantesimi</a></li>
+      <li><a href="#spells" data-go="spells" data-close>Compendio</a></li>
       <li><a href="#reader" data-go="reader" data-close>Lettore</a></li>
       <li><a href="#library" data-go="library" data-close>Impostazioni</a></li>
     </ul>
@@ -451,91 +427,286 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 
 <script>
 const views = ['home','library','spells','detail','reader'];
-const buttons = [...document.querySelectorAll('[data-go]')];
+let pendingCategory = null;
+let CURRENT=null;
 function show(name){
-  const target = views.includes(name) ? name : 'home';
+  let target = views.includes(name) ? name : 'home';
+  if(target === 'detail' && !CURRENT) target = 'spells';
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id === 'view-'+target));
-  buttons.forEach(b=>b.setAttribute('aria-current', b.dataset.go === target ? 'page' : 'false'));
+  document.querySelectorAll('[data-go]').forEach(b=>b.setAttribute('aria-current', b.dataset.go === target ? 'page' : 'false'));
   if(location.hash !== '#'+target) history.replaceState(null,'','#'+target);
   window.scrollTo({top:0,behavior:'smooth'});
 }
-buttons.forEach(b=>b.addEventListener('click', e=>{ if(b.tagName==='A') e.preventDefault(); show(b.dataset.go); }));
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-go]');
+  if(!b) return;
+  if(b.tagName === 'A') e.preventDefault();
+  if(b.dataset.cat) setCategory(b.dataset.cat);
+  show(b.dataset.go);
+});
 if(location.hash) show(location.hash.slice(1));
 window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
 
-const search=document.getElementById('spellSearch');
-const rows=[...document.querySelectorAll('#spellRows .row')];
-const count=document.getElementById('spellCount');
+const DATA_URL='data/core-2024.json';
+const search=document.getElementById('catalogSearch');
+const count=document.getElementById('catalogCount');
+const rowsEl=document.getElementById('catalogRows');
+const tabsEl=document.getElementById('catTabs');
 const badge=document.getElementById('filterBadge');
 const activeFilters=document.getElementById('activeFilters');
-const state={source:new Set(['core']),level:new Set(),school:new Set(),tag:new Set()};
-const labels={
-  source:{core:'2024 core',other:'Altre fonti'},
-  level:{0:'Trucchetti',1:'Livello 1',2:'Livello 2',3:'Livello 3'},
-  school:{evo:'Evocazione',abj:'Abiurazione',div:'Divinazione',enc:'Ammaliamento'},
-  tag:{ritual:'Rituale',concentration:'Concentrazione'}
-};
-function toggle(group,value){
-  const set=state[group];
-  if(set.has(value)) set.delete(value); else set.add(value);
-  apply();
+const filterBody=document.getElementById('filterBody');
+const filterOpen=document.getElementById('filterOpen');
+const filterApply=document.getElementById('filterApply');
+let DATA=null, CATEGORY='spells', VISIBLE=[], FACETS=[];
+let FILTERS={};
+
+const esc=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sourceOf=(x)=>x.source||'2024';
+const lower=(s)=>String(s||'').toLowerCase();
+
+function levelLabel(n){ return Number(n)===0?'Trucchetto':'Livello '+n; }
+function crRank(v){ if(v==='1/8') return .125; if(v==='1/4') return .25; if(v==='1/2') return .5; const n=parseFloat(v); return Number.isFinite(n)?n:999; }
+function unique(items,key){ return [...new Set(items.map(x=>x[key]).filter(v=>v!==undefined&&v!==null&&v!==''))]; }
+
+function facetsFor(cat){
+  const items=DATA.categories[cat].items;
+  if(cat==='spells') return [
+    {key:'level',label:'Livello',values:unique(items,'level').sort((a,b)=>a-b),fmt:levelLabel},
+    {key:'school',label:'Scuola',values:unique(items,'school').sort()},
+  ];
+  if(cat==='monsters') return [
+    {key:'type',label:'Tipo',values:unique(items,'type').sort()},
+    {key:'size',label:'Taglia',values:unique(items,'size').sort()},
+  ];
+  if(cat==='magic-items') return [
+    {key:'rarity',label:'Rarità',values:unique(items,'rarity').sort()},
+    {key:'type',label:'Tipo',values:unique(items,'type').sort()},
+  ];
+  if(cat==='equipment') return [{key:'type',label:'Tipo',values:unique(items,'type').sort()}];
+  if(cat==='classes') return [{key:'primary',label:'Abilità primaria',values:unique(items,'primary').sort()}];
+  if(cat==='subclasses') return [{key:'className',label:'Classe',values:unique(items,'className').sort()}];
+  if(cat==='feats') return [{key:'category',label:'Categoria',values:unique(items,'category').sort()}];
+  if(cat==='bastions') return [{key:'facilityType',label:'Tipo di struttura',values:unique(items,'facilityType').sort()}];
+  return [];
 }
-function totalActive(){ return Object.values(state).reduce((n,s)=>n+s.size,0); }
-function matches(row){
-  const q=search.value.toLowerCase().trim();
-  const text=(row.dataset.name+' '+row.textContent).toLowerCase();
-  if(q && !text.includes(q)) return false;
-  if(state.source.size && !state.source.has(row.dataset.source)) return false;
-  if(state.level.size && !state.level.has(row.dataset.level)) return false;
-  if(state.school.size && !state.school.has(row.dataset.school)) return false;
-  const tags=row.dataset.tags.split(' ');
-  if([...state.tag].some(t=>!tags.includes(t))) return false;
-  return true;
+
+function renderTabs(){
+  const TAB_LABEL={'magic-items':'Oggetti','equipment':'Equipaggiamento'};
+  tabsEl.innerHTML=Object.entries(DATA.categories).map(([key,c])=>
+    `<button class="cat-tab" role="tab" data-cat-tab="${key}" aria-selected="${key===CATEGORY}"><b>${esc(TAB_LABEL[key]||c.label)}</b><small>${c.count}</small></button>`
+  ).join('');
+  tabsEl.querySelectorAll('[data-cat-tab]').forEach(b=>b.addEventListener('click',()=>setCategory(b.dataset.catTab)));
 }
-function syncControls(){
-  document.querySelectorAll('[data-group][data-value]').forEach(opt=>{
-    opt.setAttribute('aria-pressed',state[opt.dataset.group].has(opt.dataset.value)?'true':'false');
+
+function renderFilters(){
+  FACETS=facetsFor(CATEGORY);
+  filterOpen.hidden=!FACETS.length;
+  if(!FACETS.length){ filterBody.innerHTML='<div class="empty">Nessun filtro per questa categoria.</div>'; return; }
+  filterBody.innerHTML=FACETS.map(f=>`<section class="filter-group"><h3>${esc(f.label)}</h3><div class="filter-options">${f.values.map(v=>`<button class="filter-option" data-group="${esc(f.key)}" data-value="${esc(v)}" aria-pressed="false">${esc(f.fmt?f.fmt(v):v)}</button>`).join('')}</div></section>`).join('');
+}
+
+function toggleFilter(group,value){
+  FILTERS[group] ||= new Set();
+  if(FILTERS[group].has(value)) FILTERS[group].delete(value); else FILTERS[group].add(value);
+  if(!FILTERS[group].size) delete FILTERS[group];
+  applyCatalog();
+}
+
+function syncFilters(){
+  document.querySelectorAll('#filterBody [data-group][data-value]').forEach(opt=>{
+    opt.setAttribute('aria-pressed', FILTERS[opt.dataset.group]?.has(opt.dataset.value)?'true':'false');
   });
-  const n=totalActive();
+  const n=Object.values(FILTERS).reduce((a,s)=>a+s.size,0);
   badge.textContent=n; badge.hidden=n===0;
   activeFilters.innerHTML='';
-  Object.entries(state).forEach(([group,set])=>{
-    set.forEach(value=>{
+  FACETS.forEach(f=>{
+    (FILTERS[f.key]||new Set()).forEach(value=>{
       const b=document.createElement('button');
-      b.className='pill'; b.type='button';
-      b.dataset.removeGroup=group; b.dataset.removeValue=value;
-      b.innerHTML=labels[group][value]+' <span aria-hidden="true">×</span>';
-      b.setAttribute('aria-label','Rimuovi filtro '+labels[group][value]);
+      b.className='pill'; b.type='button'; b.dataset.removeGroup=f.key; b.dataset.removeValue=value;
+      b.innerHTML=`${esc(f.fmt?f.fmt(value):value)} <span aria-hidden="true">×</span>`;
+      b.setAttribute('aria-label','Rimuovi filtro '+esc(f.fmt?f.fmt(value):value));
       activeFilters.appendChild(b);
     });
   });
 }
-function apply(){
-  let n=0;
-  rows.forEach(row=>{
-    const on=matches(row);
-    row.style.display=on?'grid':'none';
-    if(on)n++;
-  });
-  count.textContent=n+' di '+rows.length+' incantesimi';
-  const applyBtn=document.getElementById('filterApply');
-  if(applyBtn) applyBtn.textContent='Mostra '+n+' incantesimi';
-  syncControls();
+
+function rowText(item){
+  return [item.name,item.school,item.type,item.rarity,item.className,item.category,item.primary,item.types,item.facilityType,item.entries].join(' ').toLowerCase();
 }
-search.addEventListener('input',apply);
-document.querySelectorAll('[data-group][data-value]').forEach(opt=>opt.addEventListener('click',()=>toggle(opt.dataset.group,opt.dataset.value)));
+function applyCatalog(){
+  const q=search.value.trim().toLowerCase();
+  const items=DATA.categories[CATEGORY].items;
+  VISIBLE=items.filter(item=>{
+    if(q && !rowText(item).includes(q)) return false;
+    for(const f of FACETS){
+      const set=FILTERS[f.key];
+      if(set && set.size && !set.has(String(item[f.key]))) return false;
+    }
+    return true;
+  });
+  count.textContent=`${VISIBLE.length} di ${items.length} ${DATA.categories[CATEGORY].label.toLowerCase()}`;
+  filterApply.textContent=`Mostra ${VISIBLE.length}`;
+  rowsEl.innerHTML=VISIBLE.length?VISIBLE.map(rowHTML).join(''):'<div class="empty">Nessun risultato. Prova a togliere un filtro o a cambiare ricerca.</div>';
+  syncFilters();
+}
+
+function rowHTML(item,index){
+  const sub=subtitle(item), tags=rowTags(item), meta=metaFor(item);
+  return `<button class="row" data-result="${index}"><span class="thumb">${esc(item.name[0]||'?')}</span><span><b>${esc(item.name)}</b><em>${esc(sub)}</em><div class="tags">${tags.map(t=>`<span class="tag${t.hot?' hot':''}${t.tide?' tide':''}">${esc(t.text)}</span>`).join('')}</div></span><span class="meta">${esc(meta)}</span></button>`;
+}
+function subtitle(item){
+  switch(CATEGORY){
+    case 'spells': return `${levelLabel(item.level)} · ${item.school} · ${sourceOf(item)}`;
+    case 'monsters': return `${item.size||'—'} ${item.type||'—'} · GS ${item.cr||'—'} · ${sourceOf(item)}`;
+    case 'magic-items': return `${item.type||'Oggetto'} · ${item.rarity||'—'} · ${sourceOf(item)}`;
+    case 'equipment': return `${item.type||'Equipaggiamento'} · ${sourceOf(item)}`;
+    case 'classes': return `Classe · ${item.hitDie||'—'} · ${sourceOf(item)}`;
+    case 'subclasses': return `${item.className||'Classe'} · ${sourceOf(item)}`;
+    case 'feats': return `${item.category||'Talento'} · ${sourceOf(item)}`;
+    case 'backgrounds': return `Background · ${sourceOf(item)}`;
+    case 'species': return `${item.types||'Specie'} · ${item.size||'—'} · ${sourceOf(item)}`;
+    case 'bastions': return `${item.facilityType||'Struttura'} · Livello ${item.level??'—'} · ${sourceOf(item)}`;
+    case 'glossary': return `Regola · ${sourceOf(item)}`;
+    default: return sourceOf(item);
+  }
+}
+function metaFor(item){
+  switch(CATEGORY){
+    case 'spells': return levelLabel(item.level);
+    case 'monsters': return `GS ${item.cr||'—'}`;
+    case 'magic-items': return item.rarity||'—';
+    case 'equipment': return item.type||'—';
+    case 'classes': return item.hitDie||'—';
+    case 'feats': return item.category||'—';
+    case 'species': return item.size||'—';
+    case 'bastions': return item.facilityType||'—';
+    default: return sourceOf(item);
+  }
+}
+function rowTags(item){
+  const out=[];
+  if(CATEGORY==='spells'){
+    if(item.level===0) out.push({text:'Trucchetto'});
+    out.push({text:item.time||'—',hot:true},{text:item.range||'—'});
+    if(item.components) out.push({text:item.components,tide:true});
+  } else if(CATEGORY==='monsters'){
+    out.push({text:'CA '+(item.ac||'—')},{text:'PF '+(item.hp||'—')});
+  } else if(CATEGORY==='magic-items' || CATEGORY==='equipment'){
+    if(item.rarity) out.push({text:item.rarity,tide:true});
+    if(item.attune) out.push({text:'Sintonia',hot:true});
+  } else if(CATEGORY==='classes'){
+    if(item.primary) out.push({text:item.primary,tide:true});
+    if(item.caster) out.push({text:item.caster});
+  } else if(CATEGORY==='feats'){
+    if(item.prerequisite) out.push({text:item.prerequisite});
+  } else if(CATEGORY==='species'){
+    if(item.darkvision) out.push({text:'Scurovisione '+item.darkvision+' ft'});
+    if(item.resist) out.push({text:item.resist,tide:true});
+  } else if(CATEGORY==='bastions'){
+    if(item.space) out.push({text:item.space,tide:true});
+  }
+  return out.slice(0,4);
+}
+
+function setCategory(key){
+  if(!DATA){ pendingCategory=key; return; }
+  if(!DATA.categories[key]) key='spells';
+  CATEGORY=key; FILTERS={}; CURRENT=null;
+  const fd=document.getElementById('filters'); if(fd.open) fd.close();
+  search.value='';
+  document.getElementById('compendioCrumb').textContent=DATA.categories[key].label;
+  document.getElementById('compendioLede').textContent=`${DATA.categories[key].count} voci · ${DATA.total} totali dai tre manuali base 2024. Cerca per nome, tipo o parola chiave.`;
+  renderTabs(); renderFilters(); applyCatalog();
+}
+
+function detailStats(item){
+  const s=[];
+  const add=(label,value)=>{ if(value!==undefined&&value!==null&&value!=='') s.push([label,value]); };
+  if(CATEGORY==='spells'){
+    add('Livello',levelLabel(item.level)); add('Tempo di lancio',item.time); add('Gittata',item.range);
+    add('Componenti',item.components); add('Durata',item.duration);
+  } else if(CATEGORY==='monsters'){
+    add('Taglia',item.size); add('Tipo',item.type); add('GS',item.cr); add('CA',item.ac); add('PF',item.hp); add('Velocità',item.speed);
+  } else if(CATEGORY==='magic-items' || CATEGORY==='equipment'){
+    add('Tipo',item.type); add('Rarità',item.rarity); add('Sintonia',item.attune); add('Peso',item.weight);
+  } else if(CATEGORY==='classes'){
+    add('Dado vita',item.hitDie); add('Abilità primarie',item.primary); add('Incantesimi',item.caster);
+  } else if(CATEGORY==='subclasses'){ add('Classe',item.className);
+  } else if(CATEGORY==='feats'){ add('Categoria',item.category); add('Prerequisito',item.prerequisite);
+  } else if(CATEGORY==='species'){
+    add('Tipo',item.types); add('Taglia',item.size); add('Velocità',item.speed); add('Scurovisione',item.darkvision); add('Resistenza',item.resist);
+  } else if(CATEGORY==='bastions'){ add('Tipo',item.facilityType); add('Livello',item.level); add('Spazio',item.space);
+  } else if(CATEGORY==='glossary'){ add('Tipo',item.ruleType);
+  }
+  add('Fonte',sourceOf(item));
+  return s;
+}
+
+function paragraphs(text){
+  return String(text||'').split(/\n{2,}/).filter(Boolean).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
+}
+
+function detailHTML(item){
+  const stats=detailStats(item);
+  const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
+  return `<div class="paper spell-card">
+    <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">Scheda 2024</div><span class="source">${esc(sourceOf(item))} · 2024</span></div></div>
+    <div class="rule"></div>
+    <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
+    ${abilities}
+    <div class="rule"></div>
+    <div class="prose detail-prose">${paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>'}</div>
+    ${item.higher?`<div class="callout"><b>Livelli superiori.</b> ${esc(item.higher)}</div>`:''}
+    <div class="tags"><span class="tag tide">${esc(DATA.categories[CATEGORY].label)}</span><span class="tag">${esc(sourceOf(item))}</span></div>
+  </div>`;
+}
+
+function openDetail(index){
+  const item=VISIBLE[index];
+  if(!item) return;
+  CURRENT=item;
+  document.getElementById('detailCrumbs').innerHTML=`<a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#spells" data-go="spells">Compendio</a><span class="sep">/</span><a href="#spells" data-go="spells" data-cat="${esc(CATEGORY)}">${esc(DATA.categories[CATEGORY].label)}</a><span class="sep">/</span><span aria-current="page">${esc(item.name)}</span>`;
+  document.getElementById('detailTitle').textContent=item.name;
+  document.getElementById('detailSubtitle').textContent=subtitle(item);
+  document.getElementById('detailBody').innerHTML=detailHTML(item);
+  show('detail');
+}
+
+search.addEventListener('input',applyCatalog);
+filterOpen.addEventListener('click',()=>{ if(DATA) openDialog(document.getElementById('filters')); });
+filterBody.addEventListener('click',e=>{
+  const b=e.target.closest('[data-group][data-value]');
+  if(b) toggleFilter(b.dataset.group,b.dataset.value);
+});
 activeFilters.addEventListener('click',e=>{
   const b=e.target.closest('[data-remove-group]');
   if(!b) return;
-  state[b.dataset.removeGroup].delete(b.dataset.removeValue);
-  apply();
+  FILTERS[b.dataset.removeGroup]?.delete(b.dataset.removeValue);
+  if(FILTERS[b.dataset.removeGroup] && !FILTERS[b.dataset.removeGroup].size) delete FILTERS[b.dataset.removeGroup];
+  applyCatalog();
 });
-document.getElementById('filterOpen').addEventListener('click',()=>openDialog(document.getElementById('filters')));
-document.getElementById('filterReset').addEventListener('click',()=>{
-  Object.values(state).forEach(s=>s.clear()); apply();
-});
-document.getElementById('filterApply').addEventListener('click',()=>closeDialog(document.getElementById('filters')));
-apply();
+document.getElementById('filterReset').addEventListener('click',()=>{ FILTERS={}; applyCatalog(); });
+filterApply.addEventListener('click',()=>closeDialog(document.getElementById('filters')));
+rowsEl.addEventListener('click',e=>{ const b=e.target.closest('[data-result]'); if(b) openDetail(Number(b.dataset.result)); });
+
+async function loadCore(){
+  try{
+    const res=await fetch(DATA_URL,{cache:'no-cache'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    DATA=await res.json();
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const c=DATA.categories[el.dataset.count];
+      if(c) el.textContent=`${c.count} del 2024`;
+    });
+    document.getElementById('compendioLede').textContent=`${DATA.total} voci dai tre manuali base 2024. Cerca per nome, tipo o parola chiave.`;
+    setCategory(pendingCategory||'spells');
+  }catch(err){
+    document.getElementById('compendioLede').textContent='Impossibile caricare il dataset 2024. Apri il prototipo da un server statico.';
+    count.textContent='Dataset non disponibile';
+    rowsEl.innerHTML='<div class="empty">Il file <code>data/core-2024.json</code> non è raggiungibile.</div>';
+  }
+}
+loadCore();
 
 function openDialog(d){ if(!d.open) d.showModal(); }
 function closeDialog(d){ if(d.open) d.close(); }

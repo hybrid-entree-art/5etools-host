@@ -294,11 +294,6 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
     <label class="search" style="max-width:none"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="spellSearch" type="search" placeholder="Cerca un incantesimo…" aria-label="Cerca un incantesimo"></label>
     <div class="filterbar">
       <button class="btn filter-open" id="filterOpen" aria-haspopup="dialog" title="Apri filtri avanzati"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>Filtri <span class="badge" id="filterBadge" hidden>0</span></button>
-      <div class="chips" role="group" aria-label="Filtri rapidi">
-        <button class="chip" aria-pressed="true" data-quick="core">2024 core</button>
-        <button class="chip" aria-pressed="false" data-quick="cantrip">Trucchetti</button>
-        <button class="chip" aria-pressed="false" data-quick="level3">Livello 3</button>
-      </div>
     </div>
     <div class="activefilters" id="activeFilters" aria-live="polite"></div>
     <div class="count" id="spellCount">6 incantesimi mostrati</div>
@@ -498,15 +493,10 @@ function matches(row){
   return true;
 }
 function syncControls(){
-  document.querySelectorAll('[data-quick]').forEach(chip=>{
-    const q=chip.dataset.quick;
-    const on=q==='core'?state.source.has('core'):q==='cantrip'?state.level.has('0'):state.level.has('3');
-    chip.setAttribute('aria-pressed',on?'true':'false');
-  });
   document.querySelectorAll('[data-group][data-value]').forEach(opt=>{
     opt.setAttribute('aria-pressed',state[opt.dataset.group].has(opt.dataset.value)?'true':'false');
   });
-  const n=totalActive() - (state.source.has('core') ? 1 : 0);
+  const n=totalActive();
   badge.textContent=n; badge.hidden=n===0;
   activeFilters.innerHTML='';
   Object.entries(state).forEach(([group,set])=>{
@@ -533,12 +523,6 @@ function apply(){
   syncControls();
 }
 search.addEventListener('input',apply);
-document.querySelectorAll('[data-quick]').forEach(chip=>chip.addEventListener('click',()=>{
-  const q=chip.dataset.quick;
-  if(q==='core') toggle('source','core');
-  if(q==='cantrip') toggle('level','0');
-  if(q==='level3') toggle('level','3');
-}));
 document.querySelectorAll('[data-group][data-value]').forEach(opt=>opt.addEventListener('click',()=>toggle(opt.dataset.group,opt.dataset.value)));
 activeFilters.addEventListener('click',e=>{
   const b=e.target.closest('[data-remove-group]');

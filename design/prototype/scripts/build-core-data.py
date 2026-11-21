@@ -32,6 +32,12 @@ ITEM_TYPES = {
     "ST": "Bastone", "T": "Strumento", "GS": "Set da gioco", "INS": "Strumento musicale",
     "AT": "Oggetto d'arte", "G": "Equipaggiamento", "PACK": "Pacchetto", "OTH": "Altro",
 }
+DMG_TYPES = {"S": "Tagliente", "P": "Perforante", "B": "Contundente"}
+PROPS = {
+    "V": "Versatile", "T": "A due mani", "F": "Finezza", "L": "Leggera", "H": "Pesante",
+    "R": "Portata", "T": "A due mani", "TH": "Lancio", "A": "Munizioni", "LD": "Ricarica",
+    "S": "Speciale", "2H": "A due mani", "1H": "A una mano",
+}
 FEAT_CATS = {"O": "Origine", "G": "Generale", "F": "Combattimento", "S": "Stile", "EB": "Epico", "R": "Razziale"}
 ABILITIES = {"str": "Forza", "dex": "Destrezza", "con": "Costituzione", "int": "Intelligenza", "wis": "Saggezza", "cha": "Carisma"}
 MONSTER_TYPES = {
@@ -243,6 +249,11 @@ def make_item(x):
         "name": x["name"], "source": x.get("source", "XDMG"), "type": ITEM_TYPES.get(raw_type, raw_type),
         "typeCode": raw_type, "rarity": RARITY.get(x.get("rarity", ""), x.get("rarity", "")),
         "attune": clean(x.get("reqAttune", "")), "weight": x.get("weight"),
+        "damage": (f"{x.get('dmg1', '')} {DMG_TYPES.get(x.get('dmgType', ''), x.get('dmgType', ''))}".strip() if x.get("dmg1") else ""),
+        "properties": ", ".join(PROPS.get(str(v).split("|")[0], str(v).split("|")[0]) for v in (x.get("property") or [])),
+        "mastery": ", ".join(str(v).split("|")[0] for v in (x.get("mastery") or [])),
+        "ac": x.get("ac"), "strength": x.get("strength"), "stealth": x.get("stealth"),
+        "weaponCategory": x.get("weaponCategory", ""),
         "entries": flat(x.get("entries")),
     }
 
@@ -334,6 +345,12 @@ def main():
             magic.append(make_variant(x))
             seen_magic.add(x["name"])
     equipment = [make_item(x) for x in items if x.get("source") == "XPHB"]
+    base = load("items-base.json").get("baseitem", [])
+    seen_equipment = {x["name"] for x in equipment}
+    for x in base:
+        if x.get("source") == "XPHB" and x["name"] not in seen_equipment:
+            equipment.append(make_item(x))
+            seen_equipment.add(x["name"])
     classes = []
     subclasses = []
     for f in sorted((DATA / "class").glob("class-*.json")):

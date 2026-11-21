@@ -205,9 +205,9 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 .menu-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
 .menu-list a{display:flex;align-items:center;gap:10px;min-height:var(--touch);padding:6px 8px;border-radius:8px;color:var(--muted)}
 .menu-list a:hover{background:var(--surface-2);color:var(--ink)}
-.bottom{position:fixed;left:0;right:0;bottom:0;z-index:35;display:grid;grid-template-columns:repeat(5,1fr);
- background:rgba(11,15,20,.96);border-top:1px solid var(--line);backdrop-filter:blur(12px);padding-bottom:env(safe-area-inset-bottom)}
-.bottom button{border:0;background:transparent;color:var(--faint);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:64px;font-size:11px;cursor:pointer}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:35;display:flex;justify-content:center;gap:8px;
+ background:rgba(11,15,20,.96);border-top:1px solid var(--line);backdrop-filter:blur(12px);padding:0 12px env(safe-area-inset-bottom)}
+.bottom button{flex:1 1 0;max-width:140px;border:0;background:transparent;color:var(--faint);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:64px;font-size:11px;cursor:pointer}
 .bottom button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
 .bottom button[aria-current="page"]{color:var(--amber)}
 .bottom button:hover{color:var(--ink)}
@@ -579,6 +579,9 @@ function rowTags(item){
   } else if(CATEGORY==='monsters'){
     out.push({text:'CA '+(item.ac||'—')},{text:'PF '+(item.hp||'—')});
   } else if(CATEGORY==='magic-items' || CATEGORY==='equipment'){
+    if(item.damage) out.push({text:item.damage,hot:true});
+    if(item.mastery) out.push({text:item.mastery,tide:true});
+    if(item.ac) out.push({text:'CA '+item.ac});
     if(item.rarity) out.push({text:item.rarity,tide:true});
     if(item.attune) out.push({text:'Sintonia',hot:true});
   } else if(CATEGORY==='classes'){
@@ -617,7 +620,7 @@ function statsFor(item,cat){
   } else if(cat==='monsters'){
     add('Taglia',item.size); add('Tipo',item.type); add('GS',item.cr); add('CA',item.ac); add('PF',item.hp); add('Velocità',item.speed);
   } else if(cat==='magic-items' || cat==='equipment'){
-    add('Tipo',item.type); add('Rarità',item.rarity); add('Sintonia',item.attune); add('Peso',item.weight);
+    add('Tipo',item.type); add('Danno',item.damage); add('Proprietà',item.properties); add('Maestria',item.mastery); add('CA',item.ac); add('Requisito',item.strength); add('Furtività',item.stealth?'Svantaggio':''); add('Rarità',item.rarity); add('Sintonia',item.attune); add('Peso',item.weight);
   } else if(cat==='classes'){
     add('Dado vita',item.hitDie); add('Abilità primarie',item.primary); add('Incantesimi',item.caster);
   } else if(cat==='subclasses'){ add('Classe',item.className);

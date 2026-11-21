@@ -454,7 +454,8 @@ apply();
 function openDialog(d){ if(!d.open) d.showModal(); }
 function closeDialog(d){ if(d.open) d.close(); }
 document.getElementById('tocBtn').addEventListener('click',()=>openDialog(document.getElementById('toc')));
-document.getElementById('tocFab').addEventListener('click',()=>openDialog(document.getElementById('toc')));
+const tocFab = document.getElementById('tocFab');
+if (tocFab) tocFab.addEventListener('click',()=>openDialog(document.getElementById('toc')));
 const menu=document.getElementById('menu');
 document.getElementById('menuBtn').addEventListener('click',()=>openDialog(menu));
 document.getElementById('menuBtn2').addEventListener('click',()=>openDialog(menu));

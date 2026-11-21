@@ -102,6 +102,7 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .detail-stats .stat b{font:700 15px var(--book);color:var(--paper-ink)}
 .detail-prose p{margin:0 0 12px;font:17px/1.65 var(--book);color:var(--paper-ink)}
 .detail-prose h3{font:700 20px var(--head);margin:18px 0 6px;color:var(--paper-ink)}
+#view-detail .page-head{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .ability-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px}
 .ability-grid div{text-align:center;padding:7px 2px;border:1px solid var(--paper-line);border-radius:8px}
 .ability-grid span{display:block;font:600 9px var(--ui);letter-spacing:.08em;color:#7a5b3a}
@@ -225,6 +226,7 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
  .reader-side h4{font:700 15px var(--head);margin:0 0 8px}
  .reader-side a{display:block;padding:7px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
  .reader-side a:hover{color:var(--amber)}
+}
 .book-eyebrow{font:700 10px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:#8a5a2b}
 .reader-paper h1{font:700 clamp(30px,6vw,54px)/1.02 var(--head);margin:8px 0 10px;color:var(--paper-ink)}
 .book-section{margin-top:22px}
@@ -249,11 +251,11 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 .ref-body p{font:15px/1.55 var(--book);color:var(--paper-ink);margin:8px 0}
 .reader-pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;border-top:1px solid var(--paper-line);padding-top:14px}
 .reader-pager .mid{font:600 12px var(--ui);color:#7a5b3a}
-.toc-item{display:flex;gap:10px;align-items:baseline;width:100%;padding:11px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--muted);text-align:left;font:600 14px var(--ui);cursor:pointer}
+.toc-item{display:flex;gap:10px;align-items:center;width:100%;min-height:44px;padding:11px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--muted);text-align:left;font:600 14px var(--ui);cursor:pointer}
 .toc-item span{color:var(--amber);font-size:11px;min-width:22px}
+.toc-item[aria-current="page"]{color:var(--amber)}
 .toc-item:hover{color:var(--ink)}
- .toc-fab{display:none}
-}
+.toc-fab{display:none}
 @media(max-width:640px){.book:nth-child(3){grid-column:1/-1;min-height:190px}.cat:last-child:nth-child(odd){grid-column:1/-1;min-height:120px}}
 @media(max-width:400px){.row{grid-template-columns:40px minmax(0,1fr)}.row .meta{grid-column:2;text-align:left;white-space:normal}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
@@ -714,7 +716,7 @@ function renderToc(){
   if(!BOOKS) return;
   const book=BOOKS.books[BOOK];
   document.getElementById('tocTitle').textContent='Indice · '+book.it;
-  document.getElementById('tocList').innerHTML=book.chapters.map((c,i)=>`<button class="toc-item" data-toc-chapter="${i}"><span>${String(i+1).padStart(2,'0')}</span>${esc(c.name)}</button>`).join('');
+  document.getElementById('tocList').innerHTML=book.chapters.map((c,i)=>`<button class="toc-item" data-toc-chapter="${i}" aria-current="${i===READER_INDEX?'page':'false'}"><span>${String(i+1).padStart(2,'0')}</span>${esc(c.name)}</button>`).join('');
 }
 
 function renderReader(){

@@ -2,7 +2,7 @@
 
 Prototipo unico e cliccabile con **tutto il contenuto 2024 dei tre manuali base** (XPHB, XDMG, XMM) e con i libri reali nel lettore. Non è il sito di produzione: serve a validare gerarchia, densità e comportamento mobile prima di toccare `main`.
 
-- **Preview:** https://atlas-ux-prototype-jj60wc8wb-hybrid-art.vercel.app/
+- **Preview:** https://atlas-ux-prototype-q58hyn3fx-hybrid-art.vercel.app/
 - **Mobile:** 390 px, poi desktop 1440 px.
 - **Dataset compendio:** `data/core-2024.json`, 2.076 voci, 1,3 MB.
 - **Dataset lettore:** `data/books-2024.json`, capitoli e riferimenti espandibili ai contenuti del compendio.

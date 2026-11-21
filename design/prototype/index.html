@@ -99,7 +99,21 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;min-height:var(--touch);padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
-.chip[aria-pressed="true"]{border-color:var(--amber);color:var(--amber);background:rgba(240,167,66,.1);box-shadow:0 0 14px var(--glow)}
+.chip[aria-pressed="true"]{border-color:var(--amber);color:#161008;background:var(--amber);box-shadow:0 0 14px var(--glow);font-weight:800}
+.filterbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 6px}
+.filter-open{gap:8px}
+.badge{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--amber);color:#161008;font:800 11px var(--ui);display:inline-grid;place-items:center}
+.badge[hidden]{display:none}
+.activefilters{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 4px}
+.activefilters:empty{display:none}
+.pill{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 10px;border-radius:999px;border:1px solid rgba(240,167,66,.45);background:rgba(240,167,66,.08);color:var(--amber);font:600 12px var(--ui);cursor:pointer}
+.pill:hover{background:rgba(240,167,66,.16)}
+.filter-group{margin:0 0 20px}
+.filter-group h3{font:700 16px var(--head);margin:0 0 8px}
+.filter-options{display:flex;flex-wrap:wrap;gap:8px}
+.filter-option{min-height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.filter-option[aria-pressed="true"]{border-color:var(--amber);color:var(--amber);background:rgba(240,167,66,.1)}
+.filter-actions{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:14px}
 .count{font-size:13px;color:var(--faint);margin:6px 0 10px}
 .rows{display:flex;flex-direction:column;gap:8px}
 .row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);
@@ -278,22 +292,24 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
     <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#library" data-go="library">Compendio</a><span class="sep">/</span><span aria-current="page">Incantesimi</span></nav>
     <div class="page-head"><h1>Incantesimi</h1><p>391 del 2024 core · 1.038 da tutte le fonti. Cerca per nome, livello, scuola o fonte.</p></div>
     <label class="search" style="max-width:none"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="spellSearch" type="search" placeholder="Cerca un incantesimo…" aria-label="Cerca un incantesimo"></label>
-    <div class="toolbar">
-      <div class="chips" role="group" aria-label="Filtri incantesimi">
-        <button class="chip" aria-pressed="true" data-filter="core">2024 core</button>
-        <button class="chip" aria-pressed="false" data-filter="all">Tutte le fonti</button>
-        <button class="chip" aria-pressed="false" data-filter="cantrip">Trucchetti</button>
-        <button class="chip" aria-pressed="false" data-filter="level3">Livello 3</button>
+    <div class="filterbar">
+      <button class="btn filter-open" id="filterOpen" aria-haspopup="dialog" title="Apri filtri avanzati"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>Filtri <span class="badge" id="filterBadge" hidden>0</span></button>
+      <div class="chips" role="group" aria-label="Filtri rapidi">
+        <button class="chip" aria-pressed="true" data-quick="core">2024 core</button>
+        <button class="chip" aria-pressed="false" data-quick="cantrip">Trucchetti</button>
+        <button class="chip" aria-pressed="false" data-quick="level3">Livello 3</button>
       </div>
     </div>
+    <div class="activefilters" id="activeFilters" aria-live="polite"></div>
     <div class="count" id="spellCount">6 incantesimi mostrati</div>
     <div class="rows" id="spellRows">
-      <button class="row" data-name="Palla di fuoco Fireball" data-tags="core level3" data-go="detail"><span class="thumb">F</span><span><b>Palla di fuoco</b><em>Fireball · Livello 3 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">150 ft</span><span class="tag tide">V, S, M</span></div></span><span class="meta">Danno</span></button>
-      <button class="row" data-name="Dardo incantato Magic Missile" data-tags="core level1"><span class="thumb">M</span><span><b>Dardo incantato</b><em>Magic Missile · Livello 1 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">120 ft</span></div></span><span class="meta">Danno</span></button>
-      <button class="row" data-name="Scudo Shield" data-tags="core level1"><span class="thumb">S</span><span><b>Scudo</b><em>Shield · Livello 1 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag tide">V, S</span></div></span><span class="meta">Difesa</span></button>
-      <button class="row" data-name="Luce Light" data-tags="core cantrip"><span class="thumb">L</span><span><b>Luce</b><em>Light · Trucchetto · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">Contatto</span></div></span><span class="meta">Utilità</span></button>
-      <button class="row" data-name="Individuazione del magico Detect Magic" data-tags="core level1"><span class="thumb">D</span><span><b>Individuazione del magico</b><em>Detect Magic · Livello 1 · Divinazione · XPHB</em><div class="tags"><span class="tag tide">Rituale</span><span class="tag">Sé</span></div></span><span class="meta">Utilità</span></button>
-      <button class="row" data-name="Controincantesimo Counterspell" data-tags="core level3"><span class="thumb">C</span><span><b>Controincantesimo</b><em>Counterspell · Livello 3 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag">60 ft</span></div></span><span class="meta">Controllo</span></button>
+      <button class="row" data-name="Palla di fuoco Fireball" data-source="core" data-level="3" data-school="evo" data-tags="damage" data-go="detail"><span class="thumb">F</span><span><b>Palla di fuoco</b><em>Fireball · Livello 3 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">150 ft</span><span class="tag tide">V, S, M</span></div></span><span class="meta">Danno</span></button>
+      <button class="row" data-name="Dardo incantato Magic Missile" data-source="core" data-level="1" data-school="evo" data-tags="damage"><span class="thumb">M</span><span><b>Dardo incantato</b><em>Magic Missile · Livello 1 · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">120 ft</span></div></span><span class="meta">Danno</span></button>
+      <button class="row" data-name="Scudo Shield" data-source="core" data-level="1" data-school="abj" data-tags="defense"><span class="thumb">S</span><span><b>Scudo</b><em>Shield · Livello 1 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag tide">V, S</span></div></span><span class="meta">Difesa</span></button>
+      <button class="row" data-name="Luce Light" data-source="core" data-level="0" data-school="evo" data-tags="utility"><span class="thumb">L</span><span><b>Luce</b><em>Light · Trucchetto · Evocazione · XPHB</em><div class="tags"><span class="tag hot">1 azione</span><span class="tag">Contatto</span></div></span><span class="meta">Utilità</span></button>
+      <button class="row" data-name="Individuazione del magico Detect Magic" data-source="core" data-level="1" data-school="div" data-tags="ritual utility"><span class="thumb">D</span><span><b>Individuazione del magico</b><em>Detect Magic · Livello 1 · Divinazione · XPHB</em><div class="tags"><span class="tag tide">Rituale</span><span class="tag">Sé</span></div></span><span class="meta">Utilità</span></button>
+      <button class="row" data-name="Controincantesimo Counterspell" data-source="core" data-level="3" data-school="abj" data-tags="control"><span class="thumb">C</span><span><b>Controincantesimo</b><em>Counterspell · Livello 3 · Abiurazione · XPHB</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag">60 ft</span></div></span><span class="meta">Controllo</span></button>
+      <button class="row" data-name="Silvery Barbs" data-source="other" data-level="1" data-school="enc" data-tags="control"><span class="thumb">S</span><span><b>Silvery Barbs</b><em>Silvery Barbs · Livello 1 · Ammaliamento · SCC</em><div class="tags"><span class="tag hot">1 reazione</span><span class="tag">60 ft</span></div></span><span class="meta">Controllo</span></button>
     </div>
   </section>
 
@@ -398,6 +414,33 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
   </div>
 </dialog>
 
+<dialog id="filters" aria-labelledby="filtersTitle">
+  <div class="dialog-head"><b id="filtersTitle">Filtri</b><button class="icon-btn" data-close aria-label="Chiudi filtri"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+  <div class="dialog-body">
+    <section class="filter-group"><h3>Fonte</h3><div class="filter-options">
+      <button class="filter-option" data-group="source" data-value="core" aria-pressed="true">2024 core</button>
+      <button class="filter-option" data-group="source" data-value="other" aria-pressed="false">Altre fonti</button>
+    </div></section>
+    <section class="filter-group"><h3>Livello</h3><div class="filter-options">
+      <button class="filter-option" data-group="level" data-value="0" aria-pressed="false">Trucchetti</button>
+      <button class="filter-option" data-group="level" data-value="1" aria-pressed="false">Livello 1</button>
+      <button class="filter-option" data-group="level" data-value="2" aria-pressed="false">Livello 2</button>
+      <button class="filter-option" data-group="level" data-value="3" aria-pressed="false">Livello 3</button>
+    </div></section>
+    <section class="filter-group"><h3>Scuola</h3><div class="filter-options">
+      <button class="filter-option" data-group="school" data-value="evo" aria-pressed="false">Evocazione</button>
+      <button class="filter-option" data-group="school" data-value="abj" aria-pressed="false">Abiurazione</button>
+      <button class="filter-option" data-group="school" data-value="div" aria-pressed="false">Divinazione</button>
+      <button class="filter-option" data-group="school" data-value="enc" aria-pressed="false">Ammaliamento</button>
+    </div></section>
+    <section class="filter-group"><h3>Tag</h3><div class="filter-options">
+      <button class="filter-option" data-group="tag" data-value="ritual" aria-pressed="false">Rituale</button>
+      <button class="filter-option" data-group="tag" data-value="concentration" aria-pressed="false">Concentrazione</button>
+    </div></section>
+    <div class="filter-actions"><button class="btn" id="filterReset">Azzera</button><button class="btn primary" id="filterApply">Mostra 6 incantesimi</button></div>
+  </div>
+</dialog>
+
 <dialog id="menu" aria-labelledby="menuTitle">
   <div class="dialog-head"><b id="menuTitle">Menu</b><button class="icon-btn" data-close aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
   <div class="dialog-body">
@@ -428,27 +471,86 @@ window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
 const search=document.getElementById('spellSearch');
 const rows=[...document.querySelectorAll('#spellRows .row')];
 const count=document.getElementById('spellCount');
-let filter='core';
-function apply(){
+const badge=document.getElementById('filterBadge');
+const activeFilters=document.getElementById('activeFilters');
+const state={source:new Set(['core']),level:new Set(),school:new Set(),tag:new Set()};
+const labels={
+  source:{core:'2024 core',other:'Altre fonti'},
+  level:{0:'Trucchetti',1:'Livello 1',2:'Livello 2',3:'Livello 3'},
+  school:{evo:'Evocazione',abj:'Abiurazione',div:'Divinazione',enc:'Ammaliamento'},
+  tag:{ritual:'Rituale',concentration:'Concentrazione'}
+};
+function toggle(group,value){
+  const set=state[group];
+  if(set.has(value)) set.delete(value); else set.add(value);
+  apply();
+}
+function totalActive(){ return Object.values(state).reduce((n,s)=>n+s.size,0); }
+function matches(row){
   const q=search.value.toLowerCase().trim();
+  const text=(row.dataset.name+' '+row.textContent).toLowerCase();
+  if(q && !text.includes(q)) return false;
+  if(state.source.size && !state.source.has(row.dataset.source)) return false;
+  if(state.level.size && !state.level.has(row.dataset.level)) return false;
+  if(state.school.size && !state.school.has(row.dataset.school)) return false;
+  const tags=row.dataset.tags.split(' ');
+  if([...state.tag].some(t=>!tags.includes(t))) return false;
+  return true;
+}
+function syncControls(){
+  document.querySelectorAll('[data-quick]').forEach(chip=>{
+    const q=chip.dataset.quick;
+    const on=q==='core'?state.source.has('core'):q==='cantrip'?state.level.has('0'):state.level.has('3');
+    chip.setAttribute('aria-pressed',on?'true':'false');
+  });
+  document.querySelectorAll('[data-group][data-value]').forEach(opt=>{
+    opt.setAttribute('aria-pressed',state[opt.dataset.group].has(opt.dataset.value)?'true':'false');
+  });
+  const n=totalActive() - (state.source.has('core') ? 1 : 0);
+  badge.textContent=n; badge.hidden=n===0;
+  activeFilters.innerHTML='';
+  Object.entries(state).forEach(([group,set])=>{
+    set.forEach(value=>{
+      const b=document.createElement('button');
+      b.className='pill'; b.type='button';
+      b.dataset.removeGroup=group; b.dataset.removeValue=value;
+      b.innerHTML=labels[group][value]+' <span aria-hidden="true">×</span>';
+      b.setAttribute('aria-label','Rimuovi filtro '+labels[group][value]);
+      activeFilters.appendChild(b);
+    });
+  });
+}
+function apply(){
   let n=0;
-  rows.forEach(r=>{
-    const text=(r.dataset.name+' '+r.textContent).toLowerCase();
-    const okQ=!q || text.includes(q);
-    const tags=r.dataset.tags.split(' ');
-    const okF=filter==='all' || tags.includes(filter);
-    const on=okQ && okF;
-    r.style.display=on?'grid':'none';
+  rows.forEach(row=>{
+    const on=matches(row);
+    row.style.display=on?'grid':'none';
     if(on)n++;
   });
-  count.textContent=n+' incantesimi mostrati';
+  count.textContent=n+' di '+rows.length+' incantesimi';
+  const applyBtn=document.getElementById('filterApply');
+  if(applyBtn) applyBtn.textContent='Mostra '+n+' incantesimi';
+  syncControls();
 }
 search.addEventListener('input',apply);
-document.querySelectorAll('[data-filter]').forEach(chip=>chip.addEventListener('click',()=>{
-  filter=chip.dataset.filter;
-  document.querySelectorAll('[data-filter]').forEach(c=>c.setAttribute('aria-pressed', c===chip ? 'true':'false'));
-  apply();
+document.querySelectorAll('[data-quick]').forEach(chip=>chip.addEventListener('click',()=>{
+  const q=chip.dataset.quick;
+  if(q==='core') toggle('source','core');
+  if(q==='cantrip') toggle('level','0');
+  if(q==='level3') toggle('level','3');
 }));
+document.querySelectorAll('[data-group][data-value]').forEach(opt=>opt.addEventListener('click',()=>toggle(opt.dataset.group,opt.dataset.value)));
+activeFilters.addEventListener('click',e=>{
+  const b=e.target.closest('[data-remove-group]');
+  if(!b) return;
+  state[b.dataset.removeGroup].delete(b.dataset.removeValue);
+  apply();
+});
+document.getElementById('filterOpen').addEventListener('click',()=>openDialog(document.getElementById('filters')));
+document.getElementById('filterReset').addEventListener('click',()=>{
+  Object.values(state).forEach(s=>s.clear()); apply();
+});
+document.getElementById('filterApply').addEventListener('click',()=>closeDialog(document.getElementById('filters')));
 apply();
 
 function openDialog(d){ if(!d.open) d.showModal(); }

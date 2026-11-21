@@ -227,6 +227,16 @@ def make_monster(x):
     }
 
 
+def make_variant(x):
+    inh = x.get("inherits") or {}
+    return {
+        "name": x["name"], "source": "XDMG", "type": "Variante", "typeCode": "GV",
+        "rarity": RARITY.get(inh.get("rarity", ""), inh.get("rarity", "")),
+        "attune": clean(inh.get("reqAttune", "")), "weight": inh.get("weight"),
+        "entries": flat(inh.get("entries")),
+    }
+
+
 def make_item(x):
     raw_type = x.get("type", "").split("|")[0]
     return {
@@ -303,6 +313,13 @@ def make_glossary(x):
     }
 
 
+def make_rule(x, kind):
+    return {
+        "name": x["name"], "source": x.get("source", "XPHB"),
+        "ruleType": kind, "entries": flat(x.get("entries")),
+    }
+
+
 def main():
     spells = [make_spell(x) for x in load("spells/spells-xphb.json").get("spell", []) if x.get("source") == "XPHB"]
     monsters = []
@@ -310,6 +327,12 @@ def main():
         monsters += [make_monster(x) for x in json.loads(f.read_text()).get("monster", []) if x.get("source") in ("XMM", "XDMG")]
     items = load("items.json").get("item", [])
     magic = [make_item(x) for x in items if x.get("source") == "XDMG"]
+    seen_magic = {x["name"] for x in magic}
+    for x in load("magicvariants.json").get("magicvariant", []):
+        inh = x.get("inherits") or {}
+        if any("|XDMG" in s for s in (inh.get("reprintedAs") or [])) and x["name"] not in seen_magic:
+            magic.append(make_variant(x))
+            seen_magic.add(x["name"])
     equipment = [make_item(x) for x in items if x.get("source") == "XPHB"]
     classes = []
     subclasses = []
@@ -322,6 +345,22 @@ def main():
     species = [make_species(x) for x in load("races.json").get("race", []) if x.get("source") == "XPHB"]
     bastions = [make_bastion(x) for x in load("bastions.json").get("facility", []) if x.get("source") == "XDMG"]
     glossary = [make_glossary(x) for x in load("variantrules.json").get("variantrule", []) if x.get("source") == "XPHB"]
+    seen_rules = {(x["name"], x["source"]) for x in glossary}
+    for filename, key, label in [
+        ("conditionsdiseases.json", "condition", "Condizione"),
+        ("conditionsdiseases.json", "status", "Stato"),
+        ("conditionsdiseases.json", "disease", "Malattia"),
+        ("trapshazards.json", "hazard", "Pericolo"),
+        ("trapshazards.json", "trap", "Trappola"),
+        ("actions.json", "action", "Azione"),
+        ("senses.json", "sense", "Senso"),
+        ("objects.json", "object", "Oggetto"),
+        ("rewards.json", "reward", "Ricompensa"),
+    ]:
+        for x in load(filename).get(key, []):
+            if x.get("source") in ("XPHB", "XDMG") and (x["name"], x["source"]) not in seen_rules:
+                glossary.append(make_rule(x, label))
+                seen_rules.add((x["name"], x["source"]))
 
     categories = [
         ("spells", "Incantesimi", spells),

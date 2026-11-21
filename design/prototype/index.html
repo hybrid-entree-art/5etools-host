@@ -171,6 +171,11 @@ th,td{border:1px solid #cdb995;padding:8px 10px;text-align:left}
 th{background:#e5d5b7;font-weight:800}
 tbody tr:nth-child(even){background:rgba(0,0,0,.035)}
 .reader{display:grid;gap:16px;grid-template-columns:1fr;min-width:0}
+.reader-side{min-width:0;overflow-wrap:anywhere}
+.reader-side h4{font:700 15px var(--head);margin:0 0 8px}
+.reader-side a{display:block;padding:7px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.reader-side a:hover{color:var(--amber)}
+#readerSideLinks{min-width:0;max-height:46vh;overflow:auto}
 .reader>*{min-width:0}
 .reader-paper{min-width:0}
 .reader-bar{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(20,26,33,.97);position:sticky;top:72px;z-index:20;backdrop-filter:blur(10px)}
@@ -412,7 +417,8 @@ function show(name){
   if(target === 'detail' && !CURRENT) target = 'spells';
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id === 'view-'+target));
   document.querySelectorAll('[data-go]').forEach(b=>b.setAttribute('aria-current', b.dataset.go === target ? 'page' : 'false'));
-  if(location.hash !== '#'+target) history.replaceState(null,'','#'+target);
+  if(target==='reader'){ if(!/^#reader(\/|$)/.test(location.hash)) history.replaceState(null,'','#reader'); }
+  else if(location.hash !== '#'+target) history.replaceState(null,'','#'+target);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.addEventListener('click', e=>{
@@ -423,8 +429,13 @@ document.addEventListener('click', e=>{
   if(b.dataset.cat) setCategory(b.dataset.cat);
   show(b.dataset.go);
 });
-if(location.hash) show(location.hash.slice(1));
+if(location.hash && !/^#reader(\/|$)/.test(location.hash)) show(location.hash.slice(1));
 window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+window.addEventListener('popstate',()=>{
+  const m=location.hash.match(/^#reader\/([A-Z]+)\/(\d+)$/);
+  if(m){ openBook(m[1],Math.max(0,Number(m[2])-1)); return; }
+  show(location.hash.slice(1)||'home');
+});
 
 const DATA_URL='data/core-2024.json';
 const search=document.getElementById('catalogSearch');
@@ -440,6 +451,9 @@ let FILTERS={};
 
 const esc=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sourceOf=(x)=>x.source||'2024';
+const normKey=(v)=>String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim().split(' ').filter(Boolean).sort().join(' ');
+let REF_INDEX=new Map();
+function buildRefIndex(){ REF_INDEX=new Map(); if(!DATA) return; for(const [cat,c] of Object.entries(DATA.categories)){ for(let i=0;i<c.items.length;i++){ const it=c.items[i]; const k=normKey(it.name); REF_INDEX.set(k+'|'+sourceOf(it),{cat,idx:i}); if(!REF_INDEX.has(k)) REF_INDEX.set(k,{cat,idx:i}); } } }
 const lower=(s)=>String(s||'').toLowerCase();
 
 function levelLabel(n){ return Number(n)===0?'Trucchetto':'Livello '+n; }
@@ -654,8 +668,8 @@ async function loadBooks(){
   return BOOKS;
 }
 
-function openBook(code){
-  BOOK=code||'XPHB'; READER_INDEX=0;
+function openBook(code,chapter=0){
+  BOOK=code||'XPHB'; READER_INDEX=chapter;
   show('reader');
   document.getElementById('readerArticle').innerHTML='<div class="empty">Caricamento del manuale…</div>';
   Promise.all([loadBooks(),corePromise||Promise.resolve()]).then(renderReader).catch(err=>{
@@ -681,11 +695,15 @@ function blockHTML(b,level,ctx){
     return `<div class="table-wrap"><table>${head}<tbody>${body}</tbody></table></div>`;
   }
   if(b.t==='ref'){
-    const cat=b.cat&&DATA?DATA.categories[b.cat]:null;
-    const item=cat?cat.items[b.idx]:null;
-    if(!item) return `<div class="ref-card"><div class="ref-body"><b>${esc(b.name)}</b><p>${esc(b.tag||'Riferimento')} · ${esc(b.source||'')}</p></div></div>`;
+    let cat=b.cat&&DATA?DATA.categories[b.cat]:null;
+    let item=cat?cat.items[b.idx]:null;
+    if(!item && DATA){
+      const hit=REF_INDEX.get(normKey(b.name)+'|'+(b.source||''))||REF_INDEX.get(normKey(b.name));
+      if(hit){ cat=DATA.categories[hit.cat]; item=cat.items[hit.idx]; }
+    }
+    if(!item) return `<details class="ref-card"><summary><b>${esc(b.name)}</b><span>${esc(b.tag||'Riferimento')} · ${esc(b.source||'')}</span></summary><div class="ref-body"><p>Riferimento del manuale non collegato a una scheda del compendio.</p></div></details>`;
     const label=cat?cat.label:(b.tag||'Voce');
-    const stats=statsFor(item,b.cat);
+    const stats=statsFor(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat);
     const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
     return `<details class="ref-card"><summary><b>${esc(item.name)}</b><span>${esc(label)} · ${esc(sourceOf(item))}</span></summary><div class="ref-body"><div class="ref-stats">${stats.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>${abilities}${paragraphs(item.entries)||'<p>Nessuna descrizione testuale.</p>'}${item.higher?`<div class="book-note"><b>Livelli superiori</b>${esc(item.higher)}</div>`:''}</div></details>`;
   }
@@ -711,9 +729,9 @@ function renderReader(){
   document.getElementById('readerBar').style.width=`${((READER_INDEX+1)/book.chapters.length)*100}%`;
   const body=blockHTML({t:'group',items:ch.items},2,{n:0});
   document.getElementById('readerArticle').innerHTML=`<div class="book-eyebrow">${esc(book.it)} · 2024${ch.page?` · pagina ${esc(ch.page)}`:''}</div><h1>${esc(ch.name)}</h1>${body}<div class="reader-pager"><button class="btn" data-reader-prev ${READER_INDEX===0?'disabled':''}>← Precedente</button><span class="mid">${READER_INDEX+1} / ${book.chapters.length}</span><button class="btn" data-reader-next ${READER_INDEX===book.chapters.length-1?'disabled':''}>Successivo →</button></div>`;
-  document.getElementById('readerSideLinks').innerHTML=CURRENT_SECTIONS.length?CURRENT_SECTIONS.slice(0,18).map(s=>`<a href="#${s.id}" data-scroll="${s.id}">${esc(s.name)}</a>`).join(''):'<span style="font-size:12px;color:var(--faint)">Nessuna sezione</span>';
+  document.getElementById('readerSideLinks').innerHTML=CURRENT_SECTIONS.length?CURRENT_SECTIONS.map(s=>`<a href="#${s.id}" data-scroll="${s.id}">${esc(s.name)}</a>`).join(''):'<span style="font-size:12px;color:var(--faint)">Nessuna sezione</span>';
   renderToc();
-  if(location.hash!=='#reader') history.replaceState(null,'','#reader');
+  history.replaceState(null,'',`#reader/${BOOK}/${READER_INDEX+1}`);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -757,6 +775,7 @@ async function loadCore(){
     const res=await fetch(DATA_URL,{cache:'no-cache'});
     if(!res.ok) throw new Error('HTTP '+res.status);
     DATA=await res.json();
+    buildRefIndex();
     document.querySelectorAll('[data-count]').forEach(el=>{
       const c=DATA.categories[el.dataset.count];
       if(c) el.textContent=`${c.count} del 2024`;
@@ -771,7 +790,9 @@ async function loadCore(){
 }
 let corePromise=null;
 corePromise=loadCore();
-if(location.hash==='#reader') openBook('XPHB');
+const readerHash=location.hash.match(/^#reader\/([A-Z]+)\/(\d+)$/);
+if(readerHash) openBook(readerHash[1],Math.max(0,Number(readerHash[2])-1));
+else if(location.hash==='#reader') openBook('XPHB');
 
 function openDialog(d){ if(!d.open) d.showModal(); }
 function closeDialog(d){ if(d.open) d.close(); }

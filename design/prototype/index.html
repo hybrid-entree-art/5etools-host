@@ -220,6 +220,33 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
  .reader-side h4{font:700 15px var(--head);margin:0 0 8px}
  .reader-side a{display:block;padding:7px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
  .reader-side a:hover{color:var(--amber)}
+.book-eyebrow{font:700 10px var(--ui);letter-spacing:.14em;text-transform:uppercase;color:#8a5a2b}
+.reader-paper h1{font:700 clamp(30px,6vw,54px)/1.02 var(--head);margin:8px 0 10px;color:var(--paper-ink)}
+.book-section{margin-top:22px}
+.book-section h2,.book-section h3{font-family:var(--head);color:var(--paper-ink);line-height:1.15;margin:22px 0 8px}
+.book-section h2{font-size:28px}.book-section h3{font-size:22px}
+.book-note{border-left:3px solid #b8863b;background:rgba(201,178,138,.18);padding:10px 14px;margin:14px 0;border-radius:0 8px 8px 0}
+.book-note b{display:block;font:700 13px var(--ui);color:#6d4c2b;margin-bottom:4px}
+.book-list{margin:8px 0 14px;padding-left:20px;color:var(--paper-ink);font:16px/1.6 var(--book)}
+.book-list li{margin:4px 0}
+.ref-card{border:1px solid var(--paper-line);border-radius:10px;background:rgba(255,255,255,.28);margin:8px 0;overflow:hidden}
+.ref-card summary{cursor:pointer;padding:11px 12px;display:flex;align-items:baseline;justify-content:space-between;gap:10px;list-style:none}
+.ref-card summary::-webkit-details-marker{display:none}
+.ref-card summary b{font:700 16px var(--book);color:var(--paper-ink)}
+.ref-card summary span{font:600 11px var(--ui);color:#7a5b3a;text-align:right}
+.ref-card summary:after{content:"+";font:700 18px var(--ui);color:#8a5a2b;margin-left:4px}
+.ref-card[open] summary:after{content:"−"}
+.ref-body{padding:0 12px 12px;border-top:1px solid var(--paper-line)}
+.ref-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:10px 0}
+.ref-stats div{padding:7px 9px;border:1px solid var(--paper-line);border-radius:8px}
+.ref-stats span{display:block;font:600 9px var(--ui);text-transform:uppercase;letter-spacing:.07em;color:#7a5b3a}
+.ref-stats b{font:700 13px var(--book);color:var(--paper-ink)}
+.ref-body p{font:15px/1.55 var(--book);color:var(--paper-ink);margin:8px 0}
+.reader-pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px;border-top:1px solid var(--paper-line);padding-top:14px}
+.reader-pager .mid{font:600 12px var(--ui);color:#7a5b3a}
+.toc-item{display:flex;gap:10px;align-items:baseline;width:100%;padding:11px 0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--muted);text-align:left;font:600 14px var(--ui);cursor:pointer}
+.toc-item span{color:var(--amber);font-size:11px;min-width:22px}
+.toc-item:hover{color:var(--ink)}
  .toc-fab{display:none}
 }
 @media(max-width:640px){.book:nth-child(3){grid-column:1/-1;min-height:190px}.cat:last-child:nth-child(odd){grid-column:1/-1;min-height:120px}}
@@ -234,11 +261,9 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
   <nav class="top-nav" aria-label="Navigazione principale">
     <button data-go="home" aria-current="page">Home</button>
     <button data-go="library">Biblioteca</button>
-    <button data-go="spells">Compendio</button>
-    <button data-go="reader">Lettore</button>
   </nav>
   <div class="actions">
-    <button class="icon-btn" data-go="spells" aria-label="Cerca nel compendio"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+    <button class="icon-btn" data-go="spells" data-cat="spells" aria-label="Cerca nel compendio"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
     <button class="icon-btn" id="menuBtn" aria-label="Apri il menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
 </header>
@@ -261,18 +286,18 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
         <div class="eyebrow">In evidenza</div>
         <h3>Player’s Handbook</h3>
         <p>12 capitoli, regole 2024, lettura mobile con indice flottante.</p>
-        <button class="btn primary" data-go="reader">Apri il lettore</button>
+        <button class="btn primary" data-go="reader" data-book="XPHB">Apri il lettore</button>
       </aside>
     </div>
 
     <div class="section-head"><h2>Manuali base</h2><span>3 volumi · 29 capitoli</span></div>
     <div class="book-grid">
-      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XPHB.webp" alt="" loading="lazy"><span><strong>Manuale del Giocatore</strong><small>Player’s Handbook · 2024</small></span></a>
-      <a class="book" data-go="library" href="#library"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XDMG.webp" alt="" loading="lazy"><span><strong>Manuale del Master</strong><small>Dungeon Master’s Guide · 2024</small></span></a>
-      <a class="book" data-go="library" href="#library"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XMM.webp" alt="" loading="lazy"><span><strong>Manuale dei Mostri</strong><small>Monster Manual · 2024</small></span></a>
+      <a class="book" data-go="reader" data-book="XPHB" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XPHB.webp" alt="" loading="lazy"><span><strong>Manuale del Giocatore</strong><small>Player’s Handbook · 2024</small></span></a>
+      <a class="book" data-go="reader" data-book="XDMG" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XDMG.webp" alt="" loading="lazy"><span><strong>Manuale del Master</strong><small>Dungeon Master’s Guide · 2024</small></span></a>
+      <a class="book" data-go="reader" data-book="XMM" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XMM.webp" alt="" loading="lazy"><span><strong>Manuale dei Mostri</strong><small>Monster Manual · 2024</small></span></a>
     </div>
 
-    <div class="section-head"><h2>Compendio</h2><span>solo 2024 core</span></div>
+    <div class="section-head"><h2>Categorie</h2><span>solo 2024 core</span></div>
     <div class="cat-grid">
       <a class="cat" data-go="spells" data-cat="spells" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/spells-bg.webp')"><b>Incantesimi</b><small data-count="spells">—</small></a>
       <a class="cat" data-go="spells" data-cat="monsters" href="#spells" style="--art:url('https://media.ruleholder.com/images/menu/monsters-bg.webp')"><b>Mostri</b><small data-count="monsters">—</small></a>
@@ -301,9 +326,9 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
     </div>
     <div class="section-head"><h2>Manuali base</h2><span>2024</span></div>
     <div class="book-grid">
-      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XPHB.webp" alt="" loading="lazy"><span><strong>Manuale del Giocatore</strong><small>XPHB · 12 capitoli</small></span></a>
-      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XDMG.webp" alt="" loading="lazy"><span><strong>Manuale del Master</strong><small>XDMG · 12 capitoli</small></span></a>
-      <a class="book" data-go="reader" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XMM.webp" alt="" loading="lazy"><span><strong>Manuale dei Mostri</strong><small>XMM · 5 capitoli</small></span></a>
+      <a class="book" data-go="reader" data-book="XPHB" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XPHB.webp" alt="" loading="lazy"><span><strong>Manuale del Giocatore</strong><small>XPHB · 12 capitoli</small></span></a>
+      <a class="book" data-go="reader" data-book="XDMG" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XDMG.webp" alt="" loading="lazy"><span><strong>Manuale del Master</strong><small>XDMG · 12 capitoli</small></span></a>
+      <a class="book" data-go="reader" data-book="XMM" href="#reader"><img src="https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/covers/XMM.webp" alt="" loading="lazy"><span><strong>Manuale dei Mostri</strong><small>XMM · 5 capitoli</small></span></a>
     </div>
     <div class="section-head"><h2>Ambientazioni e supplementi</h2><span>selezione</span></div>
     <div class="rows">
@@ -314,9 +339,8 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
   </section>
 
   <section class="view" id="view-spells">
-    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#spells" data-go="spells">Compendio</a><span class="sep">/</span><span id="compendioCrumb" aria-current="page">Incantesimi</span></nav>
-    <div class="page-head"><h1>Compendio 2024</h1><p id="compendioLede">Caricamento dei contenuti…</p></div>
-    <div class="cat-tabs" id="catTabs" role="tablist" aria-label="Categorie del compendio"></div>
+    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><span id="compendioCrumb" aria-current="page">Incantesimi</span></nav>
+    <div class="page-head"><h1 id="compendioTitle">Incantesimi</h1><p id="compendioLede">Caricamento dei contenuti…</p></div>
     <label class="search" style="max-width:none"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="catalogSearch" type="search" placeholder="Cerca nel compendio…" aria-label="Cerca nel compendio"></label>
     <div class="filterbar">
       <button class="btn filter-open" id="filterOpen" aria-haspopup="dialog" title="Apri filtri avanzati"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>Filtri <span class="badge" id="filterBadge" hidden>0</span></button>
@@ -333,77 +357,33 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
   </section>
 
   <section class="view" id="view-reader">
-    <nav class="crumbs" aria-label="Percorso"><a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#library" data-go="library">Biblioteca</a><span class="sep">/</span><span>Manuale del Giocatore</span><span class="sep">/</span><span aria-current="page">Capitolo 1</span></nav>
+    <nav class="crumbs" id="readerCrumbs" aria-label="Percorso"></nav>
     <div class="reader">
       <div>
         <div class="reader-bar">
-          <span style="font-size:12px;color:var(--muted)">Capitolo 1 di 12</span>
-          <span class="progress" aria-hidden="true"><i></i></span>
-          <button class="btn ghost" id="tocBtn" aria-label="Apri l’indice del capitolo" aria-haspopup="dialog"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Indice</button>
+          <span id="readerProgress" style="font-size:12px;color:var(--muted)">Capitolo 1</span>
+          <span class="progress" aria-hidden="true"><i id="readerBar"></i></span>
+          <button class="btn ghost" id="tocBtn" aria-label="Apri l’indice del manuale" aria-haspopup="dialog"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Indice</button>
         </div>
-        <article class="paper reader-paper">
-          <div class="eyebrow" style="color:#8a5a2b">Manuale del Giocatore · 2024</div>
-          <h1>Playing the Game</h1>
-          <p class="lede">Immaginazione, regole e dado a venti: come si gioca, davvero.</p>
-          <div class="prose">
-            <p>Dungeons &amp; Dragons è un gioco cooperativo in cui i personaggi che interpreti vivono avventure insieme, in mondi fantastici pieni di mostri e magia. L’azione si svolge nell’immaginazione dei giocatori e viene narrata da tutti insieme.</p>
-            <div class="callout"><b>Regole al tavolo.</b> Se un termine non ti è chiaro, consulta il glossario delle regole. Le eccezioni specifiche battono sempre la regola generale.</div>
-            <h2>Rhythm of Play</h2>
-            <p>I tre pilastri del gioco sono l’interazione sociale, l’esplorazione e il combattimento. Il ritmo di base è sempre lo stesso: il DM descrive una scena, i giocatori dicono cosa fanno i personaggi, il DM narra il risultato.</p>
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Fase</th><th>Cosa succede</th></tr></thead>
-                <tbody>
-                  <tr><td>1. Descrivere</td><td>Il DM presenta la scena e ciò che circonda i personaggi.</td></tr>
-                  <tr><td>2. Agire</td><td>I giocatori scelgono cosa fanno i loro personaggi.</td></tr>
-                  <tr><td>3. Risolvere</td><td>Il DM narra le conseguenze e riporta al punto 1.</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <h2>Player or DM?</h2>
-            <p>Per giocare serve una persona che faccia il Dungeon Master e da tre a sei giocatori. Il DM costruisce le avventure, guida la storia e arbitra le regole; i giocatori creano un personaggio, collaborano e affrontano le sfide.</p>
-            <p>Se stai imparando, inizia da un tiro di dado e da una scena semplice. Non serve conoscere ogni regola: serve sapere dove cercarla.</p>
-          </div>
-          <div class="pager">
-            <button class="btn" disabled>← Capitolo precedente</button>
-            <span class="mid">1 / 12</span>
-            <button class="btn">Capitolo successivo →</button>
-          </div>
-        </article>
+        <article class="paper reader-paper" id="readerArticle"><div class="empty">Caricamento del manuale…</div></article>
       </div>
       <aside class="reader-side" aria-label="Indice del capitolo">
         <h4>In questo capitolo</h4>
-        <a href="#view-reader">Rhythm of Play</a>
-        <a href="#view-reader">Player or DM?</a>
-        <a href="#view-reader">Dice</a>
-        <a href="#view-reader">The Six Abilities</a>
-        <a href="#view-reader">D20 Tests</a>
+        <div id="readerSideLinks"></div>
       </aside>
     </div>
-
   </section>
 </main>
 
 <nav class="bottom" aria-label="Navigazione mobile">
   <button data-go="home" aria-current="page"><svg viewBox="0 0 24 24"><path d="m4 11 8-7 8 7v9a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>Home</button>
   <button data-go="library"><svg viewBox="0 0 24 24"><path d="M5 4h5v16H5zM14 4h5v16h-5z"/></svg>Biblioteca</button>
-  <button data-go="spells"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8l7-5 7 5"/><circle cx="12" cy="14" r="3"/></svg>Compendio</button>
-  <button data-go="reader"><svg viewBox="0 0 24 24"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/></svg>Lettore</button>
   <button id="menuBtn2"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button>
 </nav>
 
 <dialog id="toc" aria-labelledby="tocTitle">
-  <div class="dialog-head"><b id="tocTitle">Indice del capitolo</b><button class="icon-btn" data-close aria-label="Chiudi indice"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
-  <div class="dialog-body">
-    <ol class="toc-list">
-      <li><a href="#view-reader" data-close><span class="n">01</span> Playing the Game</a></li>
-      <li><a href="#view-reader" data-close><span class="n">02</span> Rhythm of Play</a></li>
-      <li><a href="#view-reader" data-close><span class="n">03</span> Player or DM?</a></li>
-      <li><a href="#view-reader" data-close><span class="n">04</span> Dice</a></li>
-      <li><a href="#view-reader" data-close><span class="n">05</span> The Six Abilities</a></li>
-      <li><a href="#view-reader" data-close><span class="n">06</span> D20 Tests</a></li>
-    </ol>
-  </div>
+  <div class="dialog-head"><b id="tocTitle">Indice del manuale</b><button class="icon-btn" data-close aria-label="Chiudi indice"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+  <div class="dialog-body"><div id="tocList"></div></div>
 </dialog>
 
 <dialog id="filters" aria-labelledby="filtersTitle">
@@ -418,8 +398,6 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
     <ul class="menu-list">
       <li><a href="#home" data-go="home" data-close>Home</a></li>
       <li><a href="#library" data-go="library" data-close>Biblioteca</a></li>
-      <li><a href="#spells" data-go="spells" data-close>Compendio</a></li>
-      <li><a href="#reader" data-go="reader" data-close>Lettore</a></li>
       <li><a href="#library" data-go="library" data-close>Impostazioni</a></li>
     </ul>
   </div>
@@ -441,6 +419,7 @@ document.addEventListener('click', e=>{
   const b = e.target.closest('[data-go]');
   if(!b) return;
   if(b.tagName === 'A') e.preventDefault();
+  if(b.dataset.book){ openBook(b.dataset.book); return; }
   if(b.dataset.cat) setCategory(b.dataset.cat);
   show(b.dataset.go);
 });
@@ -451,7 +430,6 @@ const DATA_URL='data/core-2024.json';
 const search=document.getElementById('catalogSearch');
 const count=document.getElementById('catalogCount');
 const rowsEl=document.getElementById('catalogRows');
-const tabsEl=document.getElementById('catTabs');
 const badge=document.getElementById('filterBadge');
 const activeFilters=document.getElementById('activeFilters');
 const filterBody=document.getElementById('filterBody');
@@ -488,14 +466,6 @@ function facetsFor(cat){
   if(cat==='feats') return [{key:'category',label:'Categoria',values:unique(items,'category').sort()}];
   if(cat==='bastions') return [{key:'facilityType',label:'Tipo di struttura',values:unique(items,'facilityType').sort()}];
   return [];
-}
-
-function renderTabs(){
-  const TAB_LABEL={'magic-items':'Oggetti','equipment':'Equipaggiamento'};
-  tabsEl.innerHTML=Object.entries(DATA.categories).map(([key,c])=>
-    `<button class="cat-tab" role="tab" data-cat-tab="${key}" aria-selected="${key===CATEGORY}"><b>${esc(TAB_LABEL[key]||c.label)}</b><small>${c.count}</small></button>`
-  ).join('');
-  tabsEl.querySelectorAll('[data-cat-tab]').forEach(b=>b.addEventListener('click',()=>setCategory(b.dataset.catTab)));
 }
 
 function renderFilters(){
@@ -554,19 +524,20 @@ function rowHTML(item,index){
   const sub=subtitle(item), tags=rowTags(item), meta=metaFor(item);
   return `<button class="row" data-result="${index}"><span class="thumb">${esc(item.name[0]||'?')}</span><span><b>${esc(item.name)}</b><em>${esc(sub)}</em><div class="tags">${tags.map(t=>`<span class="tag${t.hot?' hot':''}${t.tide?' tide':''}">${esc(t.text)}</span>`).join('')}</div></span><span class="meta">${esc(meta)}</span></button>`;
 }
-function subtitle(item){
+function subtitle(item,withSource=true){
+  const src=withSource?' · '+sourceOf(item):'';
   switch(CATEGORY){
-    case 'spells': return `${levelLabel(item.level)} · ${item.school} · ${sourceOf(item)}`;
-    case 'monsters': return `${item.size||'—'} ${item.type||'—'} · GS ${item.cr||'—'} · ${sourceOf(item)}`;
-    case 'magic-items': return `${item.type||'Oggetto'} · ${item.rarity||'—'} · ${sourceOf(item)}`;
-    case 'equipment': return `${item.type||'Equipaggiamento'} · ${sourceOf(item)}`;
-    case 'classes': return `Classe · ${item.hitDie||'—'} · ${sourceOf(item)}`;
-    case 'subclasses': return `${item.className||'Classe'} · ${sourceOf(item)}`;
-    case 'feats': return `${item.category||'Talento'} · ${sourceOf(item)}`;
-    case 'backgrounds': return `Background · ${sourceOf(item)}`;
-    case 'species': return `${item.types||'Specie'} · ${item.size||'—'} · ${sourceOf(item)}`;
-    case 'bastions': return `${item.facilityType||'Struttura'} · Livello ${item.level??'—'} · ${sourceOf(item)}`;
-    case 'glossary': return `Regola · ${sourceOf(item)}`;
+    case 'spells': return `${levelLabel(item.level)} · ${item.school}${src}`;
+    case 'monsters': return `${item.size||'—'} ${item.type||'—'} · GS ${item.cr||'—'}${src}`;
+    case 'magic-items': return `${item.type||'Oggetto'} · ${item.rarity||'—'}${src}`;
+    case 'equipment': return `${item.type||'Equipaggiamento'}${src}`;
+    case 'classes': return `Classe · ${item.hitDie||'—'}${src}`;
+    case 'subclasses': return `${item.className||'Classe'}${src}`;
+    case 'feats': return `${item.category||'Talento'}${src}`;
+    case 'backgrounds': return `Background${src}`;
+    case 'species': return `${item.types||'Specie'} · ${item.size||'—'}${src}`;
+    case 'bastions': return `${item.facilityType||'Struttura'} · Livello ${item.level??'—'}${src}`;
+    case 'glossary': return `Regola${src}`;
     default: return sourceOf(item);
   }
 }
@@ -614,40 +585,41 @@ function setCategory(key){
   CATEGORY=key; FILTERS={}; CURRENT=null;
   const fd=document.getElementById('filters'); if(fd.open) fd.close();
   search.value='';
-  document.getElementById('compendioCrumb').textContent=DATA.categories[key].label;
-  document.getElementById('compendioLede').textContent=`${DATA.categories[key].count} voci · ${DATA.total} totali dai tre manuali base 2024. Cerca per nome, tipo o parola chiave.`;
-  renderTabs(); renderFilters(); applyCatalog();
+  const label=DATA.categories[key].label;
+  document.getElementById('compendioCrumb').textContent=label;
+  document.getElementById('compendioTitle').textContent=label;
+  document.getElementById('compendioLede').textContent=`${DATA.categories[key].count} voci dai tre manuali base 2024. Cerca per nome, tipo o parola chiave.`;
+  renderFilters(); applyCatalog();
 }
 
-function detailStats(item){
+function statsFor(item,cat){
   const s=[];
   const add=(label,value)=>{ if(value!==undefined&&value!==null&&value!=='') s.push([label,value]); };
-  if(CATEGORY==='spells'){
+  if(cat==='spells'){
     add('Livello',levelLabel(item.level)); add('Tempo di lancio',item.time); add('Gittata',item.range);
     add('Componenti',item.components); add('Durata',item.duration);
-  } else if(CATEGORY==='monsters'){
+  } else if(cat==='monsters'){
     add('Taglia',item.size); add('Tipo',item.type); add('GS',item.cr); add('CA',item.ac); add('PF',item.hp); add('Velocità',item.speed);
-  } else if(CATEGORY==='magic-items' || CATEGORY==='equipment'){
+  } else if(cat==='magic-items' || cat==='equipment'){
     add('Tipo',item.type); add('Rarità',item.rarity); add('Sintonia',item.attune); add('Peso',item.weight);
-  } else if(CATEGORY==='classes'){
+  } else if(cat==='classes'){
     add('Dado vita',item.hitDie); add('Abilità primarie',item.primary); add('Incantesimi',item.caster);
-  } else if(CATEGORY==='subclasses'){ add('Classe',item.className);
-  } else if(CATEGORY==='feats'){ add('Categoria',item.category); add('Prerequisito',item.prerequisite);
-  } else if(CATEGORY==='species'){
+  } else if(cat==='subclasses'){ add('Classe',item.className);
+  } else if(cat==='feats'){ add('Categoria',item.category); add('Prerequisito',item.prerequisite);
+  } else if(cat==='species'){
     add('Tipo',item.types); add('Taglia',item.size); add('Velocità',item.speed); add('Scurovisione',item.darkvision); add('Resistenza',item.resist);
-  } else if(CATEGORY==='bastions'){ add('Tipo',item.facilityType); add('Livello',item.level); add('Spazio',item.space);
-  } else if(CATEGORY==='glossary'){ add('Tipo',item.ruleType);
+  } else if(cat==='bastions'){ add('Tipo',item.facilityType); add('Livello',item.level); add('Spazio',item.space);
+  } else if(cat==='glossary'){ add('Tipo',item.ruleType);
   }
-  add('Fonte',sourceOf(item));
   return s;
 }
-
+function detailStats(item){ return statsFor(item,CATEGORY); }
 function paragraphs(text){
   return String(text||'').split(/\n{2,}/).filter(Boolean).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
 }
 
 function detailHTML(item){
-  const stats=detailStats(item);
+  const stats=statsFor(item,CATEGORY);
   const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
   return `<div class="paper spell-card">
     <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">Scheda 2024</div><span class="source">${esc(sourceOf(item))} · 2024</span></div></div>
@@ -657,7 +629,7 @@ function detailHTML(item){
     <div class="rule"></div>
     <div class="prose detail-prose">${paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>'}</div>
     ${item.higher?`<div class="callout"><b>Livelli superiori.</b> ${esc(item.higher)}</div>`:''}
-    <div class="tags"><span class="tag tide">${esc(DATA.categories[CATEGORY].label)}</span><span class="tag">${esc(sourceOf(item))}</span></div>
+    <div class="tags"><span class="tag tide">${esc(DATA.categories[CATEGORY].label)}</span></div>
   </div>`;
 }
 
@@ -665,12 +637,103 @@ function openDetail(index){
   const item=VISIBLE[index];
   if(!item) return;
   CURRENT=item;
-  document.getElementById('detailCrumbs').innerHTML=`<a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#spells" data-go="spells">Compendio</a><span class="sep">/</span><a href="#spells" data-go="spells" data-cat="${esc(CATEGORY)}">${esc(DATA.categories[CATEGORY].label)}</a><span class="sep">/</span><span aria-current="page">${esc(item.name)}</span>`;
+  document.getElementById('detailCrumbs').innerHTML=`<a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#spells" data-go="spells" data-cat="${esc(CATEGORY)}">${esc(DATA.categories[CATEGORY].label)}</a><span class="sep">/</span><span aria-current="page">${esc(item.name)}</span>`;
   document.getElementById('detailTitle').textContent=item.name;
-  document.getElementById('detailSubtitle').textContent=subtitle(item);
+  document.getElementById('detailSubtitle').textContent=subtitle(item,false);
   document.getElementById('detailBody').innerHTML=detailHTML(item);
   show('detail');
 }
+
+let BOOKS=null, BOOK='XPHB', READER_INDEX=0, CURRENT_SECTIONS=[];
+
+async function loadBooks(){
+  if(BOOKS) return BOOKS;
+  const res=await fetch('data/books-2024.json',{cache:'no-cache'});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  BOOKS=await res.json();
+  return BOOKS;
+}
+
+function openBook(code){
+  BOOK=code||'XPHB'; READER_INDEX=0;
+  show('reader');
+  document.getElementById('readerArticle').innerHTML='<div class="empty">Caricamento del manuale…</div>';
+  Promise.all([loadBooks(),corePromise||Promise.resolve()]).then(renderReader).catch(err=>{
+    document.getElementById('readerArticle').innerHTML=`<div class="empty">Impossibile caricare <code>data/books-2024.json</code>.<br>${esc(err.message)}</div>`;
+  });
+}
+
+function blockHTML(b,level,ctx){
+  if(!b) return '';
+  if(b.t==='p') return b.v?`<p>${esc(b.v)}</p>`:'';
+  if(b.t==='group') return (b.items||[]).map(x=>blockHTML(x,level,ctx)).join('');
+  if(b.t==='section'){
+    const id=`sec-${BOOK}-${READER_INDEX}-${ctx.n++}`;
+    if(b.name) CURRENT_SECTIONS.push({id,name:b.name});
+    const tag=level<=2?'h2':level===3?'h3':'h4';
+    return `<section class="book-section"${b.name?` id="${id}"`:''}>${b.name?`<${tag}>${esc(b.name)}</${tag}>`:''}${(b.items||[]).map(x=>blockHTML(x,level+1,ctx)).join('')}</section>`;
+  }
+  if(b.t==='list') return `<ul class="book-list">${(b.items||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+  if(b.t==='note') return `<div class="book-note">${b.name?`<b>${esc(b.name)}</b>`:''}${(b.items||[]).map(x=>blockHTML(x,level,ctx)).join('')}</div>`;
+  if(b.t==='table'){
+    const head=(b.head||[]).length?`<thead><tr>${b.head.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead>`:'';
+    const body=(b.rows||[]).map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('');
+    return `<div class="table-wrap"><table>${head}<tbody>${body}</tbody></table></div>`;
+  }
+  if(b.t==='ref'){
+    const cat=b.cat&&DATA?DATA.categories[b.cat]:null;
+    const item=cat?cat.items[b.idx]:null;
+    if(!item) return `<div class="ref-card"><div class="ref-body"><b>${esc(b.name)}</b><p>${esc(b.tag||'Riferimento')} · ${esc(b.source||'')}</p></div></div>`;
+    const label=cat?cat.label:(b.tag||'Voce');
+    const stats=statsFor(item,b.cat);
+    const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
+    return `<details class="ref-card"><summary><b>${esc(item.name)}</b><span>${esc(label)} · ${esc(sourceOf(item))}</span></summary><div class="ref-body"><div class="ref-stats">${stats.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>${abilities}${paragraphs(item.entries)||'<p>Nessuna descrizione testuale.</p>'}${item.higher?`<div class="book-note"><b>Livelli superiori</b>${esc(item.higher)}</div>`:''}</div></details>`;
+  }
+  return '';
+}
+
+function renderToc(){
+  if(!BOOKS) return;
+  const book=BOOKS.books[BOOK];
+  document.getElementById('tocTitle').textContent='Indice · '+book.it;
+  document.getElementById('tocList').innerHTML=book.chapters.map((c,i)=>`<button class="toc-item" data-toc-chapter="${i}"><span>${String(i+1).padStart(2,'0')}</span>${esc(c.name)}</button>`).join('');
+}
+
+function renderReader(){
+  if(!BOOKS) return;
+  const book=BOOKS.books[BOOK];
+  if(!book){ document.getElementById('readerArticle').innerHTML='<div class="empty">Manuale non trovato.</div>'; return; }
+  READER_INDEX=Math.max(0,Math.min(READER_INDEX,book.chapters.length-1));
+  const ch=book.chapters[READER_INDEX];
+  CURRENT_SECTIONS=[];
+  document.getElementById('readerCrumbs').innerHTML=`<a href="#home" data-go="home">Home</a><span class="sep">/</span><a href="#library" data-go="library">Biblioteca</a><span class="sep">/</span><span>${esc(book.it)}</span><span class="sep">/</span><span aria-current="page">${esc(ch.name)}</span>`;
+  document.getElementById('readerProgress').textContent=`Capitolo ${READER_INDEX+1} di ${book.chapters.length} · ${ch.name}`;
+  document.getElementById('readerBar').style.width=`${((READER_INDEX+1)/book.chapters.length)*100}%`;
+  const body=blockHTML({t:'group',items:ch.items},2,{n:0});
+  document.getElementById('readerArticle').innerHTML=`<div class="book-eyebrow">${esc(book.it)} · 2024${ch.page?` · pagina ${esc(ch.page)}`:''}</div><h1>${esc(ch.name)}</h1>${body}<div class="reader-pager"><button class="btn" data-reader-prev ${READER_INDEX===0?'disabled':''}>← Precedente</button><span class="mid">${READER_INDEX+1} / ${book.chapters.length}</span><button class="btn" data-reader-next ${READER_INDEX===book.chapters.length-1?'disabled':''}>Successivo →</button></div>`;
+  document.getElementById('readerSideLinks').innerHTML=CURRENT_SECTIONS.length?CURRENT_SECTIONS.slice(0,18).map(s=>`<a href="#${s.id}" data-scroll="${s.id}">${esc(s.name)}</a>`).join(''):'<span style="font-size:12px;color:var(--faint)">Nessuna sezione</span>';
+  renderToc();
+  if(location.hash!=='#reader') history.replaceState(null,'','#reader');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.getElementById('readerArticle').addEventListener('click',e=>{
+  if(e.target.closest('[data-reader-prev]')){ READER_INDEX--; renderReader(); }
+  if(e.target.closest('[data-reader-next]')){ READER_INDEX++; renderReader(); }
+});
+document.getElementById('readerSideLinks').addEventListener('click',e=>{
+  const a=e.target.closest('[data-scroll]');
+  if(!a) return;
+  e.preventDefault();
+  document.getElementById(a.dataset.scroll)?.scrollIntoView({behavior:'smooth',block:'start'});
+});
+document.getElementById('tocList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-toc-chapter]');
+  if(!b) return;
+  READER_INDEX=Number(b.dataset.tocChapter);
+  closeDialog(document.getElementById('toc'));
+  renderReader();
+});
 
 search.addEventListener('input',applyCatalog);
 filterOpen.addEventListener('click',()=>{ if(DATA) openDialog(document.getElementById('filters')); });
@@ -706,11 +769,13 @@ async function loadCore(){
     rowsEl.innerHTML='<div class="empty">Il file <code>data/core-2024.json</code> non è raggiungibile.</div>';
   }
 }
-loadCore();
+let corePromise=null;
+corePromise=loadCore();
+if(location.hash==='#reader') openBook('XPHB');
 
 function openDialog(d){ if(!d.open) d.showModal(); }
 function closeDialog(d){ if(d.open) d.close(); }
-document.getElementById('tocBtn').addEventListener('click',()=>openDialog(document.getElementById('toc')));
+document.getElementById('tocBtn').addEventListener('click',()=>{renderToc();openDialog(document.getElementById('toc'));});
 const tocFab = document.getElementById('tocFab');
 if (tocFab) tocFab.addEventListener('click',()=>openDialog(document.getElementById('toc')));
 const menu=document.getElementById('menu');

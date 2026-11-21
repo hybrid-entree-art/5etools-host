@@ -149,6 +149,14 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .entry-image{display:block;width:calc(100% + clamp(36px,8vw,64px));max-width:none;height:clamp(190px,46vw,300px);object-fit:cover;object-position:center 25%;margin:18px calc(-1 * clamp(18px,4vw,32px)) 18px;border-radius:0}
 .thumb{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:
  radial-gradient(circle at 30% 25%,rgba(255,220,150,.95),rgba(240,167,66,.35) 35%,rgba(90,30,10,.9));color:#2a1608;font:700 17px var(--head)}
+.thumb.school-abj{background:rgba(95,208,192,.14);color:#5fd0c0;border:1px solid rgba(95,208,192,.35);font:800 11px var(--ui)}
+.thumb.school-conj{background:rgba(240,167,66,.14);color:#f0a742;border:1px solid rgba(240,167,66,.35);font:800 11px var(--ui)}
+.thumb.school-div{background:rgba(130,170,255,.14);color:#9db8ff;border:1px solid rgba(130,170,255,.35);font:800 11px var(--ui)}
+.thumb.school-ench{background:rgba(220,130,220,.14);color:#e3a0e3;border:1px solid rgba(220,130,220,.35);font:800 11px var(--ui)}
+.thumb.school-illu{background:rgba(170,140,255,.14);color:#c0a8ff;border:1px solid rgba(170,140,255,.35);font:800 11px var(--ui)}
+.thumb.school-necr{background:rgba(150,170,150,.16);color:#b7c7b7;border:1px solid rgba(150,170,150,.35);font:800 11px var(--ui)}
+.thumb.school-trans{background:rgba(240,190,120,.14);color:#f0c27a;border:1px solid rgba(240,190,120,.35);font:800 11px var(--ui)}
+.thumb.school-evo{background:rgba(255,120,90,.14);color:#ff9b7a;border:1px solid rgba(255,120,90,.35);font:800 11px var(--ui)}
 .row b{display:block;font-size:16px}
 .row em{display:block;font-style:normal;font-size:12px;color:var(--muted);margin-top:2px}
 .row .meta{font-size:12px;color:var(--faint);text-align:right;white-space:nowrap}
@@ -472,6 +480,7 @@ let FILTERS={};
 
 const esc=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sourceOf=(x)=>x.source||'2024';
+const SCHOOL_META={A:['AB','abj'],C:['EV','conj'],D:['DI','div'],E:['AM','ench'],I:['IL','illu'],N:['NE','necr'],T:['TR','trans'],V:['IN','evo']};
 const normKey=(v)=>String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim().split(' ').filter(Boolean).sort().join(' ');
 let REF_INDEX=new Map();
 function buildRefIndex(){ REF_INDEX=new Map(); if(!DATA) return; for(const [cat,c] of Object.entries(DATA.categories)){ for(let i=0;i<c.items.length;i++){ const it=c.items[i]; const k=normKey(it.name); REF_INDEX.set(k+'|'+sourceOf(it),{cat,idx:i}); if(!REF_INDEX.has(k)) REF_INDEX.set(k,{cat,idx:i}); } } }
@@ -570,12 +579,14 @@ function entryCard(item,index){
 }
 function rowHTML(item,index){
   const sub=subtitle(item), tags=rowTags(item), meta=metaFor(item);
-  return `<button class="row" data-result="${index}"><span class="thumb">${esc(item.name[0]||'?')}</span><span><b>${esc(item.name)}</b><em>${esc(sub)}</em><div class="tags">${tags.map(t=>`<span class="tag${t.hot?' hot':''}${t.tide?' tide':''}">${esc(t.text)}</span>`).join('')}</div></span><span class="meta">${esc(meta)}</span></button>`;
+  const sm=CATEGORY==='spells'?(SCHOOL_META[item.schoolCode]||['SP','conj']):null;
+  const thumb=sm?`<span class="thumb school-${sm[1]}">${sm[0]}</span>`:`<span class="thumb">${esc(item.name[0]||'?')}</span>`;
+  return `<button class="row" data-result="${index}">${thumb}<span><b>${esc(item.name)}</b><em>${esc(sub)}</em><div class="tags">${tags.map(t=>`<span class="tag${t.hot?' hot':''}${t.tide?' tide':''}">${esc(t.text)}</span>`).join('')}</div></span><span class="meta">${esc(meta)}</span></button>`;
 }
 function subtitle(item,withSource=true){
   const src=withSource?' · '+sourceOf(item):'';
   switch(CATEGORY){
-    case 'spells': return `${levelLabel(item.level)} · ${item.school}${src}`;
+    case 'spells': return `${item.school} · ${levelLabel(item.level)}`;
     case 'monsters': return `${item.size||'—'} ${item.type||'—'} · GS ${item.cr||'—'}${src}`;
     case 'magic-items': return `${item.type||'Oggetto'} · ${item.rarity||'—'}${src}`;
     case 'equipment': return `${item.type||'Equipaggiamento'}${src}`;
@@ -591,7 +602,7 @@ function subtitle(item,withSource=true){
 }
 function metaFor(item){
   switch(CATEGORY){
-    case 'spells': return levelLabel(item.level);
+    case 'spells': return sourceOf(item);
     case 'monsters': return `GS ${item.cr||'—'}`;
     case 'magic-items': return item.rarity||'—';
     case 'equipment': return item.type||'—';
@@ -606,9 +617,9 @@ function rowTags(item){
   if(Array.isArray(item.tags)) return item.tags.slice(0,4);
   const out=[];
   if(CATEGORY==='spells'){
-    if(item.level===0) out.push({text:'Trucchetto'});
-    out.push({text:item.time||'—',hot:true},{text:item.range||'—'});
-    if(item.components) out.push({text:item.components,tide:true});
+    out.push({text:item.time||'—',hot:true},{text:item.range||'—'},{text:item.duration||'—'});
+    if(item.ritual) out.push({text:'Rituale',tide:true});
+    if(item.concentration) out.push({text:'Concentrazione',tide:true});
   } else if(CATEGORY==='monsters'){
     out.push({text:'CA '+(item.ac||'—')},{text:'PF '+(item.hp||'—')});
   } else if(CATEGORY==='magic-items' || CATEGORY==='equipment'){
@@ -649,8 +660,8 @@ function statsFor(item,cat){
   const add=(label,value)=>{ if(value!==undefined&&value!==null&&value!=='') s.push([label,value]); };
   if(Array.isArray(item.stats)){ item.stats.forEach(([k,v])=>add(k,v)); return s; }
   if(cat==='spells'){
-    add('Livello',levelLabel(item.level)); add('Tempo di lancio',item.time); add('Gittata',item.range);
-    add('Componenti',item.components); add('Durata',item.duration);
+    add('Livello',levelLabel(item.level)); add('Scuola',item.school); add('Tempo di lancio',item.time); add('Gittata',item.range);
+    add('Componenti',item.components); add('Durata',item.duration); add('Tiro salvezza',item.save); add('Danno',item.damage); add('Attacco',item.attack);
   } else if(cat==='monsters'){
     add('Taglia',item.size); add('Tipo',item.type); add('GS',item.cr); add('CA',item.ac); add('PF',item.hp); add('Velocità',item.speed);
   } else if(cat==='magic-items' || cat==='equipment'){
@@ -675,7 +686,7 @@ function detailHTML(item){
   const stats=statsFor(item,CATEGORY);
   const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
   return `<div class="paper spell-card ${esc(CATEGORY)}">
-    <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">Scheda 2024</div><span class="source">${esc(sourceOf(item))} · 2024</span></div></div>
+    <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">${esc(item.school||"")}${item.level!==undefined?` · ${levelLabel(item.level)}`:""}</div><span class="source">${esc(sourceOf(item))} · 2024</span></div></div>
     ${item.image?`<img class="entry-image" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}
     <div class="rule"></div>
     <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
@@ -683,7 +694,6 @@ function detailHTML(item){
     <div class="rule"></div>
     <div class="prose detail-prose">${item.features&&item.features.length?`<div class="class-features">${item.features.map(f=>`<details class="ref-card"><summary><b>${esc(f.name)}</b><span>Livello ${esc(f.level??'—')}</span></summary><div class="ref-body">${paragraphs(f.entries)||'<p>Nessuna descrizione.</p>'}</div></details>`).join('')}</div>`:(paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>')}</div>
     ${item.higher?`<div class="callout"><b>Livelli superiori.</b> ${esc(item.higher)}</div>`:''}
-    <div class="tags"><span class="tag tide">${esc(DATA.categories[CATEGORY].label)}</span></div>
   </div>`;
 }
 

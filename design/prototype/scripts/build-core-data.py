@@ -17,7 +17,7 @@ OUT = ROOT / "data" / "core-2024.json"
 RE_TAG = re.compile(r"\{@([a-zA-Z]+)(?:\s+([^}]+))?\}")
 SCHOOLS = {
     "A": "Abiurazione", "C": "Evocazione", "D": "Divinazione", "E": "Ammaliamento",
-    "I": "Illusione", "N": "Negromanzia", "T": "Trasmutazione", "V": "Evocazione",
+    "I": "Illusione", "N": "Negromanzia", "T": "Trasmutazione", "V": "Invocazione",
 }
 SIZES = {"T": "Minuscola", "S": "Piccola", "M": "Media", "L": "Grande", "H": "Enorme", "G": "Mastodontica"}
 RARITY = {
@@ -32,6 +32,14 @@ ITEM_TYPES = {
     "ST": "Bastone", "T": "Strumento", "GS": "Set da gioco", "INS": "Strumento musicale",
     "AT": "Oggetto d'arte", "G": "Equipaggiamento", "PACK": "Pacchetto", "OTH": "Altro",
 }
+SAVES = {"str": "Forza", "dex": "Destrezza", "con": "Costituzione", "int": "Intelligenza", "wis": "Saggezza", "cha": "Carisma", "dexterity": "Destrezza", "constitution": "Costituzione", "wisdom": "Saggezza", "intelligence": "Intelligenza", "strength": "Forza", "charisma": "Carisma"}
+DMG_ELEMENTS = {
+    "acid": "Acido", "bludgeoning": "Contundente", "cold": "Freddo", "fire": "Fuoco",
+    "force": "Forza", "lightning": "Fulmine", "necrotic": "Necrotico", "piercing": "Perforante",
+    "poison": "Veleno", "psychic": "Psichico", "radiant": "Radiante", "slashing": "Tagliente",
+    "thunder": "Tuono", "healing": "Cura",
+}
+ATTACKS = {"R": "Attacco a distanza", "M": "Attacco in mischia"}
 DMG_TYPES = {"S": "Tagliente", "P": "Perforante", "B": "Contundente"}
 PROPS = {
     "V": "Versatile", "T": "A due mani", "F": "Finezza", "L": "Leggera", "H": "Pesante",
@@ -212,6 +220,12 @@ def make_spell(x):
         "schoolCode": x.get("school", ""), "time": fmt_time(x.get("time")),
         "range": fmt_range(x.get("range")), "components": comps(x.get("components")),
         "duration": fmt_duration(x.get("duration")),
+        "save": ", ".join(SAVES.get(v, v) for v in (x.get("savingThrow") or [])),
+        "damage": ", ".join(DMG_ELEMENTS.get(v, v) for v in (x.get("damageInflict") or [])),
+        "attack": ", ".join(ATTACKS.get(v, v) for v in (x.get("spellAttack") or [])),
+        "ritual": bool((x.get("meta") or {}).get("ritual")),
+        "concentration": "concentrazione" in fmt_duration(x.get("duration")).lower(),
+        "area": ", ".join(x.get("areaTags") or []),
         "entries": flat(x.get("entries")), "higher": flat(x.get("entriesHigherLevel")),
         "classes": x.get("classes") or [],
     }

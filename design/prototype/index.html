@@ -34,6 +34,9 @@ button,input{font:inherit}
 .mark{width:36px;height:36px;border-radius:10px;border:1px solid var(--amber);display:grid;place-items:center;
  color:var(--amber);font:700 12px var(--ui);box-shadow:0 0 16px var(--glow);background:rgba(240,167,66,.06)}
 .brand b{color:var(--amber)}
+.back{margin-right:2px}
+.menu-back{width:100%;min-height:var(--touch);border:0;background:transparent;color:var(--muted);text-align:left;font:600 14px var(--ui);padding:6px 8px;border-radius:8px;cursor:pointer}
+.menu-back:hover{background:var(--surface-2);color:var(--ink)}
 .top-nav{display:none;align-items:center;gap:4px;margin-left:18px}
 .top-nav button{padding:10px 12px;border:0;background:transparent;color:var(--muted);border-radius:8px;cursor:pointer;min-height:var(--touch)}
 .top-nav button[aria-current="page"]{color:var(--ink);background:var(--surface-2)}
@@ -174,6 +177,11 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .spell-card h2{font:700 clamp(30px,5vw,44px)/1.02 var(--head);color:var(--paper-ink)}
 .spell-card .en{font:italic 400 16px var(--book);color:var(--paper-muted);margin:4px 0 6px}
 .spell-card .source{font:700 11px var(--ui);letter-spacing:.08em;color:#7a4a12;border:1px solid #b98a4a;border-radius:999px;padding:2px 8px}
+.entry-footer{margin-top:18px;border-top:1px solid var(--paper-line);padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.footer-label{font:700 9px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:#7a5b3a;margin-right:4px}
+.footer-source{font:600 12px var(--ui);color:#7a5b3a}
+.footer-source b{color:#5d3e20}
+.class-tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
 .rule{height:1px;background:var(--paper-line);margin:16px 0}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
 .stat span{display:block;font:700 10px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:#8a6a45}
@@ -281,6 +289,7 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 <body>
 <a class="skip" href="#main">Salta al contenuto</a>
 <header class="top">
+  <button class="icon-btn back" id="backBtn" aria-label="Torna indietro" hidden><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
   <a class="brand" href="#home" data-go="home" aria-label="5E ATLAS, home"><span class="mark">d20</span><span>5E <b>ATLAS</b></span></a>
   <nav class="top-nav" aria-label="Navigazione principale">
     <button data-go="home" aria-current="page">Home</button>
@@ -430,6 +439,7 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
   <div class="dialog-head"><b id="menuTitle">Menu</b><button class="icon-btn" data-close aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
   <div class="dialog-body">
     <ul class="menu-list">
+      <li><button class="menu-back" data-back>← Indietro</button></li>
       <li><a href="#home" data-go="home" data-close>Home</a></li>
       <li><a href="#library" data-go="library" data-close>Biblioteca</a></li>
       <li><a href="#library" data-go="library" data-close>Impostazioni</a></li>
@@ -441,9 +451,13 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 const views = ['home','library','spells','detail','reader'];
 let pendingCategory = null;
 let CURRENT=null;
-function show(name){
+let currentView='home', navStack=[];
+function show(name,fromHistory=false){
   let target = views.includes(name) ? name : 'home';
   if(target === 'detail' && !CURRENT) target = 'spells';
+  if(!fromHistory && target!==currentView) navStack.push(currentView);
+  currentView=target;
+  const back=document.getElementById('backBtn'); if(back) back.hidden=navStack.length===0;
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id === 'view-'+target));
   document.querySelectorAll('[data-go]').forEach(b=>b.setAttribute('aria-current', b.dataset.go === target ? 'page' : 'false'));
   if(target==='reader'){ if(!/^#reader(\/|$)/.test(location.hash)) history.replaceState(null,'','#reader'); }
@@ -458,8 +472,11 @@ document.addEventListener('click', e=>{
   if(b.dataset.cat) setCategory(b.dataset.cat);
   show(b.dataset.go);
 });
-if(location.hash && !/^#reader(\/|$)/.test(location.hash)) show(location.hash.slice(1));
-window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+if(location.hash && !/^#reader(\/|$)/.test(location.hash)) show(location.hash.slice(1),true);
+window.addEventListener('hashchange',()=>show(location.hash.slice(1),true));
+function goBack(){ const prev=navStack.pop()||'home'; show(prev,true); }
+document.getElementById('backBtn').addEventListener('click',goBack);
+document.addEventListener('click',e=>{ if(e.target.closest('[data-back]')){ e.preventDefault(); goBack(); closeDialog(document.getElementById('menu')); } });
 window.addEventListener('popstate',()=>{
   const m=location.hash.match(/^#reader\/([A-Z]+)\/(\d+)$/);
   if(m){ openBook(m[1],Math.max(0,Number(m[2])-1)); return; }
@@ -480,6 +497,10 @@ let FILTERS={};
 
 const esc=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sourceOf=(x)=>x.source||'2024';
+const SOURCE_LABEL={XPHB:['PHB 2024',"Player's Handbook 2024"],XDMG:['DMG 2024',"Dungeon Master's Guide 2024"],XMM:['MM 2024','Monster Manual 2024']};
+const CLASS_IT={Barbarian:'Barbaro',Bard:'Bardo',Cleric:'Chierico',Druid:'Druido',Fighter:'Guerriero',Monk:'Monaco',Paladin:'Paladino',Ranger:'Ranger',Rogue:'Ladro',Sorcerer:'Stregone',Warlock:'Warlock',Wizard:'Mago',Artificer:'Artificiere'};
+function sourceLabel(x){const v=SOURCE_LABEL[sourceOf(x)];return v?v[0]:sourceOf(x);}
+function sourceTitle(x){const v=SOURCE_LABEL[sourceOf(x)];return v?v[1]:sourceOf(x);}
 const SCHOOL_META={A:['AB','abj'],C:['EV','conj'],D:['DI','div'],E:['AM','ench'],I:['IL','illu'],N:['NE','necr'],T:['TR','trans'],V:['IN','evo']};
 const normKey=(v)=>String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim().split(' ').filter(Boolean).sort().join(' ');
 let REF_INDEX=new Map();
@@ -575,7 +596,7 @@ function entryCard(item,index){
   const isClass=CATEGORY==='classes';
   const meta=isClass?`${item.hitDie||''}${item.primary?' · '+item.primary:''}`:`${item.types||''}${item.size?' · '+item.size:''}`;
   const kind=isClass?'Classe':'Specie';
-  return `<button class="entry-card ${esc(CATEGORY)}" data-result="${index}"><span class="entry-copy"><b>${esc(item.name)}</b><em>${kind} · ${esc(sourceOf(item))}</em><small>${esc(meta)}</small></span>${item.image?`<img class="entry-art" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}</button>`;
+  return `<button class="entry-card ${esc(CATEGORY)}" data-result="${index}"><span class="entry-copy"><b>${esc(item.name)}</b><em>${kind} · ${esc(sourceLabel(item))}</em><small>${esc(meta)}</small></span>${item.image?`<img class="entry-art" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}</button>`;
 }
 function rowHTML(item,index){
   const sub=subtitle(item), tags=rowTags(item), meta=metaFor(item);
@@ -602,7 +623,7 @@ function subtitle(item,withSource=true){
 }
 function metaFor(item){
   switch(CATEGORY){
-    case 'spells': return sourceOf(item);
+    case 'spells': return sourceLabel(item);
     case 'monsters': return `GS ${item.cr||'—'}`;
     case 'magic-items': return item.rarity||'—';
     case 'equipment': return item.type||'—';
@@ -661,7 +682,7 @@ function statsFor(item,cat){
   if(Array.isArray(item.stats)){ item.stats.forEach(([k,v])=>add(k,v)); return s; }
   if(cat==='spells'){
     add('Livello',levelLabel(item.level)); add('Scuola',item.school); add('Tempo di lancio',item.time); add('Gittata',item.range);
-    add('Componenti',item.components); add('Durata',item.duration); add('Tiro salvezza',item.save); add('Danno',item.damage); add('Attacco',item.attack);
+    add('Componenti',item.components); add('Durata',item.duration); add('Concentrazione',item.concentration?'Sì':''); add('Tiro salvezza',item.save); add('Danno',item.damage); add('Attacco',item.attack);
   } else if(cat==='monsters'){
     add('Taglia',item.size); add('Tipo',item.type); add('GS',item.cr); add('CA',item.ac); add('PF',item.hp); add('Velocità',item.speed);
   } else if(cat==='magic-items' || cat==='equipment'){
@@ -686,7 +707,7 @@ function detailHTML(item){
   const stats=statsFor(item,CATEGORY);
   const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
   return `<div class="paper spell-card ${esc(CATEGORY)}">
-    <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">${esc(item.school||"")}${item.level!==undefined?` · ${levelLabel(item.level)}`:""}</div><span class="source">${esc(sourceOf(item))} · 2024</span></div></div>
+    <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">${esc(item.school||"")}${item.level!==undefined?` · ${levelLabel(item.level)}`:""}</div></div></div>
     ${item.image?`<img class="entry-image" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}
     <div class="rule"></div>
     <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
@@ -694,6 +715,7 @@ function detailHTML(item){
     <div class="rule"></div>
     <div class="prose detail-prose">${item.features&&item.features.length?`<div class="class-features">${item.features.map(f=>`<details class="ref-card"><summary><b>${esc(f.name)}</b><span>Livello ${esc(f.level??'—')}</span></summary><div class="ref-body">${paragraphs(f.entries)||'<p>Nessuna descrizione.</p>'}</div></details>`).join('')}</div>`:(paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>')}</div>
     ${item.higher?`<div class="callout"><b>Livelli superiori.</b> ${esc(item.higher)}</div>`:''}
+    <div class="entry-footer">${item.classes&&item.classes.length?`<div class="class-tags"><span class="footer-label">Classi</span>${item.classes.map(c=>`<span class="tag tide">${esc(CLASS_IT[c]||c)}</span>`).join('')}</div>`:'<span></span>'}<div class="footer-source">Fonte: <b title="${esc(sourceTitle(item))}">${esc(sourceLabel(item))}</b></div></div>
   </div>`;
 }
 

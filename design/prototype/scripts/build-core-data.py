@@ -162,10 +162,7 @@ def fmt_duration(d) -> str:
             amount = dur.get("amount", "")
             unit = {"minute": "minuti", "hour": "ore", "round": "round", "day": "giorni"}.get(dur.get("type"), dur.get("type", ""))
             out.append(f"{amount} {unit}".strip())
-    text = ", ".join(out)
-    if any(x.get("concentration") for x in d):
-        text += ", concentrazione"
-    return text
+    return ", ".join(out)
 
 
 def comps(c) -> str:
@@ -213,7 +210,7 @@ def speed_value(speed) -> str:
     return ", ".join(out)
 
 
-def make_spell(x):
+def make_spell(x, source_lookup=None):
     return {
         "name": x["name"], "source": x.get("source", "XPHB"), "level": x.get("level", 0),
         "school": SCHOOLS.get(x.get("school", ""), x.get("school", "")),
@@ -224,10 +221,10 @@ def make_spell(x):
         "damage": ", ".join(DMG_ELEMENTS.get(v, v) for v in (x.get("damageInflict") or [])),
         "attack": ", ".join(ATTACKS.get(v, v) for v in (x.get("spellAttack") or [])),
         "ritual": bool((x.get("meta") or {}).get("ritual")),
-        "concentration": "concentrazione" in fmt_duration(x.get("duration")).lower(),
+        "concentration": any(d.get("concentration") for d in (x.get("duration") or [])),
         "area": ", ".join(x.get("areaTags") or []),
         "entries": flat(x.get("entries")), "higher": flat(x.get("entriesHigherLevel")),
-        "classes": x.get("classes") or [],
+        "classes": sorted((((source_lookup or {}).get("xphb", {}).get(x["name"].lower(), {}) or {}).get("class", {}) or {}).get("XPHB", {}) or []),
     }
 
 
@@ -465,7 +462,8 @@ def make_card(x):
 
 
 def main():
-    spells = [make_spell(x) for x in load("spells/spells-xphb.json").get("spell", []) if x.get("source") == "XPHB"]
+    spell_lookup = load("generated/gendata-spell-source-lookup.json")
+    spells = [make_spell(x, spell_lookup) for x in load("spells/spells-xphb.json").get("spell", []) if x.get("source") == "XPHB"]
     monsters = []
     for f in sorted((DATA / "bestiary").glob("bestiary-*.json")):
         monsters += [make_monster(x) for x in json.loads(f.read_text()).get("monster", []) if x.get("source") in ("XMM", "XDMG")]

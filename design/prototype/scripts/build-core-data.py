@@ -195,6 +195,25 @@ def hp_value(hp) -> str:
     return str(hp or "")
 
 
+SPEED_IT = {"walk": "Cammina", "fly": "Vola", "swim": "Nuota", "burrow": "Scava", "climb": "Arrampica"}
+SKILL_IT = {
+    "acrobatics": "Acrobazia", "animal handling": "Addestrare animali", "arcana": "Arcano",
+    "athletics": "Atletica", "deception": "Inganno", "history": "Storia", "insight": "Intuizione",
+    "intimidation": "Intimidire", "investigation": "Indagare", "medicine": "Medicina",
+    "nature": "Natura", "perception": "Percezione", "performance": "Intrattenere",
+    "persuasion": "Persuasione", "religion": "Religione", "sleight of hand": "Rapidità di mano",
+    "stealth": "Furtività", "survival": "Sopravvivenza",
+}
+SENSE_IT = {"darkvision": "Scurovisione", "blindsight": "Vista cieca", "tremorsense": "Percezione tellurica", "truesight": "Vista vera"}
+COND_IT = {
+    "blinded": "Accecato", "charmed": "Affascinato", "deafened": "Assordato", "exhaustion": "Affaticamento",
+    "frightened": "Spaventato", "grappled": "Afferrato", "incapacitated": "Incapacitato", "invisible": "Invisibile",
+    "paralyzed": "Paralizzato", "petrified": "Pietrificato", "poisoned": "Avvelenato", "prone": "Prono",
+    "restrained": "Trattenuto", "stunned": "Stordito", "unconscious": "Incosciente",
+}
+LANG_IT = {"common": "Comune", "draconic": "Draconico", "deep speech": "Parlata profonda", "elvish": "Elfico", "dwarvish": "Nanico", "infernal": "Infernale", "celestial": "Celestiale", "abyssal": "Abissale", "undercommon": "Comune sotterraneo"}
+
+
 def speed_value(speed) -> str:
     if isinstance(speed, str):
         return speed
@@ -205,9 +224,9 @@ def speed_value(speed) -> str:
         if k in ("canHover",):
             continue
         if isinstance(v, dict):
-            out.append(f"{k} {v.get('number', '')} {v.get('condition', '')}".strip())
+            out.append(f"{SPEED_IT.get(k, k)} {v.get('number', '')} {v.get('condition', '')}".strip())
         else:
-            out.append(f"{k} {v}")
+            out.append(f"{SPEED_IT.get(k, k)} {v}")
     return ", ".join(out)
 
 
@@ -227,6 +246,13 @@ def make_spell(x, source_lookup=None):
         "entries": flat(x.get("entries")), "higher": flat(x.get("entriesHigherLevel")),
         "classes": sorted((((source_lookup or {}).get("xphb", {}).get(x["name"].lower(), {}) or {}).get("class", {}) or {}).get("XPHB", {}) or []),
     }
+
+
+def fmt_lang(value):
+    text = clean(value).replace("ft.", "piedi").replace("telepathy", "telepatia")
+    for en, it in LANG_IT.items():
+        text = re.sub(r"\b" + re.escape(en) + r"\b", it, text, flags=re.I)
+    return text
 
 
 def fmt_damage_list(values):
@@ -270,12 +296,12 @@ def make_monster(x):
         "entries": text, "sections": sections,
         "abilities": {k.upper(): x.get(k) for k in ("str", "dex", "con", "int", "wis", "cha") if x.get(k) is not None},
         "saves": ", ".join(f"{ABILITIES.get(k, k)} {v}" for k, v in (x.get("save") or {}).items()),
-        "skills": ", ".join(f"{k.title()} {v}" for k, v in (x.get("skill") or {}).items()),
-        "senses": ", ".join(clean(v) for v in (x.get("senses") or [])) + (f" · passivo {x.get('passive')}" if x.get("passive") else ""),
-        "languages": ", ".join(clean(v) for v in (x.get("languages") or [])),
+        "skills": ", ".join(f"{SKILL_IT.get(k.lower(), k.title())} {v}" for k, v in (x.get("skill") or {}).items()),
+        "senses": ", ".join(clean(v).replace("ft.", "piedi") for v in (x.get("senses") or [])).replace("Darkvision", "Scurovisione").replace("Blindsight", "Vista cieca").replace("Tremorsense", "Percezione tellurica").replace("Truesight", "Vista vera") + (f" · passivo {x.get('passive')}" if x.get("passive") else ""),
+        "languages": ", ".join(fmt_lang(v) for v in (x.get("languages") or [])),
         "resist": fmt_damage_list(x.get("resist")),
         "immune": fmt_damage_list(x.get("immune")),
-        "conditionImmune": ", ".join(clean(v) for v in (x.get("conditionImmune") or [])),
+        "conditionImmune": ", ".join(COND_IT.get(str(v).lower(), clean(v)) for v in (x.get("conditionImmune") or [])),
     }
 
 

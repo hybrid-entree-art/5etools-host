@@ -110,9 +110,13 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .monster-action{margin:0 0 10px}
 .monster-action b{font:700 17px var(--book);color:#3a291b}
 .monster-action p{margin:2px 0 0}
-.dice-roll{display:inline-block;padding:0 5px;border-radius:5px;background:rgba(240,167,66,.18);color:#7a4a12;font-weight:800;white-space:nowrap}
+.dice-roll{display:inline-block;padding:0 5px;border-radius:5px;background:rgba(240,167,66,.18);color:#7a4a12;font:700 15px var(--ui);white-space:nowrap}
 .monster-section--legendary{border-left:3px solid #b8863b;padding-left:12px;background:rgba(201,178,138,.1)}
-.monster-section--lair{border-left:3px solid #8a5a2b;padding-left:12px;background:rgba(201,178,138,.12)}
+.monster-section--legendary{border-left:3px solid #b8863b;padding-left:12px;background:rgba(201,178,138,.1)}
+.monster-section--legendary h3{color:#6d3b12}
+.monster-section--traits h3{color:#3a291b}
+.monster-section--actions h3{color:#5d3e20}
+.legendary-info h4{font:700 13px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:#7a4a12;margin:2px 0 6px}
 .legendary-info{margin:4px 0 10px;padding:8px 10px;border-radius:8px;background:rgba(201,178,138,.18)}
 .stat--wide{grid-column:1/-1}
 #view-detail .page-head{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -718,8 +722,8 @@ function itemBody(item,cat){
   if(cat==='monsters' && item.sections && item.sections.length){
     return item.sections.map(sec=>{
       const kind=sec.label==='Tratti'?'traits':sec.label==='Azioni'?'actions':sec.label==='Azioni bonus'?'bonus':sec.label==='Reazioni'?'reactions':'legendary';
-      const lair=kind==='legendary'&&item.legendary?`<section class="monster-section monster-section--lair"><h3>Informazioni leggendarie</h3><div class="legendary-info">${paragraphs(item.legendary.entries)}</div></section>`:'';
-      return `${lair}<section class="monster-section monster-section--${kind}"><h3>${esc(sec.label)}</h3>${sec.items.map(a=>`<div class="monster-action"><b>${esc(a.name)}.</b>${paragraphs(a.entries)}</div>`).join('')}</section>`;
+      const legendary=kind==='legendary'&&item.legendary?`<div class="legendary-info"><h4>Informazioni leggendarie</h4>${paragraphs(item.legendary.entries)}</div>`:'';
+      return `<section class="monster-section monster-section--${kind}"><h3>${esc(sec.label)}</h3>${legendary}${sec.items.map(a=>`<div class="monster-action"><b>${esc(a.name)}.</b>${paragraphs(a.entries)}</div>`).join('')}</section>`;
     }).join('');
   }
   return paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>';

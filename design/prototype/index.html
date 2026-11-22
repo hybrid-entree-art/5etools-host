@@ -108,8 +108,13 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .monster-section{margin:18px 0}
 .monster-section h3{font:700 20px var(--head);color:var(--paper-ink);margin:0 0 8px;padding-bottom:5px;border-bottom:1px solid var(--paper-line)}
 .monster-action{margin:0 0 10px}
-.monster-action b{font:700 15px var(--book);color:#3a291b}
+.monster-action b{font:700 17px var(--book);color:#3a291b}
 .monster-action p{margin:2px 0 0}
+.dice-roll{display:inline-block;padding:0 5px;border-radius:5px;background:rgba(240,167,66,.18);color:#7a4a12;font-weight:800;white-space:nowrap}
+.monster-section--legendary{border-left:3px solid #b8863b;padding-left:12px;background:rgba(201,178,138,.1)}
+.monster-section--lair{border-left:3px solid #8a5a2b;padding-left:12px;background:rgba(201,178,138,.12)}
+.legendary-info{margin:4px 0 10px;padding:8px 10px;border-radius:8px;background:rgba(201,178,138,.18)}
+.stat--wide{grid-column:1/-1}
 #view-detail .page-head{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .ability-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px}
 .ability-grid div{text-align:center;padding:7px 2px;border:1px solid var(--paper-line);border-radius:8px}
@@ -706,12 +711,16 @@ function statsFor(item,cat){
 }
 function detailStats(item){ return statsFor(item,CATEGORY); }
 function paragraphs(text){
-  return String(text||'').split(/\n{2,}/).filter(Boolean).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
+  return String(text||'').split(/\n{2,}/).filter(Boolean).map(p=>`<p>${esc(p).replace(/\b(\d+d\d+(?:\s*[+-]\s*\d+)?)\b/g,'<span class="dice-roll">$1</span>').replace(/\n/g,'<br>')}</p>`).join('');
 }
 
 function itemBody(item,cat){
   if(cat==='monsters' && item.sections && item.sections.length){
-    return item.sections.map(sec=>`<section class="monster-section"><h3>${esc(sec.label)}</h3>${sec.items.map(a=>`<div class="monster-action"><b>${esc(a.name)}.</b>${paragraphs(a.entries)}</div>`).join('')}</section>`).join('');
+    return item.sections.map(sec=>{
+      const kind=sec.label==='Tratti'?'traits':sec.label==='Azioni'?'actions':sec.label==='Azioni bonus'?'bonus':sec.label==='Reazioni'?'reactions':'legendary';
+      const lair=kind==='legendary'&&item.legendary?`<section class="monster-section monster-section--lair"><h3>Informazioni leggendarie</h3><div class="legendary-info">${paragraphs(item.legendary.entries)}</div></section>`:'';
+      return `${lair}<section class="monster-section monster-section--${kind}"><h3>${esc(sec.label)}</h3>${sec.items.map(a=>`<div class="monster-action"><b>${esc(a.name)}.</b>${paragraphs(a.entries)}</div>`).join('')}</section>`;
+    }).join('');
   }
   return paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>';
 }
@@ -723,12 +732,11 @@ function detailHTML(item){
     <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">${esc(item.school||"")}${item.level!==undefined?` · ${levelLabel(item.level)}`:""}</div></div></div>
     ${item.image?`<img class="entry-image" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}
     <div class="rule"></div>
-    <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
+    <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat${String(value).length>42?' stat--wide':''}"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
     ${abilities}
     <div class="rule"></div>
     <div class="prose detail-prose">${item.features&&item.features.length?`<div class="class-features">${item.features.map(f=>`<details class="ref-card"><summary><b>${esc(f.name)}</b><span>Livello ${esc(f.level??'—')}</span></summary><div class="ref-body">${paragraphs(f.entries)||'<p>Nessuna descrizione.</p>'}</div></details>`).join('')}</div>`:itemBody(item,CATEGORY)}</div>
     ${item.higher?`<div class="callout"><b>Livelli superiori.</b> ${esc(item.higher)}</div>`:''}
-    ${item.legendary?`<div class="callout legendary-info"><b>Informazioni leggendarie.</b>${paragraphs(item.legendary.entries)}</div>`:''}
     <div class="entry-footer">${item.classes&&item.classes.length?`<div class="class-tags"><span class="footer-label">Classi</span>${item.classes.map(c=>`<span class="tag tide">${esc(CLASS_IT[c]||c)}</span>`).join('')}</div>`:'<span></span>'}<div class="footer-source">Fonte: <b title="${esc(sourceTitle(item))}">${esc(sourceLabel(item))}</b></div></div>
   </div>`;
 }
@@ -791,7 +799,7 @@ function blockHTML(b,level,ctx){
     const label=cat?cat.label:(b.tag||'Voce');
     const stats=statsFor(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat);
     const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
-    return `<details class="ref-card"><summary><b>${esc(item.name)}</b><span>${esc(label)} · ${esc(sourceLabel(item))}</span></summary><div class="ref-body"><div class="ref-stats">${stats.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>${abilities}${itemBody(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat)}${item.higher?`<div class="book-note"><b>Livelli superiori</b>${esc(item.higher)}</div>`:''}${item.legendary?`<div class="book-note"><b>Informazioni leggendarie</b>${paragraphs(item.legendary.entries)}</div>`:''}</div></details>`;
+    return `<details class="ref-card"><summary><b>${esc(item.name)}</b><span>${esc(label)} · ${esc(sourceLabel(item))}</span></summary><div class="ref-body"><div class="ref-stats">${stats.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>${abilities}${itemBody(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat)}${item.higher?`<div class="book-note"><b>Livelli superiori</b>${esc(item.higher)}</div>`:''}</div></details>`;
   }
   return '';
 }

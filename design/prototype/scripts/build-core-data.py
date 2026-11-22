@@ -62,9 +62,9 @@ def load(rel: str):
 
 
 ATK = {
-    "mw": "Attacco con arma da mischia", "rw": "Attacco con arma a distanza",
-    "ms": "Attacco con incantesimo da mischia", "rs": "Attacco con incantesimo a distanza",
-    "m": "Attacco con arma da mischia", "r": "Attacco con arma a distanza",
+    "mw": "Melee Weapon Attack", "rw": "Ranged Weapon Attack",
+    "ms": "Melee Spell Attack", "rs": "Ranged Spell Attack",
+    "m": "Melee Weapon Attack", "r": "Ranged Weapon Attack",
 }
 
 
@@ -75,11 +75,11 @@ def tag_repl(m) -> str:
     if tag in ("atk", "atkr"):
         return " / ".join(ATK.get(x.strip(), x.strip()) for x in first.split(",") if x.strip()) + ":"
     if tag == "h":
-        return "Colpo:"
+        return "Hit: "
     if tag == "hit":
         return f"+{first}" if not first.startswith("+") else first
     if tag == "dc":
-        return f"CD {first}"
+        return f"DC {first}"
     if tag == "chance":
         return f"{first}%"
     if tag in ("damage", "dice", "scaledamage", "scaledice", "recharge"):

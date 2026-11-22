@@ -105,6 +105,8 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .detail-stats .stat b{font:700 15px var(--book);color:var(--paper-ink)}
 .detail-prose p{margin:0 0 12px;font:17px/1.65 var(--book);color:var(--paper-ink)}
 .detail-prose h3{font:700 20px var(--head);margin:18px 0 6px;color:var(--paper-ink)}
+.monster-lore{margin:6px 0 18px}
+.monster-lore h3{font:700 20px var(--head);color:var(--paper-ink);margin:0 0 6px;padding-bottom:5px;border-bottom:1px solid var(--paper-line)}
 .monster-section{margin:18px 0}
 .monster-section h3{font:700 20px var(--head);color:var(--paper-ink);margin:0 0 8px;padding-bottom:5px;border-bottom:1px solid var(--paper-line)}
 .monster-action{margin:0 0 10px}
@@ -583,7 +585,7 @@ function syncFilters(){
 }
 
 function rowText(item){
-  return [item.name,item.school,item.type,item.rarity,item.className,item.category,item.primary,item.types,item.facilityType,item.entries].join(' ').toLowerCase();
+  return [item.name,item.school,item.type,item.rarity,item.className,item.category,item.primary,item.types,item.facilityType,item.entries,item.lore].join(' ').toLowerCase();
 }
 function applyCatalog(){
   const q=search.value.trim().toLowerCase();
@@ -735,6 +737,7 @@ function detailHTML(item){
   return `<div class="paper spell-card ${esc(CATEGORY)}">
     <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">${esc(item.school||"")}${item.level!==undefined?` · ${levelLabel(item.level)}`:""}</div></div></div>
     ${item.image?`<img class="entry-image" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}
+    ${item.lore?`<section class="monster-lore"><h3>Descrizione</h3>${paragraphs(item.lore)}</section>`:''}
     <div class="rule"></div>
     <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat${String(value).length>42?' stat--wide':''}"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
     ${abilities}
@@ -803,7 +806,7 @@ function blockHTML(b,level,ctx){
     const label=cat?cat.label:(b.tag||'Voce');
     const stats=statsFor(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat);
     const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
-    return `<details class="ref-card"><summary><b>${esc(item.name)}</b><span>${esc(label)} · ${esc(sourceLabel(item))}</span></summary><div class="ref-body"><div class="ref-stats">${stats.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>${abilities}${itemBody(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat)}${item.higher?`<div class="book-note"><b>Livelli superiori</b>${esc(item.higher)}</div>`:''}</div></details>`;
+    return `<details class="ref-card"><summary><b>${esc(item.name)}</b><span>${esc(label)} · ${esc(sourceLabel(item))}</span></summary><div class="ref-body">${item.lore?`<div class="monster-lore">${paragraphs(item.lore)}</div>`:""}<div class="ref-stats">${stats.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>${abilities}${itemBody(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat)}${item.higher?`<div class="book-note"><b>Livelli superiori</b>${esc(item.higher)}</div>`:''}</div></details>`;
   }
   return '';
 }

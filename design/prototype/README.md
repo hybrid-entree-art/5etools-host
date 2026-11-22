@@ -11,7 +11,7 @@ Prototipo unico e cliccabile con **tutto il contenuto 2024 dei tre manuali base*
 - **Lettore:** capitoli reali da `book-xphb`, `book-xdmg`, `book-xmm`; indice del manuale; riferimenti espandibili per incantesimi, classi, background, talenti, oggetti, mostri e glossario. Deep link `#reader/XPHB/8`.
 - **Incantesimi:** lista con scuola colorata, tempo/gittata/durata e fonte; scheda con scuola, tiro salvezza, danno, attacco, classi e fonte in basso.
 - **Navigazione:** tasto Indietro nell’header e nel menu per non uscire dal prototipo.
-- **Mostri:** scheda divisa in Tratti, Azioni, Azioni bonus, Reazioni e Azioni leggendarie; nomi in grassetto; informazioni leggendarie incorporate, niente categoria separata.
+- **Mostri:** lore dal Monster Manual sopra il blocco statistiche, immagine quando disponibile; scheda divisa in Tratti, Azioni, Azioni bonus, Reazioni e Azioni leggendarie; nomi in grassetto; informazioni leggendarie incorporate, niente categoria separata.
 - **Specie e classi:** lista con card orizzontali e arte a destra; dettaglio con hero image e feature di classe in accordion, come Ruleholder.
 - **Dettaglio:** fonte mostrata una sola volta; metadati e testo pulito dai tag di 5e.tools.
 - **Direzione:** guscio scuro ATLAS, pergamena solo nel contenuto di lettura e nella scheda.

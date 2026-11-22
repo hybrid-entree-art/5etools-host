@@ -115,7 +115,9 @@ def flat(entries) -> str:
     if "items" in e:
         return "\n".join(flat(x) for x in e["items"] if flat(x))
     if "entry" in e:
-        return flat(e["entry"])
+        body = flat(e["entry"])
+        name = clean(e.get("name"))
+        return f"{name.rstrip(':')}: {body}".strip() if name and body else body
     if "rows" in e:
         rows = []
         for row in e["rows"]:
@@ -255,6 +257,26 @@ def fmt_lang(value):
     return text
 
 
+def resolve_fluff(x, fluff_map):
+    if not x:
+        return {}
+    if "_copy" not in x:
+        return x
+    cp = x["_copy"]
+    base = fluff_map.get((cp.get("name"), cp.get("source"))) or {}
+    out = dict(base)
+    out.update({k: v for k, v in x.items() if k not in ("_copy",)})
+    mod = cp.get("_mod") or {}
+    for key in ("entries", "images"):
+        if key in mod:
+            items = mod[key].get("items") or []
+            if mod[key].get("mode") == "prependArr":
+                out[key] = items + list(base.get(key) or [])
+            elif mod[key].get("mode") == "appendArr":
+                out[key] = list(base.get(key) or []) + items
+    return out
+
+
 def fmt_damage_list(values):
     out = []
     for v in values or []:
@@ -265,7 +287,7 @@ def fmt_damage_list(values):
     return ", ".join(out)
 
 
-def make_monster(x):
+def make_monster(x, fluff=None):
     traits = x.get("trait") or []
     actions = x.get("action") or []
     bonus = x.get("bonus") or []
@@ -294,6 +316,8 @@ def make_monster(x):
         "type": type_label, "cr": cr_value(x.get("cr")),
         "ac": ac_value(x.get("ac")), "hp": hp_value(x.get("hp")), "speed": speed_value(x.get("speed")),
         "entries": text, "sections": sections,
+        "lore": flat((fluff or {}).get("entries") or []).replace("Underdark", "Sottosuolo").replace("Underwater", "sott'acqua").replace("Treasure:", "Tesoro:").replace("Random Magic Items - Relics", "Reliquie"),
+        "image": ((fluff or {}).get("images") or [{}])[0].get("href", {}).get("path", "") if (fluff or {}).get("images") else "",
         "abilities": {k.upper(): x.get(k) for k in ("str", "dex", "con", "int", "wis", "cha") if x.get(k) is not None},
         "saves": ", ".join(f"{ABILITIES.get(k, k)} {v}" for k, v in (x.get("save") or {}).items()),
         "skills": ", ".join(f"{SKILL_IT.get(k.lower(), k.title())} {v}" for k, v in (x.get("skill") or {}).items()),
@@ -525,9 +549,14 @@ def make_card(x):
 def main():
     spell_lookup = load("generated/gendata-spell-source-lookup.json")
     spells = [make_spell(x, spell_lookup) for x in load("spells/spells-xphb.json").get("spell", []) if x.get("source") == "XPHB"]
+    fluff_rows = load("bestiary/fluff-bestiary-xmm.json").get("monsterFluff", [])
+    fluff_map = {(x.get("name"), x.get("source")): x for x in fluff_rows}
     monsters = []
     for f in sorted((DATA / "bestiary").glob("bestiary-*.json")):
-        monsters += [make_monster(x) for x in json.loads(f.read_text()).get("monster", []) if x.get("source") in ("XMM", "XDMG")]
+        for x in json.loads(f.read_text()).get("monster", []):
+            if x.get("source") in ("XMM", "XDMG"):
+                raw_fluff = resolve_fluff(fluff_map.get((x["name"], x.get("source"))), fluff_map)
+                monsters.append(make_monster(x, raw_fluff))
     legendary_groups = [x for x in load("bestiary/legendarygroups.json").get("legendaryGroup", []) if x.get("source") == "XMM"]
     for g in legendary_groups:
         info = flat(g.get("regionalEffects") or [])

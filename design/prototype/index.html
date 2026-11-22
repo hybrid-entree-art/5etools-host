@@ -105,6 +105,15 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .detail-stats .stat b{font:700 15px var(--book);color:var(--paper-ink)}
 .detail-prose p{margin:0 0 12px;font:17px/1.65 var(--book);color:var(--paper-ink)}
 .detail-prose h3{font:700 20px var(--head);margin:18px 0 6px;color:var(--paper-ink)}
+.monster-facts{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.monster-facts .tag{font-size:11px}
+.monster-quote{margin:10px 0 16px;padding:10px 12px;border-left:3px solid #b8863b;background:rgba(201,178,138,.16);font:italic 14px/1.5 var(--book);color:#4a3520}
+.monster-quote cite{display:block;margin-top:6px;font:600 10px var(--ui);font-style:normal;color:#7a5b3a}
+.ability-table{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin:0 0 14px}
+.ability-cell{text-align:center;padding:6px 2px;border:1px solid var(--paper-line);border-radius:8px}
+.ability-cell span{display:block;font:700 9px var(--ui);letter-spacing:.06em;color:#7a5b3a}
+.ability-cell b{display:block;font:700 17px var(--book);color:var(--paper-ink)}
+.ability-cell small{display:block;font:600 9px var(--ui);color:#6d4c2b;margin-top:2px}
 .monster-lore{margin:6px 0 18px}
 .monster-lore h3{font:700 20px var(--head);color:var(--paper-ink);margin:0 0 6px;padding-bottom:5px;border-bottom:1px solid var(--paper-line)}
 .monster-section{margin:18px 0}
@@ -114,7 +123,11 @@ h1,h2,h3{font-family:var(--head);margin:0}
 .monster-action p{margin:2px 0 0}
 .dice-roll{display:inline-block;padding:0 5px;border-radius:5px;background:rgba(240,167,66,.18);color:#7a4a12;font:700 15px var(--ui);white-space:nowrap}
 .monster-section--legendary{border-left:3px solid #b8863b;padding-left:12px;background:rgba(201,178,138,.1)}
+.monster-section--lair{border-left:3px solid #8a5a2b;padding-left:12px;background:rgba(201,178,138,.12)}
+.monster-section--regional{border-left:3px solid #c9b28a;padding-left:12px}
 .monster-section--legendary{border-left:3px solid #b8863b;padding-left:12px;background:rgba(201,178,138,.1)}
+.monster-section--lair{border-left:3px solid #8a5a2b;padding-left:12px;background:rgba(201,178,138,.12)}
+.monster-section--regional{border-left:3px solid #c9b28a;padding-left:12px}
 .monster-section--legendary h3{color:#6d3b12}
 .monster-section--traits h3{color:#3a291b}
 .monster-section--actions h3{color:#5d3e20}
@@ -512,6 +525,7 @@ let FILTERS={};
 
 const esc=(v)=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sourceOf=(x)=>x.source||'2024';
+const fmtNum=(n)=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
 const SOURCE_LABEL={XPHB:['PHB 2024',"Player's Handbook 2024"],XDMG:['DMG 2024',"Dungeon Master's Guide 2024"],XMM:['MM 2024','Monster Manual 2024']};
 const CLASS_IT={Barbarian:'Barbaro',Bard:'Bardo',Cleric:'Chierico',Druid:'Druido',Fighter:'Guerriero',Monk:'Monaco',Paladin:'Paladino',Ranger:'Ranger',Rogue:'Ladro',Sorcerer:'Stregone',Warlock:'Warlock',Wizard:'Mago',Artificer:'Artificiere'};
 function sourceLabel(x){const v=SOURCE_LABEL[sourceOf(x)];return v?v[0]:sourceOf(x);}
@@ -700,7 +714,8 @@ function statsFor(item,cat){
     add('Livello',levelLabel(item.level)); add('Scuola',item.school); add('Tempo di lancio',item.time); add('Gittata',item.range);
     add('Componenti',item.components); add('Durata',item.duration); add('Concentrazione',item.concentration?'Sì':''); add('Tiro salvezza',item.save); add('Danno',item.damage); add('Attacco',item.attack);
   } else if(cat==='monsters'){
-    add('Taglia',item.size); add('Tipo',item.type); add('GS',item.cr); add('CA',item.ac); add('PF',item.hp); add('Velocità',item.speed);
+    add('Taglia',item.size); add('Tipo',item.type); add('GS',item.xp?`${item.cr} (${fmtNum(item.xp)} XP)`:item.cr); add('CA',item.ac); add('PF',item.hp); add('Iniziativa',item.initiative); add('Velocità',item.speed);
+    add('XP tana',item.lairXp?`${fmtNum(item.lairXp)} XP`:''); add('Bonus competenza',item.pb);
     add('Tiri salvezza',item.saves); add('Abilità',item.skills); add('Sensi',item.senses); add('Linguaggi',item.languages); add('Resistenze',item.resist); add('Immunità',item.immune); add('Immunità condizioni',item.conditionImmune);
   } else if(cat==='magic-items' || cat==='equipment'){
     add('Tipo',item.type); add('Danno',item.damage); add('Proprietà',item.properties); add('Maestria',item.mastery); add('CA',item.ac); add('Requisito',item.strength); add('Furtività',item.stealth?'Svantaggio':''); add('Rarità',item.rarity); add('Sintonia',item.attune); add('Peso',item.weight);
@@ -724,8 +739,8 @@ function itemBody(item,cat){
   if(cat==='monsters' && item.sections && item.sections.length){
     return item.sections.map(sec=>{
       const kind=sec.label==='Tratti'?'traits':sec.label==='Azioni'?'actions':sec.label==='Azioni bonus'?'bonus':sec.label==='Reazioni'?'reactions':'legendary';
-      const legendary=kind==='legendary'&&item.legendary?`<div class="legendary-info"><h4>Informazioni leggendarie</h4>${paragraphs(item.legendary.entries)}</div>`:'';
-      return `<section class="monster-section monster-section--${kind}"><h3>${esc(sec.label)}</h3>${legendary}${sec.items.map(a=>`<div class="monster-action"><b>${esc(a.name)}.</b>${paragraphs(a.entries)}</div>`).join('')}</section>`;
+      const extras=kind==='legendary'?`${item.legendary&&item.legendary.lair?`<section class="monster-section monster-section--lair"><h3>Azioni di Tana</h3>${paragraphs(item.legendary.lair)}</section>`:''}${item.legendary&&item.legendary.regional?`<section class="monster-section monster-section--regional"><h3>Effetti Regionali</h3>${paragraphs(item.legendary.regional)}</section>`:''}`:'';
+      return `${extras}<section class="monster-section monster-section--${kind}"><h3>${esc(sec.label)}</h3>${sec.items.map(a=>`<div class="monster-action"><b>${esc(a.name)}.</b>${paragraphs(a.entries)}</div>`).join('')}</section>`;
     }).join('');
   }
   return paragraphs(item.entries)||'<p>Nessuna descrizione testuale per questa voce.</p>';
@@ -733,11 +748,13 @@ function itemBody(item,cat){
 
 function detailHTML(item){
   const stats=statsFor(item,CATEGORY);
-  const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
+  const abilities=CATEGORY==='monsters'&&item.abilityRows?`<div class="ability-table">${item.abilityRows.map(r=>`<div class="ability-cell"><span>${esc(r.key)}</span><b>${esc(r.score)}</b><small>${esc(r.mod)} · TS ${esc(r.save)}</small></div>`).join('')}</div>`:(item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'');
   return `<div class="paper spell-card ${esc(CATEGORY)}">
     <div class="spell-top"><div class="spell-orb" aria-hidden="true"></div><div><h2>${esc(item.name)}</h2><div class="en">${esc(item.school||"")}${item.level!==undefined?` · ${levelLabel(item.level)}`:""}</div></div></div>
     ${item.image?`<img class="entry-image" src="${esc(imgURL(item.image))}" alt="" loading="lazy" onerror="this.style.display='none'">`:''}
+    ${(item.habitat||item.treasure)?`<div class="monster-facts">${item.habitat?`<span class="tag tide">Habitat: ${esc(item.habitat)}</span>`:''}${item.treasure?`<span class="tag">Tesoro: ${esc(item.treasure)}</span>`:''}</div>`:''}
     ${item.lore?`<section class="monster-lore"><h3>Descrizione</h3>${paragraphs(item.lore)}</section>`:''}
+    ${item.quote?`<blockquote class="monster-quote">${esc(item.quote.text)}${item.quote.by?`<cite>— ${esc(item.quote.by)}${item.quote.from?`, ${esc(item.quote.from)}`:''}</cite>`:''}</blockquote>`:''}
     <div class="rule"></div>
     <div class="detail-stats">${stats.map(([label,value])=>`<div class="stat${String(value).length>42?' stat--wide':''}"><span>${esc(label)}</span><b>${esc(value)}</b></div>`).join('')}</div>
     ${abilities}
@@ -805,7 +822,7 @@ function blockHTML(b,level,ctx){
     if(!item) return `<details class="ref-card"><summary><b>${esc(b.name)}</b><span>${esc(b.tag||'Riferimento')} · ${esc(b.source||'')}</span></summary><div class="ref-body"><p>Riferimento del manuale non collegato a una scheda del compendio.</p></div></details>`;
     const label=cat?cat.label:(b.tag||'Voce');
     const stats=statsFor(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat);
-    const abilities=item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'';
+    const abilities=CATEGORY==='monsters'&&item.abilityRows?`<div class="ability-table">${item.abilityRows.map(r=>`<div class="ability-cell"><span>${esc(r.key)}</span><b>${esc(r.score)}</b><small>${esc(r.mod)} · TS ${esc(r.save)}</small></div>`).join('')}</div>`:(item.abilities?`<div class="ability-grid">${Object.entries(item.abilities).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`:'');
     return `<details class="ref-card"><summary><b>${esc(item.name)}</b><span>${esc(label)} · ${esc(sourceLabel(item))}</span></summary><div class="ref-body">${item.lore?`<div class="monster-lore">${paragraphs(item.lore)}</div>`:""}<div class="ref-stats">${stats.map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>${abilities}${itemBody(item,cat?Object.keys(DATA.categories).find(k=>DATA.categories[k]===cat):b.cat)}${item.higher?`<div class="book-note"><b>Livelli superiori</b>${esc(item.higher)}</div>`:''}</div></details>`;
   }
   return '';

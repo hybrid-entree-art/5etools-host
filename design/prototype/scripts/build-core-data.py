@@ -197,6 +197,10 @@ def hp_value(hp) -> str:
     return str(hp or "")
 
 
+ENV_IT = {"underdark": "Sottosuolo", "underwater": "Sott'acqua", "swamp": "Palude", "forest": "Foresta", "mountain": "Montagna", "hill": "Collina", "desert": "Deserto", "arctic": "Artico", "coastal": "Costa", "urban": "Urbano", "planar": "Planare", "grassland": "Pianura", "cave": "Caverna", "ruins": "Rovine"}
+TREASURE_IT = {"relics": "Reliquie", "any": "Qualsiasi", "individual": "Individuale", "hoard": "Tesoro", "none": "Nessuno", "standard": "Standard"}
+CR_PB = {"0": 2, "1/8": 2, "1/4": 2, "1/2": 2, "1": 2, "2": 2, "3": 2, "4": 2, "5": 3, "6": 3, "7": 3, "8": 3, "9": 4, "10": 4, "11": 4, "12": 4, "13": 5, "14": 5, "15": 5, "16": 5, "17": 6, "18": 6, "19": 6, "20": 6, "21": 7, "22": 7, "23": 7, "24": 7, "25": 8, "26": 8, "27": 8, "28": 8, "29": 9, "30": 9}
+CR_XP = {"0": 10, "1/8": 25, "1/4": 50, "1/2": 100, "1": 200, "2": 450, "3": 700, "4": 1100, "5": 1800, "6": 2300, "7": 2900, "8": 3900, "9": 5000, "10": 5900, "11": 7200, "12": 8400, "13": 10000, "14": 11500, "15": 13000, "16": 15000, "17": 18000, "18": 20000, "19": 22000, "20": 25000, "21": 33000, "22": 41000, "23": 50000, "24": 62000, "25": 75000, "26": 90000, "27": 105000, "28": 120000, "29": 135000, "30": 155000}
 SPEED_IT = {"walk": "Cammina", "fly": "Vola", "swim": "Nuota", "burrow": "Scava", "climb": "Arrampica"}
 SKILL_IT = {
     "acrobatics": "Acrobazia", "animal handling": "Addestrare animali", "arcana": "Arcano",
@@ -255,6 +259,22 @@ def fmt_lang(value):
     for en, it in LANG_IT.items():
         text = re.sub(r"\b" + re.escape(en) + r"\b", it, text, flags=re.I)
     return text
+
+
+def find_quote(entries):
+    if isinstance(entries, list):
+        for e in entries:
+            q = find_quote(e)
+            if q:
+                return q
+    elif isinstance(entries, dict):
+        if entries.get("type") == "quote":
+            return {"text": flat(entries.get("entries")), "by": clean(entries.get("by")), "from": clean(entries.get("from"))}
+        for key in ("entries", "items"):
+            q = find_quote(entries.get(key) or [])
+            if q:
+                return q
+    return None
 
 
 def resolve_fluff(x, fluff_map):
@@ -316,7 +336,15 @@ def make_monster(x, fluff=None):
         "type": type_label, "cr": cr_value(x.get("cr")),
         "ac": ac_value(x.get("ac")), "hp": hp_value(x.get("hp")), "speed": speed_value(x.get("speed")),
         "entries": text, "sections": sections,
-        "lore": flat((fluff or {}).get("entries") or []).replace("Underdark", "Sottosuolo").replace("Underwater", "sott'acqua").replace("Treasure:", "Tesoro:").replace("Random Magic Items - Relics", "Reliquie"),
+        "lore": (lambda lore: re.sub(r"(?m)^\s*(Habitat|Tesoro):.*\n?", "", lore.replace(q["text"], "").strip() if (q := find_quote((fluff or {}).get("entries") or [])) and q.get("text") in lore else lore))(flat((fluff or {}).get("entries") or []).replace("Underdark", "Sottosuolo").replace("Underwater", "sott'acqua").replace("Treasure:", "Tesoro:").replace("Random Magic Items - Relics", "Reliquie")),
+        "quote": find_quote((fluff or {}).get("entries") or []),
+        "habitat": ", ".join(ENV_IT.get(str(v).lower(), clean(v)) for v in (x.get("environment") or [])),
+        "treasure": ", ".join(TREASURE_IT.get(str(v).lower(), clean(v)) for v in (x.get("treasure") or [])),
+        "xp": CR_XP.get(str(cr_value(x.get("cr"))), ""),
+        "lairXp": (x.get("cr") or {}).get("xpLair", "") if isinstance(x.get("cr"), dict) else "",
+        "pb": f"+{CR_PB.get(str(cr_value(x.get('cr'))), 2)}",
+        "initiative": (lambda dex, pb: f"{(dex - 10)//2 + pb:+d}")(x.get("dex", 10), CR_PB.get(str(cr_value(x.get('cr'))), 2)),
+        "abilityRows": [{"key": k.upper(), "score": x.get(k), "mod": (lambda m: f"{m:+d}" if m else "0")((x.get(k, 10) - 10) // 2), "save": (x.get("save") or {}).get(k, "—")} for k in ("str", "dex", "con", "int", "wis", "cha") if x.get(k) is not None],
         "image": ((fluff or {}).get("images") or [{}])[0].get("href", {}).get("path", "") if (fluff or {}).get("images") else "",
         "abilities": {k.upper(): x.get(k) for k in ("str", "dex", "con", "int", "wis", "cha") if x.get(k) is not None},
         "saves": ", ".join(f"{ABILITIES.get(k, k)} {v}" for k, v in (x.get("save") or {}).items()),
@@ -557,17 +585,24 @@ def main():
             if x.get("source") in ("XMM", "XDMG"):
                 raw_fluff = resolve_fluff(fluff_map.get((x["name"], x.get("source"))), fluff_map)
                 monsters.append(make_monster(x, raw_fluff))
-    legendary_groups = [x for x in load("bestiary/legendarygroups.json").get("legendaryGroup", []) if x.get("source") == "XMM"]
+    all_groups = load("bestiary/legendarygroups.json").get("legendaryGroup", [])
+    group_by_name = {}
+    for g in all_groups:
+        if g.get("source") in ("XMM", "MM"):
+            group_by_name.setdefault(g["name"], {})[g.get("source")] = g
+    legendary_groups = [x for x in all_groups if x.get("source") == "XMM"]
     for g in legendary_groups:
-        info = flat(g.get("regionalEffects") or [])
-        if not info:
+        fallback = (group_by_name.get(g["name"]) or {}).get("MM") or {}
+        lair = flat(g.get("lairActions") or fallback.get("lairActions") or [])
+        regional = flat(g.get("regionalEffects") or [])
+        if not lair and not regional:
             continue
         for m in monsters:
             match = m["name"] == g["name"]
             if g["name"].endswith(" Dragon") and m["name"].endswith(g["name"]) and m["name"].split(" ", 1)[0] in ("Adult", "Ancient"):
                 match = True
             if match:
-                m["legendary"] = {"name": g["name"], "entries": info}
+                m["legendary"] = {"name": g["name"], "lair": lair, "regional": regional}
     items = load("items.json").get("item", [])
     magic = [make_item(x) for x in items if x.get("source") == "XDMG"]
     seen_magic = {x["name"] for x in magic}

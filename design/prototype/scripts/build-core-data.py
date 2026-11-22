@@ -48,6 +48,7 @@ PROPS = {
 }
 FEAT_CATS = {"O": "Origine", "G": "Generale", "F": "Combattimento", "S": "Stile", "EB": "Epico", "R": "Razziale"}
 ABILITIES = {"str": "Forza", "dex": "Destrezza", "con": "Costituzione", "int": "Intelligenza", "wis": "Saggezza", "cha": "Carisma"}
+TYPE_TAGS = {"chromatic": "cromatico", "metallic": "metallico", "shapechanger": "mutaforma", "any": "qualsiasi"}
 MONSTER_TYPES = {
     "aberration": "Aberrazione", "beast": "Bestia", "celestial": "Celeste", "construct": "Costrutto",
     "dragon": "Drago", "elemental": "Elementale", "fey": "Folletto", "fiend": "Immondo",
@@ -235,9 +236,18 @@ def make_monster(x):
     reactions = x.get("reaction") or []
     text = flat(traits + actions + bonus + reactions)
     sizes = "/".join(SIZES.get(s, s) for s in (x.get("size") or []))
+    raw_type = x.get("type", "")
+    if isinstance(raw_type, dict):
+        base_type = raw_type.get("type", "")
+        tags = raw_type.get("tags") or []
+        type_label = MONSTER_TYPES.get(str(base_type).lower(), clean(base_type))
+        if tags:
+            type_label += " (" + ", ".join(TYPE_TAGS.get(str(t).lower(), clean(t)) for t in tags) + ")"
+    else:
+        type_label = MONSTER_TYPES.get(str(raw_type).lower(), clean(raw_type))
     return {
         "name": x["name"], "source": x.get("source", "XMM"), "size": sizes,
-        "type": MONSTER_TYPES.get(str(x.get("type", "")).lower(), clean(x.get("type", ""))), "cr": cr_value(x.get("cr")),
+        "type": type_label, "cr": cr_value(x.get("cr")),
         "ac": ac_value(x.get("ac")), "hp": hp_value(x.get("hp")), "speed": speed_value(x.get("speed")),
         "entries": text,
         "abilities": {k.upper(): x.get(k) for k in ("str", "dex", "con", "int", "wis", "cha") if x.get(k) is not None},
@@ -467,6 +477,17 @@ def main():
     monsters = []
     for f in sorted((DATA / "bestiary").glob("bestiary-*.json")):
         monsters += [make_monster(x) for x in json.loads(f.read_text()).get("monster", []) if x.get("source") in ("XMM", "XDMG")]
+    legendary_groups = [x for x in load("bestiary/legendarygroups.json").get("legendaryGroup", []) if x.get("source") == "XMM"]
+    for g in legendary_groups:
+        info = flat(g.get("regionalEffects") or [])
+        if not info:
+            continue
+        for m in monsters:
+            match = m["name"] == g["name"]
+            if g["name"].endswith(" Dragon") and m["name"].endswith(g["name"]) and m["name"].split(" ", 1)[0] in ("Adult", "Ancient"):
+                match = True
+            if match:
+                m["legendary"] = {"name": g["name"], "entries": info}
     items = load("items.json").get("item", [])
     magic = [make_item(x) for x in items if x.get("source") == "XDMG"]
     seen_magic = {x["name"] for x in magic}
@@ -568,7 +589,6 @@ def main():
         ("treasure", "Tesori", treasure),
         ("item-types", "Tipi di oggetto", item_types),
         ("cards", "Carte", cards),
-        ("legendary-groups", "Gruppi leggendari", legendary),
         ("glossary", "Glossario", glossary),
     ]
     payload = {

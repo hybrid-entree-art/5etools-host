@@ -229,12 +229,30 @@ def make_spell(x, source_lookup=None):
     }
 
 
+def fmt_damage_list(values):
+    out = []
+    for v in values or []:
+        if isinstance(v, dict):
+            out.append(clean(v.get("special") or v.get("type") or v.get("note") or "Speciale"))
+        else:
+            out.append(DMG_ELEMENTS.get(v, v))
+    return ", ".join(out)
+
+
 def make_monster(x):
     traits = x.get("trait") or []
     actions = x.get("action") or []
     bonus = x.get("bonus") or []
     reactions = x.get("reaction") or []
-    text = flat(traits + actions + bonus + reactions)
+    legendary_actions = x.get("legendary") or []
+    sections = []
+    for label, rows in (("Tratti", traits), ("Azioni", actions), ("Azioni bonus", bonus),
+                        ("Reazioni", reactions), ("Azioni leggendarie", legendary_actions)):
+        items = [{"name": clean(r.get("name", "")), "entries": flat(r.get("entries") or r.get("entry"))} for r in rows]
+        items = [i for i in items if i["name"] or i["entries"]]
+        if items:
+            sections.append({"label": label, "items": items})
+    text = "\n\n".join(f"{i['name']}. {i['entries']}" for sec in sections for i in sec["items"])
     sizes = "/".join(SIZES.get(s, s) for s in (x.get("size") or []))
     raw_type = x.get("type", "")
     if isinstance(raw_type, dict):
@@ -249,8 +267,15 @@ def make_monster(x):
         "name": x["name"], "source": x.get("source", "XMM"), "size": sizes,
         "type": type_label, "cr": cr_value(x.get("cr")),
         "ac": ac_value(x.get("ac")), "hp": hp_value(x.get("hp")), "speed": speed_value(x.get("speed")),
-        "entries": text,
+        "entries": text, "sections": sections,
         "abilities": {k.upper(): x.get(k) for k in ("str", "dex", "con", "int", "wis", "cha") if x.get(k) is not None},
+        "saves": ", ".join(f"{ABILITIES.get(k, k)} {v}" for k, v in (x.get("save") or {}).items()),
+        "skills": ", ".join(f"{k.title()} {v}" for k, v in (x.get("skill") or {}).items()),
+        "senses": ", ".join(clean(v) for v in (x.get("senses") or [])) + (f" · passivo {x.get('passive')}" if x.get("passive") else ""),
+        "languages": ", ".join(clean(v) for v in (x.get("languages") or [])),
+        "resist": fmt_damage_list(x.get("resist")),
+        "immune": fmt_damage_list(x.get("immune")),
+        "conditionImmune": ", ".join(clean(v) for v in (x.get("conditionImmune") or [])),
     }
 
 

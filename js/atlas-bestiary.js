@@ -33,6 +33,63 @@
   });
 
 
+
+  // 5e.tools renders ability scores as three dense groups of 4 columns.
+  // Rebuild that native table as six readable cards on phones, moving the
+  // original dice spans so their inline roll handlers keep working.
+  const ABILITY_NAMES = {Str: 'FOR', Dex: 'DES', Con: 'COS', Int: 'INT', Wis: 'SAG', Cha: 'CAR'};
+  const ABILITY_TITLES = {Str: 'Forza', Dex: 'Destrezza', Con: 'Costituzione', Int: 'Intelligenza', Wis: 'Saggezza', Cha: 'Carisma'};
+  const upgradeAbilityTable = () => {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+    const abv = document.querySelector('#pagecontent .ve-stats-tbl-ability-scores__lbl-abv');
+    const table = abv?.closest('table');
+    if (!table || table.dataset.atlasAbility === '1') return;
+    table.dataset.atlasAbility = '1';
+    const dataRows = [...table.querySelectorAll('tbody tr')].filter(tr => tr.querySelector('.ve-stats-tbl-ability-scores__lbl-abv')?.innerText.trim());
+    const grid = document.createElement('div');
+    grid.className = 'atlas-ability-grid';
+    dataRows.forEach((tr) => {
+      const cells = [...tr.children];
+      cells.forEach((cell, i) => {
+        if (!cell.classList.contains('ve-stats-tbl-ability-scores__lbl-abv') || !cell.innerText.trim()) return;
+        const score = cells[i + 1];
+        const mod = cells[i + 2];
+        const save = cells[i + 3];
+        if (!score || !mod || !save) return;
+        const key = cell.innerText.trim();
+        const card = document.createElement('div');
+        card.className = 'atlas-ability-card';
+        const fullName = ABILITY_TITLES[key] || key;
+        card.title = fullName;
+        const label = document.createElement('span');
+        label.className = 'atlas-ability-abv';
+        label.textContent = ABILITY_NAMES[key] || key.toUpperCase();
+        const scoreEl = document.createElement('b');
+        scoreEl.className = 'atlas-ability-score';
+        scoreEl.textContent = score.innerText.trim();
+        const lineMod = document.createElement('small');
+        lineMod.className = 'atlas-ability-line';
+        lineMod.innerHTML = '<em>Mod</em>';
+        const modVal = mod.querySelector('.ve-roller') || mod.firstElementChild || mod;
+        if (modVal) { modVal.remove(); lineMod.append(modVal); }
+        const lineSave = document.createElement('small');
+        lineSave.className = 'atlas-ability-line';
+        lineSave.innerHTML = '<em>TS</em>';
+        const saveVal = save.querySelector('.ve-roller') || save.firstElementChild || save;
+        if (saveVal) { saveVal.remove(); lineSave.append(saveVal); }
+        card.setAttribute('aria-label', `${fullName}: punteggio ${scoreEl.textContent}, modificatore ${modVal?.textContent || ''}, tiro salvezza ${saveVal?.textContent || ''}`);
+        if ((modVal?.textContent || '').trim().startsWith('-')) lineMod.classList.add('is-negative');
+        if ((saveVal?.textContent || '').trim().startsWith('-')) lineSave.classList.add('is-negative');
+        card.append(label, scoreEl, lineMod, lineSave);
+        grid.append(card);
+      });
+    });
+    if (grid.children.length === 6) table.replaceWith(grid);
+  };
+  setTimeout(upgradeAbilityTable, 500);
+  setTimeout(upgradeAbilityTable, 1200);
+  new MutationObserver(upgradeAbilityTable).observe(document.body, {childList: true, subtree: true});
+
   // Deep links from search/book pages should land on the sheet, not on the list.
   if (window.__atlasInitialHash && window.__atlasInitialHash.length > 1) {
     const openInitial = () => {

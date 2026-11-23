@@ -58,6 +58,15 @@
   body.atlas-bestiary #pagecontent .ve-tbl-divider{border-color:var(--atlas-line)!important;background:var(--atlas-line)!important;height:1px!important;margin:6px 0 12px!important}
   body.atlas-bestiary #pagecontent .ve-stats__wrp-avoid-token{color:var(--atlas-muted)!important}
   body.atlas-bestiary #pagecontent .ve-split-v-center{display:flex!important;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--atlas-ui)!important;font-size:13px!important}
+  body.atlas-bestiary .atlas-ability-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;padding:2px 20px 14px!important;margin:0!important;background:var(--atlas-bg)!important}
+  body.atlas-bestiary .atlas-ability-card{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 5px 7px;border:1px solid var(--atlas-line);border-radius:10px;background:linear-gradient(160deg,var(--atlas-surface-2),var(--atlas-surface))}
+  body.atlas-bestiary .atlas-ability-abv{font:700 9px var(--atlas-ui)!important;letter-spacing:.12em;text-transform:uppercase;color:var(--atlas-teal)!important}
+  body.atlas-bestiary .atlas-ability-score{font:700 23px/1 var(--atlas-book)!important;color:var(--atlas-ink)!important}
+  body.atlas-bestiary .atlas-ability-line{display:flex;align-items:center;justify-content:center;gap:5px;font:600 11px var(--atlas-ui)!important;color:var(--atlas-muted)!important;line-height:1.55}
+  body.atlas-bestiary .atlas-ability-line em{font-style:normal!important;font-size:10px!important;letter-spacing:.04em;text-transform:uppercase;color:var(--atlas-faint)!important}
+  body.atlas-bestiary .atlas-ability-line .ve-roller{font:700 12px var(--atlas-ui)!important;color:var(--atlas-ink)!important;background:rgba(240,167,66,.13)!important;border:1px solid rgba(240,167,66,.28)!important;border-radius:5px;padding:1px 4px!important}
+  body.atlas-bestiary .atlas-ability-line .ve-roller .ve-rd__roller--roll-prof-dice{display:none!important}
+  body.atlas-bestiary .atlas-ability-line.is-negative .ve-roller{color:#ff9f91!important;background:rgba(255,110,90,.12)!important;border-color:rgba(255,110,90,.3)!important}
   body.atlas-bestiary #pagecontent .ve-stats-tbl-ability-scores__lbl-abv,body.atlas-bestiary #pagecontent .ve-stats-tbl-ability-scores__lbl-score{padding:3px 2px!important;color:var(--atlas-muted)!important}
   body.atlas-bestiary #pagecontent .ve-stats-tbl-ability-scores__lbl-abv .ve-bold{color:var(--atlas-amber)!important;font-size:11px!important}
   body.atlas-bestiary #pagecontent .ve-stats-tbl-ability-scores__lbl-score .ve-text-center{font-size:14px!important;color:var(--atlas-ink)!important}

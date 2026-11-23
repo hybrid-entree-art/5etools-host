@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="atlas-bestiary">
 
 <head>
 	<!--5ETOOLS_CMP-->
@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/bestiary.css">
 	<link rel="stylesheet" href="css/encounterbuilder-bundle.css">
+	<link rel="stylesheet" href="css/atlas-bestiary.css">
 
 	<!-- Favicons -->
 	<link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -52,13 +53,20 @@
 	<link rel="search" href="open-search.xml" title="Search 5etools" type="application/opensearchdescription+xml">
 
 	<script type="text/javascript" src="sw-injector.js"></script>
+	<script>window.__atlasInitialHash = location.hash;</script>
 
 	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
 
-<body>
+<body class="atlas atlas-bestiary">
+
+<header class="atlas-appbar">
+	<a href="atlas.html" aria-label="Torna alla home 5E Atlas"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></a>
+	<div class="atlas-appbar-title">Mostri<small>5e.tools core</small></div>
+	<button type="button" class="atlas-filter" id="atlasFilterBtn">Filtri</button>
+</header>
 
 <div class="overlay-noise ve-print__hidden"></div>
 
@@ -106,6 +114,7 @@
 			<div class="cancer__wrp-mobile-1 cancer__anchor"><div class="cancer__disp-cancer"></div><!--5ETOOLS_AD_MOB_PLAYER_1--></div>
 
 			<div id="contentwrapper" class="view-col">
+				<button type="button" id="atlasDetailBack">Indietro</button>
 				<div class="best-ecgen__visible ve-mb-2" id="wrp-encounterbuild-settings"></div>
 
 				<hr class="best-ecgen__visible ve-hr-2 ve-mt-0">
@@ -174,6 +183,13 @@
 	</div>
 </div>
 
+<nav class="atlas-bottom" aria-label="Navigazione mobile">
+	<a href="atlas.html"><svg viewBox="0 0 24 24"><path d="m4 11 8-7 8 7v9a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>Home</a>
+	<a href="spells.html"><svg viewBox="0 0 24 24"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>Incantesimi</a>
+	<a href="bestiary.html" aria-current="page"><svg viewBox="0 0 24 24"><path d="M4 8c3-3 6-3 8 0 2-3 5-3 8 0v9c-3-2-6-2-8 0-2-2-5-2-8 0z"/></svg>Mostri</a>
+	<a href="search.html"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Cerca</a>
+</nav>
+
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
@@ -201,6 +217,7 @@
 <script type="text/javascript" defer src="js/filter-bestiary.js"></script>
 <script type="module" src="js/bestiary.js"></script>
 <script type="module" defer src="js/list2.js"></script>
+<script type="text/javascript" defer src="js/atlas-bestiary.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 
 </body>

@@ -39,13 +39,16 @@
   body.atlas-bestiary.atlas-detail-open #contentwrapper #atlasDetailBack{position:sticky;top:0;z-index:10;display:flex!important;align-items:center;gap:8px;width:100%;min-height:54px;padding:0 16px;border:0;border-bottom:1px solid var(--atlas-line);background:rgba(11,15,20,.96);backdrop-filter:blur(12px);color:var(--atlas-ink);font:600 14px var(--atlas-ui);text-align:left}
   body.atlas-bestiary.atlas-detail-open #contentwrapper #atlasDetailBack:before{content:"←";font-size:20px;color:var(--atlas-amber);line-height:1}
   body.atlas-bestiary.atlas-detail-open #contentwrapper .best-ecgen__visible,body.atlas-bestiary.atlas-detail-open #contentwrapper #sublistcontainer,body.atlas-bestiary.atlas-detail-open #contentwrapper #stat-tabs,body.atlas-bestiary.atlas-detail-open #contentwrapper>.ve-flex-vh-center
-  body.atlas-bestiary #wrp-pagecontent{padding:20px 18px 0!important;margin:0!important;max-width:none!important;background:var(--atlas-bg)!important}
+  body.atlas-bestiary #wrp-pagecontent{padding:18px 0 0!important;margin:0!important;max-width:none!important;background:var(--atlas-bg)!important}
   body.atlas-bestiary #float-token{display:none!important}
   body.atlas-bestiary #pagecontent{display:block!important;width:100%!important;border-collapse:collapse!important;color:var(--atlas-ink)!important;background:var(--atlas-bg)!important;font-family:var(--atlas-book)}
   body.atlas-bestiary #pagecontent>tr{display:block!important;border:0!important;background:var(--atlas-bg)!important}
-  body.atlas-bestiary #pagecontent>tr>td,body.atlas-bestiary #pagecontent>tr>th{display:block!important;width:auto!important;padding:6px 0!important;border:0!important;background:var(--atlas-bg)!important;color:var(--atlas-muted)!important;font:15px/1.55 var(--atlas-book)!important}
+  body.atlas-bestiary #pagecontent>tr>td,body.atlas-bestiary #pagecontent>tr>th{display:block!important;width:auto!important;padding:7px 20px!important;border:0!important;background:var(--atlas-bg)!important;color:var(--atlas-muted)!important;font:15px/1.6 var(--atlas-book)!important}
   body.atlas-bestiary #pagecontent>tr:first-child{display:none!important}
-  body.atlas-bestiary #pagecontent th.ve-stats__th-name{padding:4px 0 10px!important;background:var(--atlas-bg)!important}
+  body.atlas-bestiary #pagecontent th.ve-stats__th-name{padding:8px 20px 12px!important;background:var(--atlas-bg)!important}
+  body.atlas-bestiary #pagecontent .ve-stats__btn-name-pronounce{display:none!important}
+  body.atlas-bestiary #pagecontent .ve-split-v-end{display:block!important}
+  body.atlas-bestiary #pagecontent .ve-stats__wrp-h-source{display:flex!important;justify-content:flex-start!important;margin-top:6px!important}
   body.atlas-bestiary #pagecontent .ve-stats__h-name{font:700 32px/1.02 var(--atlas-head)!important;color:var(--atlas-ink)!important;letter-spacing:-.01em;margin:0!important;background:var(--atlas-bg)!important}
   body.atlas-bestiary #pagecontent .ve-stats__wrp-h-source{display:flex!important;align-items:center;gap:7px;margin-top:7px!important}
   body.atlas-bestiary #pagecontent .ve-stats__h-source-abbreviation{font:700 10px var(--atlas-ui)!important;letter-spacing:.06em;color:var(--atlas-teal)!important;border:1px solid rgba(95,208,192,.35);border-radius:999px;padding:3px 7px!important}
@@ -61,6 +64,8 @@
   body.atlas-bestiary #pagecontent table{border-collapse:collapse!important;background:var(--atlas-bg)!important;color:var(--atlas-muted)!important}
   body.atlas-bestiary #pagecontent table td,body.atlas-bestiary #pagecontent table th{border-color:var(--atlas-line)!important;background:var(--atlas-bg)!important;color:var(--atlas-muted)!important}
   body.atlas-bestiary #pagecontent .ve-rd__h{display:block;margin:20px 0 5px!important;padding-top:12px;border-top:1px solid var(--atlas-line);font:700 19px/1.2 var(--atlas-head)!important;color:var(--atlas-amber)!important;text-transform:none!important}
+  body.atlas-bestiary #pagecontent .ve-stats__sect-header-inner{display:block!important;margin:16px 0 4px!important;padding:16px 20px 0!important;border-top:1px solid var(--atlas-line)!important;font:700 24px/1.05 var(--atlas-head)!important;letter-spacing:.01em;color:var(--atlas-amber)!important;text-transform:uppercase}
+  body.atlas-bestiary #pagecontent .ve-stats__sect-header-inner--non-statblock{color:var(--atlas-teal)!important}
   body.atlas-bestiary #pagecontent .ve-rd__h--3{font-size:17px!important}
   body.atlas-bestiary #pagecontent p{margin:0 0 11px!important}
   body.atlas-bestiary #pagecontent a{color:var(--atlas-teal)!important;text-decoration-color:rgba(95,208,192,.4);text-underline-offset:2px}

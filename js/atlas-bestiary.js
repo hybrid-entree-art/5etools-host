@@ -126,6 +126,11 @@
       const list = document.getElementById('list');
       if (list) list.style.setProperty('width', '100%', 'important');
     }
+    const diceFab = document.querySelector('.rollbox-min');
+    if (diceFab) {
+      diceFab.setAttribute('aria-label', 'Apri tira-dadi');
+      diceFab.setAttribute('title', 'Apri tira-dadi');
+    }
     const search = document.getElementById('lst__search');
     if (search && !search.placeholder) {
       search.placeholder = 'Cerca mostri…';

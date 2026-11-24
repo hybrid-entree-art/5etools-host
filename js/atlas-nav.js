@@ -55,4 +55,82 @@
   document.querySelectorAll('[data-atlas-menu-close]').forEach((btn) => btn.addEventListener('click', closeMenu));
   dialog.addEventListener('click', (e) => { if (e.target === dialog) closeMenu(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+  // Zero-cost image CDN: redirect 5e.tools img/ requests to public 5etools-img CDN.
+  const IMG_CDN = 'https://cdn.jsdelivr.net/gh/5etools-mirror-3/5etools-img@main/';
+  const hookRendererImages = () => {
+    if (typeof Renderer === 'undefined' || !Renderer.prototype?.getMediaUrl || Renderer.prototype._atlasMediaHooked) return false;
+    Renderer.prototype._atlasMediaHooked = true;
+    const orig = Renderer.prototype.getMediaUrl;
+    Renderer.prototype.getMediaUrl = function (mediaDir, path) {
+      if (mediaDir === 'img' && path) {
+        return IMG_CDN + String(path).replace(/^\/+/, '');
+      }
+      return orig.call(this, mediaDir, path);
+    };
+    return true;
+  };
+  if (!hookRendererImages()) {
+    let tries = 0;
+    const timer = setInterval(() => {
+      if (hookRendererImages() || ++tries > 60) clearInterval(timer);
+    }, 50);
+  }
+
+  // Telegram Mini App integration (safe no-op in standard browsers).
+  const initTelegram = () => {
+    const tg = window.Telegram?.WebApp;
+    if (!tg) return;
+    try {
+      tg.ready();
+      tg.expand();
+      tg.setHeaderColor?.('#1a2028');
+      tg.setBackgroundColor?.('#1a2028');
+      const syncViewport = () => {
+        if (tg.viewportStableHeight) {
+          document.documentElement.style.setProperty('--tg-vh', `${tg.viewportStableHeight}px`);
+        }
+      };
+      syncViewport();
+      tg.onEvent?.('viewportChanged', syncViewport);
+
+      const syncBack = () => {
+        const hasOverlay = dialog.open
+          || document.body.classList.contains('atlas-detail-open')
+          || document.body.classList.contains('atlas-class-open')
+          || document.body.classList.contains('atlas-toc-open');
+        if (hasOverlay) tg.BackButton?.show();
+        else tg.BackButton?.hide();
+      };
+      tg.BackButton?.onClick(() => {
+        if (dialog.open) return closeMenu();
+        if (document.body.classList.contains('atlas-toc-open')) {
+          document.getElementById('atlasTocBtn')?.click();
+          return;
+        }
+        if (document.body.classList.contains('atlas-class-open')) {
+          document.getElementById('atlasClassBack')?.click();
+          return;
+        }
+        if (document.body.classList.contains('atlas-detail-open')) {
+          const back = document.querySelector('.atlas-appbar > a, .atlas-sitebar > a, #atlasSiteBack');
+          back?.click();
+          return;
+        }
+        history.back();
+      });
+      new MutationObserver(syncBack).observe(document.body, {attributes: true, attributeFilter: ['class']});
+      new MutationObserver(syncBack).observe(dialog, {attributes: true, attributeFilter: ['open']});
+      syncBack();
+    } catch (_) {}
+  };
+  if (window.Telegram?.WebApp) {
+    initTelegram();
+  } else if (window.TelegramWebviewProxy || /tgWebApp/i.test(location.search + location.hash) || /Telegram/i.test(navigator.userAgent)) {
+    const sc = document.createElement('script');
+    sc.src = 'https://telegram.org/js/telegram-web-app.js';
+    sc.async = true;
+    sc.onload = initTelegram;
+    document.head.appendChild(sc);
+  }
 })();

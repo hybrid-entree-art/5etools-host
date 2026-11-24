@@ -12,49 +12,49 @@
 @font-face{font-family:AtlasBody;src:url(atlas/fonts/mulish.woff2) format('woff2');font-weight:400 800;font-display:swap}
 @font-face{font-family:AtlasBook;src:url(atlas/fonts/lora.woff2) format('woff2');font-weight:400 700;font-display:swap}
 :root{
-  --bg:#0b0f14;--surface:#141a21;--surface-2:#1b232c;--ink:#eef3f6;--muted:#c2ccd5;--faint:#9aa8b4;
-  --amber:#f0a742;--teal:#5fd0c0;--line:rgba(182,194,204,.17);--glow:rgba(240,167,66,.2);
+  --bg:#1a2028;--surface:#222a34;--surface-2:#2a3440;--ink:#d8e2ea;--muted:#b5c1cb;--faint:#8f9ca7;
+  --amber:#e7a34a;--teal:#63c8bc;--line:rgba(185,196,206,.17);--glow:rgba(231,163,74,.2);
   --head:AtlasCond,AtlasHead,Georgia,serif;--ui:AtlasBody,system-ui,sans-serif;--book:AtlasBook,Georgia,serif;
   --gutter:clamp(16px,4vw,32px);--touch:44px;--radius:14px;
 }
 *{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);padding-bottom:calc(86px + env(safe-area-inset-bottom))}
 a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}img{max-width:100%}
 .shell{max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
-.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;height:64px;padding:0 var(--gutter);background:rgba(11,15,20,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;height:64px;padding:0 var(--gutter);background:rgba(26,32,40,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:10px;font:700 18px var(--head);letter-spacing:.04em}
-.brand .mark{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg,#f0a742,#b86718);color:#171008;font:800 11px var(--ui)}
+.brand .mark{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg,#e7a34a,#b86718);color:#1a1208;font:800 11px var(--ui)}
 .brand b{color:var(--amber)}
 .actions{margin-left:auto;display:flex;gap:4px}
 .icon-btn{width:var(--touch);height:var(--touch);display:grid;place-items:center;border:0;border-radius:10px;background:transparent;color:var(--muted)}
 .icon-btn:hover{background:var(--surface-2);color:var(--ink)}
 .icon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .hero{padding:clamp(28px,7vw,64px) 0 22px}
-.hero-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 80% 20%,rgba(240,167,66,.16),transparent 45%),linear-gradient(135deg,#151d25,#0e141a)}
-.hero-card:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,15,20,.92) 0%,rgba(11,15,20,.55) 62%,transparent);pointer-events:none}
+.hero-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 80% 20%,rgba(231,163,74,.16),transparent 45%),linear-gradient(135deg,#151d25,#0e141a)}
+.hero-card:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(26,32,40,.92) 0%,rgba(26,32,40,.55) 62%,transparent);pointer-events:none}
 .hero-copy{position:relative;z-index:2;max-width:700px;padding:clamp(22px,5vw,42px)}
 .eyebrow{font:700 10px var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
 h1{font:700 clamp(36px,8vw,70px)/.96 var(--head);margin:10px 0 14px;letter-spacing:-.01em}
 .hero p{max-width:560px;color:var(--muted);font-size:16px;margin:0 0 20px}
-.search{display:flex;align-items:center;gap:10px;max-width:560px;min-height:52px;padding:0 14px;border:1px solid rgba(240,167,66,.55);border-radius:999px;background:rgba(11,15,20,.74)}
+.search{display:flex;align-items:center;gap:10px;max-width:560px;min-height:52px;padding:0 14px;border:1px solid rgba(231,163,74,.55);border-radius:999px;background:rgba(26,32,40,.74)}
 .search svg{width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:1.8;flex:none}
 .search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font-size:16px}
 .search input::placeholder{color:var(--faint)}
 .hero-note{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.hero-note span{font:600 11px var(--ui);color:var(--teal);border:1px solid rgba(95,208,192,.35);border-radius:999px;padding:4px 9px}
+.hero-note span{font:600 11px var(--ui);color:var(--teal);border:1px solid rgba(99,200,188,.35);border-radius:999px;padding:4px 9px}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 12px}
 .section-head h2{font:700 clamp(24px,4vw,34px) var(--head);margin:0}
 .section-head span{font-size:12px;color:var(--faint)}
 .book-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .book{position:relative;display:flex;align-items:end;min-height:190px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface);isolation:isolate}
 .book img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.book:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 15%,rgba(11,15,20,.94))}
+.book:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(transparent 15%,rgba(26,32,40,.94))}
 .book span{display:block;padding:14px}
 .book strong{display:block;font:700 20px/1.1 var(--head)}
 .book small{display:block;margin-top:4px;color:var(--teal);font-size:12px}
 .book:hover{border-color:var(--amber);box-shadow:0 0 24px var(--glow)}
 .cat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .cat{position:relative;display:flex;flex-direction:column;justify-content:end;min-height:132px;padding:14px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:linear-gradient(145deg,var(--surface-2),#0e141a)}
-.cat:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,var(--tone,rgba(240,167,66,.2)),transparent 58%)}
+.cat:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,var(--tone,rgba(231,163,74,.2)),transparent 58%)}
 .cat:after{content:attr(data-glyph);position:absolute;right:12px;top:8px;font:700 28px var(--head);color:var(--tone,var(--amber));opacity:.55}
 .cat b,.cat small{position:relative;z-index:1}
 .cat b{font:700 18px/1.1 var(--head)}
@@ -64,12 +64,12 @@ h1{font:700 clamp(36px,8vw,70px)/.96 var(--head);margin:10px 0 14px;letter-spaci
 .core-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0 8px;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
 .core-strip p{margin:0;color:var(--muted);font-size:13px}
 .core-strip a{font:700 12px var(--ui);color:var(--amber);white-space:nowrap}
-.bottom{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:center;gap:8px;padding:0 12px env(safe-area-inset-bottom);background:rgba(11,15,20,.97);border-top:1px solid var(--line);backdrop-filter:blur(14px)}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:center;gap:8px;padding:0 12px env(safe-area-inset-bottom);background:rgba(26,32,40,.97);border-top:1px solid var(--line);backdrop-filter:blur(14px)}
 .bottom a,.bottom button{flex:1 1 0;max-width:140px;min-height:64px;border:0;background:transparent;color:var(--faint);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px}
 .bottom a:hover,.bottom button:hover{color:var(--ink)}.bottom svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
 footer{padding:22px 0 10px;color:var(--faint);font-size:11px}
-dialog{width:min(560px,calc(100vw - 24px));border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);padding:0;box-shadow:0 24px 70px rgba(0,0,0,.6)}
-dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
+dialog{width:min(560px,calc(100vw - 24px));border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);padding:0;box-shadow:0 24px 70px rgba(10,14,18,.6)}
+dialog::backdrop{background:rgba(10,14,18,.65);backdrop-filter:blur(3px)}
 .dialog-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
 .dialog-head b{font:700 19px var(--head)}
 .dialog-body{padding:14px 16px 18px;max-height:min(70dvh,560px);overflow:auto}
@@ -116,15 +116,15 @@ dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
 
   <div class="section-head"><h2>Compendio</h2><span>liste native 5e.tools</span></div>
   <div class="cat-grid">
-    <a class="cat" data-glyph="✦" style="--tone:rgba(240,167,66,.22)" href="spells.html"><b>Incantesimi</b><small>391 · 2024</small></a>
-    <a class="cat" data-glyph="◈" style="--tone:rgba(95,208,192,.2)" href="bestiary.html"><b>Mostri</b><small>505 · 2024</small></a>
+    <a class="cat" data-glyph="✦" style="--tone:rgba(231,163,74,.22)" href="spells.html"><b>Incantesimi</b><small>391 · 2024</small></a>
+    <a class="cat" data-glyph="◈" style="--tone:rgba(99,200,188,.2)" href="bestiary.html"><b>Mostri</b><small>505 · 2024</small></a>
     <a class="cat" data-glyph="◆" style="--tone:rgba(160,180,255,.2)" href="items.html"><b>Oggetti</b><small>magici e equipaggiamento</small></a>
     <a class="cat" data-glyph="✧" style="--tone:rgba(220,130,220,.2)" href="classes.html"><b>Classi</b><small>12 · sottoclassi incluse</small></a>
     <a class="cat" data-glyph="✶" style="--tone:rgba(255,120,90,.2)" href="backgrounds.html"><b>Background</b><small>16 · 2024</small></a>
     <a class="cat" data-glyph="✹" style="--tone:rgba(240,190,120,.2)" href="feats.html"><b>Talenti</b><small>77 · 2024</small></a>
     <a class="cat" data-glyph="◉" style="--tone:rgba(130,170,255,.2)" href="races.html"><b>Specie</b><small>10 · 2024</small></a>
     <a class="cat" data-glyph="▤" style="--tone:rgba(180,200,170,.2)" href="variantrules.html"><b>Glossario</b><small>regole 2024</small></a>
-    <a class="cat wide" data-glyph="⌘" style="--tone:rgba(95,208,192,.16)" href="index.html"><b>Tutte le liste 5e.tools</b><small>Armi, veicoli, lingue, divinità, azioni, trappole e altro ancora</small></a>
+    <a class="cat wide" data-glyph="⌘" style="--tone:rgba(99,200,188,.16)" href="index.html"><b>Tutte le liste 5e.tools</b><small>Armi, veicoli, lingue, divinità, azioni, trappole e altro ancora</small></a>
   </div>
 
   <div class="core-strip"><p>Questa home è custom. Liste, schede, ricerca e riferimenti restano nel core 5e.tools.</p><a href="index.html">Apri core →</a></div>

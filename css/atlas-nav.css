@@ -2,22 +2,22 @@
 .atlas-global-nav{display:none}
 @media (max-width:767px){
   .atlas-nav-on{padding-bottom:calc(80px + env(safe-area-inset-bottom))!important}
-  .atlas-global-nav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:130;justify-content:center;gap:2px;padding:0 6px env(safe-area-inset-bottom);background:rgba(11,15,20,.97);border-top:1px solid rgba(182,194,204,.17);backdrop-filter:blur(14px)}
-  .atlas-global-nav a,.atlas-global-nav button{flex:1 1 0;min-width:0;max-width:120px;min-height:64px;border:0;background:transparent;color:#9aa8b4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:500 12px AtlasBody,system-ui,sans-serif;text-decoration:none;white-space:nowrap}
-  .atlas-global-nav a[aria-current="page"],.atlas-global-nav button[aria-current="page"]{color:#f0a742}
+  .atlas-global-nav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:130;justify-content:center;gap:2px;padding:0 6px env(safe-area-inset-bottom);background:rgba(26,32,40,.97);border-top:1px solid rgba(185,196,206,.17);backdrop-filter:blur(14px)}
+  .atlas-global-nav a,.atlas-global-nav button{flex:1 1 0;min-width:0;max-width:120px;min-height:64px;border:0;background:transparent;color:#8f9ca7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font:500 12px AtlasBody,system-ui,sans-serif;text-decoration:none;white-space:nowrap}
+  .atlas-global-nav a[aria-current="page"],.atlas-global-nav button[aria-current="page"]{color:#e7a34a}
   .atlas-global-nav svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .atlas-nav-on.atlas-detail-open #contentwrapper{padding-bottom:calc(96px + env(safe-area-inset-bottom))!important}
-  .atlas-menu{position:fixed;inset:auto 0 0 0;width:100%;max-width:100%;max-height:86dvh;margin:0;padding:0 0 calc(18px + env(safe-area-inset-bottom));border:1px solid rgba(182,194,204,.17);border-radius:18px 18px 0 0;background:#141a21;color:#eef3f6;box-shadow:0 -20px 60px rgba(0,0,0,.55)}
-  .atlas-menu::backdrop{background:rgba(0,0,0,.68);backdrop-filter:blur(4px)}
-  .atlas-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(182,194,204,.17)}
+  .atlas-menu{position:fixed;inset:auto 0 0 0;width:100%;max-width:100%;max-height:86dvh;margin:0;padding:0 0 calc(18px + env(safe-area-inset-bottom));border:1px solid rgba(185,196,206,.17);border-radius:18px 18px 0 0;background:#222a34;color:#d8e2ea;box-shadow:0 -20px 60px rgba(10,14,18,.55)}
+  .atlas-menu::backdrop{background:rgba(10,14,18,.68);backdrop-filter:blur(4px)}
+  .atlas-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(185,196,206,.17)}
   .atlas-menu-head b{font:700 24px 'Modesto Condensed',Georgia,serif;letter-spacing:.02em}
-  .atlas-menu-head button{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:#c2ccd5}
+  .atlas-menu-head button{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:#b5c1cb}
   .atlas-menu-head button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
   .atlas-menu-list{display:grid;gap:4px;padding:12px 14px 4px;overflow:auto;max-height:calc(86dvh - 76px)}
-  .atlas-menu-list a{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:0 12px;border-radius:10px;color:#c2ccd5;font:600 15px AtlasBody,system-ui,sans-serif;text-decoration:none}
-  .atlas-menu-list a span{color:#9aa8b4;font-size:11px;font-weight:500}
-  .atlas-menu-list a[aria-current="page"]{color:#f0a742;background:rgba(240,167,66,.1)}
-  .atlas-menu-list a[aria-current="page"] span{color:#f0a742}
+  .atlas-menu-list a{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:0 12px;border-radius:10px;color:#b5c1cb;font:600 15px AtlasBody,system-ui,sans-serif;text-decoration:none}
+  .atlas-menu-list a span{color:#8f9ca7;font-size:11px;font-weight:500}
+  .atlas-menu-list a[aria-current="page"]{color:#e7a34a;background:rgba(231,163,74,.1)}
+  .atlas-menu-list a[aria-current="page"] span{color:#e7a34a}
 }
 @media (max-width:360px){.atlas-global-nav a{font-size:10px}.atlas-global-nav svg{width:18px;height:18px}}
 @media (prefers-reduced-motion:reduce){.atlas-global-nav *{transition:none!important}}

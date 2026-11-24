@@ -19,7 +19,12 @@
   body.atlas-site #lst__search::placeholder{color:#9aa8b4!important;opacity:1}
   body.atlas-site #lst__search-glass{right:15px!important;left:auto!important;color:#c2ccd5!important;font-size:17px!important;pointer-events:none;z-index:2}
   body.atlas-site #list{display:flex;flex-direction:column;gap:10px;padding-bottom:10px;height:auto!important;max-height:none!important;overflow:visible!important}
-  body.atlas-site #list .ve-lst__row{width:100%;min-width:0;margin:0!important;height:auto!important;content-visibility:auto;contain-intrinsic-size:88px}
+  body.atlas-site #list .ve-lst__row,body.atlas-site #list-mundane .ve-lst__row,body.atlas-site #list-magic .ve-lst__row{width:100%;min-width:0;margin:0!important;height:auto!important;content-visibility:auto;contain-intrinsic-size:88px}
+  body.atlas-site #list-mundane,body.atlas-site #list-magic{display:flex;flex-direction:column;gap:10px;height:auto!important;max-height:none!important;overflow:visible!important;padding-bottom:10px}
+  body.atlas-site #listcontainer h3.ele-mundane,body.atlas-site #listcontainer h3.ele-magic{display:block!important;height:auto!important;margin:18px 0 8px!important;font:700 24px/1.1 AtlasCond,Georgia,serif!important;color:#f0a742!important}
+  body.atlas-site #listcontainer h3.ele-mundane:before{content:"Oggetti mondani"}
+  body.atlas-site #listcontainer h3.ele-magic:before{content:"Oggetti magici"}
+  body.atlas-site .ve-itm__side-label,body.atlas-site [id^="filtertools-"]{display:none!important}
   body.atlas-site #list .ve-lst__row-inner,body.atlas-site #list-mundane .ve-lst__row-inner,body.atlas-site #list-magic .ve-lst__row-inner{display:flex!important;flex-wrap:wrap;align-items:center;gap:3px 9px!important;width:100%!important;padding:12px 14px!important;border:1px solid rgba(182,194,204,.17)!important;border-radius:14px!important;background:linear-gradient(145deg,#1b232c,#141a21)!important;color:#eef3f6!important;min-height:76px;box-shadow:none!important}
   body.atlas-site #list .ve-lst__row-inner:hover,body.atlas-site #list .ve-lst__row-inner:focus-visible,body.atlas-site #list-mundane .ve-lst__row-inner:hover,body.atlas-site #list-magic .ve-lst__row-inner:hover{border-color:rgba(240,167,66,.7)!important;box-shadow:0 0 20px rgba(240,167,66,.2)!important;outline:0}
   body.atlas-site #list .ve-lst__row-inner>span,body.atlas-site #list-mundane .ve-lst__row-inner>span,body.atlas-site #list-magic .ve-lst__row-inner>span{display:block!important;width:auto!important;padding:0!important;margin:0!important;min-width:0}

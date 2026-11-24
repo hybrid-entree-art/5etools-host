@@ -53,9 +53,10 @@
       if (e.key === 'Escape' && body.classList.contains('atlas-detail-open')) close();
     });
     document.addEventListener('click', (e) => {
-      const row = e.target.closest?.('#listcontainer a[href^="#"]');
-      if (row) setTimeout(open, 90);
-    });
+      const target = e.target instanceof Element ? e.target : null;
+      const row = target?.closest('#listcontainer a[href^="#"], #listcontainer .ve-lst__row, #list-mundane .ve-lst__row, #list-magic .ve-lst__row');
+      if (row) setTimeout(open, 140);
+    }, true);
     if (window.__atlasSiteInitialHash && window.__atlasSiteInitialHash.length > 1) {
       const openInitial = () => {
         if (document.querySelector('#pagecontent h1')) open();

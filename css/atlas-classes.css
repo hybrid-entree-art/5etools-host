@@ -1,0 +1,45 @@
+/* 5E ATLAS — dedicated mobile treatment for Classes and subclasses. */
+@layer vetools{
+@media (max-width:767px){
+  body.atlas-classes #listcontainer{padding:0 16px!important}
+  body.atlas-classes #list .ve-lst__row-inner{min-height:62px!important;padding:14px!important}
+  body.atlas-classes #list .ve-lst__row-inner>span:first-child{font-size:20px!important}
+  body.atlas-classes #list .ve-lst__row-inner>span:last-child{font-size:11px!important}
+  body.atlas-classes #classtable{width:100%!important;max-width:none!important;padding:0 16px!important;margin:0!important;overflow-x:auto!important;background:#0b0f14!important}
+  body.atlas-classes #classtable .ve-cls-tbl{min-width:640px;border-collapse:separate;border-spacing:0;font-family:AtlasBody,system-ui,sans-serif;font-size:12px;color:#c2ccd5;background:#0b0f14!important;table-layout:auto}
+  body.atlas-classes #classtable .ve-cls-tbl th,body.atlas-classes #classtable .ve-cls-tbl td{border-color:rgba(182,194,204,.16)!important;background:#0b0f14!important;color:#c2ccd5!important;padding:8px 9px!important;vertical-align:top!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;word-break:break-word}
+  body.atlas-classes #classtable .ve-cls-tbl tr:nth-child(even) td{background:#121920!important}
+  body.atlas-classes #classtable .ve-cls-tbl th{position:sticky;top:0;z-index:2;background:#141a21!important;color:#f0a742!important;font:700 10px AtlasBody,system-ui,sans-serif!important;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap!important;min-width:max-content!important}
+  body.atlas-classes #classtable .ve-cls-tbl th:first-child,body.atlas-classes #classtable .ve-cls-tbl td:first-child{position:sticky;left:0;z-index:3;background:#141a21!important;color:#eef3f6!important;font-weight:700;min-width:58px;box-shadow:1px 0 0 rgba(182,194,204,.16)}
+  body.atlas-classes #classtable .ve-cls-tbl td:first-child{background:#0b0f14!important;color:#f0a742!important;white-space:nowrap!important}
+  body.atlas-classes #classtable .ve-cls-tbl td:last-child{min-width:210px}
+  body.atlas-classes #classtable{scrollbar-width:thin;scrollbar-color:rgba(240,167,66,.6) #141a21}
+  body.atlas-classes #classtable .ve-cls-tbl__cell-name{color:#eef3f6!important;font-weight:600}
+  body.atlas-classes #classtable .ve-cls-tbl a{color:#5fd0c0!important}
+  body.atlas-classes #classtable .ve-cls-tbl .ve-roller{font:700 11px AtlasBody,system-ui,sans-serif!important;color:#171008!important;background:#f0a742!important;border-radius:4px;padding:1px 4px!important}
+  body.atlas-classes #classtable h1,body.atlas-classes #classtable h2,body.atlas-classes #classtable h3{font-family:AtlasCond,Georgia,serif!important;color:#eef3f6!important}
+  body.atlas-classes #classtable h1{font-size:30px!important;margin:0 0 10px!important}
+  body.atlas-classes #classtable .ve-muted{color:#9aa8b4!important}
+  body.atlas-classes #atlasClassBack{position:sticky;top:58px;z-index:20;display:flex!important;align-items:center;gap:8px;width:100%;min-height:44px;margin:0 0 10px;padding:0 2px;border:0;border-bottom:1px solid rgba(182,194,204,.16);background:#0b0f14;color:#eef3f6;font:600 13px AtlasBody,system-ui,sans-serif;text-align:left}
+  body.atlas-classes #atlasClassBack:before{content:"←";font-size:19px;color:#f0a742}
+  body.atlas-classes #statsprof,body.atlas-classes .cls__stats,body.atlas-classes #pagecontent{background:#0b0f14!important;color:#c2ccd5!important}
+  body.atlas-classes #statsprof table,body.atlas-classes .cls__stats table,body.atlas-classes #pagecontent table{background:#0b0f14!important;color:#c2ccd5!important;border-color:rgba(182,194,204,.16)!important}
+  body.atlas-classes #statsprof td,body.atlas-classes #statsprof th,body.atlas-classes .cls__stats td,body.atlas-classes .cls__stats th,body.atlas-classes #pagecontent td,body.atlas-classes #pagecontent th{background:#0b0f14!important;border-color:rgba(182,194,204,.16)!important;color:#c2ccd5!important}
+  body.atlas-classes #pagecontent .ve-rd__h,body.atlas-classes .cls__stats .ve-rd__h{font-family:AtlasCond,Georgia,serif!important;color:#f0a742!important}
+  body.atlas-classes #pagecontent strong,body.atlas-classes .cls__stats strong{color:#f0a742!important}
+  body.atlas-classes #subclasstabs{display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:6px;padding:10px 0 8px!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch}
+  body.atlas-classes #subclasstabs>*{flex:0 0 auto!important}
+  body.atlas-classes #subclasstabs button,body.atlas-classes #subclasstabs select{min-height:44px!important;border:1px solid rgba(182,194,204,.18)!important;border-radius:9px!important;background:#141a21!important;color:#c2ccd5!important;font:600 12px AtlasBody,system-ui,sans-serif!important;padding:0 10px!important}
+  body.atlas-classes #subclasstabs .ve-active,body.atlas-classes #subclasstabs .cls__btn-cf--active{border-color:rgba(240,167,66,.6)!important;background:rgba(240,167,66,.12)!important;color:#f0a742!important}
+  body.atlas-classes #subclasstabs .cls__icn-subclass-source{color:#5fd0c0!important;font-size:11px!important}
+  body.atlas-classes #sticky-nav{position:sticky;top:58px;z-index:15;min-height:44px;background:#0b0f14!important;border-bottom:1px solid rgba(182,194,204,.14)}
+  body.atlas-classes #sticky-nav a,body.atlas-classes #sticky-nav button{color:#c2ccd5!important;font:600 12px AtlasBody,system-ui,sans-serif!important}
+  body.atlas-classes #pagecontent>div{background:#0b0f14!important;color:#c2ccd5!important}
+  body.atlas-classes #pagecontent [data-rd-h-toggle-button]{min-height:44px!important;font-family:AtlasBody,system-ui,sans-serif!important}
+  body.atlas-classes.atlas-class-open #listcontainer{display:none!important}
+  body.atlas-classes.atlas-class-open #classtable{display:block!important;margin-top:0!important}
+  body.atlas-classes.atlas-class-open .classes>hr{display:none!important}
+  body.atlas-classes.atlas-class-open .classes>.row:nth-of-type(2){margin-top:0!important}
+}
+}
+@media (prefers-reduced-motion:reduce){body.atlas-classes *{transition:none!important;animation:none!important}}

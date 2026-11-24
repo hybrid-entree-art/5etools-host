@@ -26,12 +26,18 @@
   const appbarTitle = appbar.querySelector('.atlas-sitebar-title');
   const sectionTitle = appbarTitle?.innerHTML || '';
 
-  const nativeFilter = [...document.querySelectorAll('#filter-search-group > button, #filtertools button')]
+  const getNativeFilter = () => [...document.querySelectorAll('#filter-search-group > button, #filtertools button')]
     .find((btn) => btn.textContent.trim().toLowerCase() === 'filter');
   const filterBtn = document.getElementById('atlasSiteFilter');
-  if (nativeFilter && filterBtn) {
-    filterBtn.hidden = false;
-    filterBtn.addEventListener('click', () => nativeFilter.click());
+  const syncFilterButton = () => {
+    if (filterBtn) filterBtn.hidden = !document.querySelector('#filter-search-group, #filtertools');
+  };
+  if (filterBtn) {
+    syncFilterButton();
+    setTimeout(syncFilterButton, 600);
+    setTimeout(syncFilterButton, 1500);
+    filterBtn.addEventListener('click', () => getNativeFilter()?.click());
+    new MutationObserver(syncFilterButton).observe(document.body, {childList: true, subtree: true});
   }
 
   const content = document.getElementById('contentwrapper');

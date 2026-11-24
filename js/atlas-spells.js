@@ -7,6 +7,7 @@
   const appbar = document.querySelector('.atlas-appbar');
   const appbarBack = appbar?.querySelector('a');
   const appbarTitle = appbar?.querySelector('.atlas-appbar-title');
+  if (appbarBack) { appbarBack.setAttribute('aria-label', 'Indietro'); appbarBack.setAttribute('title', 'Indietro'); }
   const sectionTitle = appbarTitle?.innerHTML || '';
   const setItemTitle = () => {
     const name = document.querySelector('#pagecontent h1')?.innerText.trim();
@@ -58,13 +59,15 @@
 
   // The core filter summary is a desktop chip-wall. On phones the same
   // filters live behind the native dialog; hide the wall, keep the state.
+  const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
   const hideCoreChrome = () => {
+    if (!isMobile()) return;
     ['#filtertools', '.ve-fltr__mini-view', '.ve-lst__wrp-search-visible'].forEach((sel) => {
       document.querySelectorAll(sel).forEach((el) => {
         if (el.style.getPropertyValue('display') !== 'none') el.style.setProperty('display', 'none', 'important');
       });
     });
-    if (window.matchMedia('(max-width: 767px)').matches) {
+    {
       const listWrap = document.getElementById('listcontainer');
       if (listWrap) {
         listWrap.style.setProperty('width', '100%', 'important');
@@ -97,7 +100,12 @@
   hideCoreChrome();
   setTimeout(hideCoreChrome, 400);
   setTimeout(hideCoreChrome, 1200);
-  new MutationObserver(hideCoreChrome).observe(document.body, {childList: true, subtree: true});
+  let chromeFrame = 0;
+  const scheduleChrome = () => {
+    if (chromeFrame) return;
+    chromeFrame = requestAnimationFrame(() => { chromeFrame = 0; hideCoreChrome(); });
+  };
+  new MutationObserver(scheduleChrome).observe(document.body, {childList: true, subtree: true});
 
   // The core filter button is hidden on mobile; the redesigned top bar
   // opens the same native filter dialog instead of duplicating filter state.

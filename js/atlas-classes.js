@@ -30,10 +30,24 @@
   setTimeout(translateHeaders, 900);
   new MutationObserver(translateHeaders).observe(panel, {childList: true});
 
+
+  const placeSubclassTabs = () => {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+    const tabs = document.querySelector('#subclasstabs');
+    const table = document.querySelector('#classtable');
+    if (!tabs || !table) return;
+    const pos = tabs.compareDocumentPosition(table);
+    if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return; // tabs already before the table
+    table.parentNode.insertBefore(tabs, table);
+  };
+  setTimeout(placeSubclassTabs, 700);
+  setTimeout(placeSubclassTabs, 1600);
+  new MutationObserver(placeSubclassTabs).observe(panel, {childList: true});
   const openClass = (row) => {
     const name = row.querySelector('span.ve-bold')?.innerText.trim();
     body.classList.add('atlas-class-open');
     if (title && name) title.innerHTML = `${name}<small>classe</small>`;
+    setTimeout(placeSubclassTabs, 500);
     window.scrollTo({top: 0, behavior: 'instant'});
     ensureBack();
   };

@@ -11,6 +11,12 @@
     objects: 'Oggetti', optionalfeatures: 'Privilegi opzionali', psionics: 'Psionica',
     races: 'Specie', recipes: 'Ricette', rewards: 'Ricompense', tables: 'Tabelle',
     trapshazards: 'Trappole e pericoli', variantrules: 'Glossario', vehicles: 'Veicoli',
+    adventures: 'Avventure', adventure: 'Avventura', search: 'Cerca', dmscreen: 'Schermo DM',
+    lootgen: 'Tesori', statgen: 'Caratteristiche', crcalculator: 'Calcolatore GS',
+    maps: 'Mappe', lifegen: 'Storia personaggio', quickreference: 'Riferimento rapido',
+    converter: 'Convertitore', changelog: 'Novità', blocklist: 'Esclusioni',
+    makebrew: 'Crea homebrew', makecards: 'Crea carte', managebrew: 'Gestisci homebrew',
+    manageprerelease: 'Gestisci prerelease', plutonium: 'Plutonium', 'privacy-policy': 'Privacy',
   };
   const title = body.dataset.atlasTitle || titles[page] || document.title.replace(' - 5etools', '');
   body.classList.add('atlas-site');
@@ -30,7 +36,7 @@
     .find((btn) => btn.textContent.trim().toLowerCase() === 'filter');
   const filterBtn = document.getElementById('atlasSiteFilter');
   const syncFilterButton = () => {
-    if (filterBtn) filterBtn.hidden = !document.querySelector('#filter-search-group, #filtertools');
+    if (filterBtn) filterBtn.hidden = !getNativeFilter();
   };
   if (filterBtn) {
     syncFilterButton();
@@ -86,9 +92,15 @@
     diceFab.setAttribute('aria-label', 'Apri tira-dadi');
     diceFab.setAttribute('title', 'Apri tira-dadi');
   }
-  const search = document.getElementById('lst__search');
-  if (search && !search.placeholder) {
-    search.placeholder = 'Cerca nel compendio…';
-    search.setAttribute('aria-label', 'Cerca nel compendio');
+  const search = document.getElementById('lst__search') || document.getElementById('search');
+  if (search) {
+    if (page === 'books') search.placeholder = 'Cerca manuale…';
+    else if (page === 'adventures') search.placeholder = 'Cerca avventura…';
+    else if (!search.placeholder) search.placeholder = 'Cerca nel compendio…';
+    search.setAttribute('aria-label', search.placeholder);
+  }
+  const siteSearch = document.querySelector('.pg-search__ipt, input.search');
+  if (siteSearch && page === 'search') {
+    siteSearch.placeholder = 'Cerca incantesimo, mostro, classe, regola…';
   }
 })();

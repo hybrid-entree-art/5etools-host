@@ -87,6 +87,32 @@
   body.atlas-site.atlas-detail-open .atlas-site-filter{display:none!important}
   body.atlas-site.atlas-detail-open #pagecontent h1{display:none!important}
   body.atlas-site .rollbox-min{position:fixed!important;right:14px!important;bottom:calc(82px + env(safe-area-inset-bottom))!important;width:48px!important;height:48px!important;border:1px solid rgba(231,163,74,.6)!important;border-radius:50%!important;background:#e7a34a!important;color:#1a1208!important;z-index:75!important}
+
+
+  body.atlas-site .ve-btn,body.atlas-site .ve-btn-default{background:#222a34!important;border-color:rgba(185,196,206,.22)!important;color:#d8e2ea!important;min-height:40px}
+  body.atlas-site .ve-btn.ve-active,body.atlas-site .ve-btn.active,body.atlas-site .ve-btn-primary{background:rgba(231,163,74,.2)!important;border-color:#e7a34a!important;color:#f0b564!important;font-weight:700!important}
+  body.atlas-site .ve-btn-primary{background:#e7a34a!important;color:#1a1208!important}
+  body.atlas-site .ve-btn-group>.ve-btn{border-radius:8px!important;margin:2px!important}
+  body.atlas-site .ve-input-group-btn>.ve-btn{min-height:48px!important;border-radius:12px!important}
+
+  /* Books, adventures & global search */
+  body.atlas-site .ve-lst__form-top{display:flex!important;align-items:center;gap:8px;padding:4px 0 12px!important;margin:0!important}
+  body.atlas-site #search,body.atlas-site .ve-lst__form-top input.search,body.atlas-site .pg-search__ipt{height:48px!important;min-height:48px!important;width:100%!important;border:1px solid rgba(185,196,206,.17)!important;border-radius:12px!important;background:#222a34!important;color:#d8e2ea!important;font:15px AtlasBody,system-ui,sans-serif!important;padding:0 14px!important;box-shadow:none!important}
+  body.atlas-site #search::placeholder,body.atlas-site .pg-search__ipt::placeholder{color:#a5b1bc!important;opacity:1}
+  body.atlas-site #search:focus,body.atlas-site .pg-search__ipt:focus{border-color:#e7a34a!important;outline:2px solid #e7a34a!important;outline-offset:1px}
+  body.atlas-site .list.list--stats{display:flex;flex-direction:column;gap:0;padding:0!important;height:auto!important;max-height:none!important;overflow:hidden!important;background:#222a34!important;border:1px solid rgba(185,196,206,.17)!important;border-radius:14px!important}
+  body.atlas-site .list.list--stats .ve-flex-col{width:100%!important}
+  body.atlas-site .list.list--stats .ve-lst__row-inner{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:4px!important;padding:13px 15px!important;border:0!important;border-bottom:1px solid rgba(185,196,206,.17)!important;border-radius:0!important;background:transparent!important;color:#d8e2ea!important;min-height:68px;text-decoration:none!important}
+  body.atlas-site .list.list--stats .ve-flex-col:last-child .ve-lst__row-inner{border-bottom:0!important}
+  body.atlas-site .list.list--stats .ve-lst__row-inner>span.ve-flex{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:4px 8px!important;width:100%!important}
+  body.atlas-site .list.list--stats .ve-col-8-5{order:-1;flex:1 1 100%!important;width:100%!important;font:700 17px/1.22 AtlasCond,Georgia,serif!important;color:#d8e2ea!important;text-align:left!important}
+  body.atlas-site .list.list--stats .ve-col-1-3,body.atlas-site .list.list--stats .ve-grow{width:auto!important;flex:0 0 auto!important;text-align:left!important;font:600 12px AtlasBody,system-ui,sans-serif!important;color:#a5b1bc!important;background:transparent!important}
+  body.atlas-site .list.list--stats .ve-grow{margin-left:auto!important}
+  body.atlas-site #btngroup-manager{margin-top:14px!important;width:100%!important;display:flex!important;flex-wrap:wrap!important;gap:8px!important;justify-content:center!important}
+  body.atlas-site #btngroup-manager .ve-btn{min-height:48px!important;border-radius:12px!important;background:#222a34!important;border:1px solid rgba(185,196,206,.22)!important;color:#d8e2ea!important;font:600 13px AtlasBody,system-ui,sans-serif!important;padding:0 14px!important}
+  body.atlas-site .books-cover,body.atlas-site .bk__wrp-cover img,body.atlas-site .ve-card img{border-radius:12px!important}
+  body.atlas-site .pg-search__wrp-results,body.atlas-site .pg-search__row{background:#222a34!important;color:#d8e2ea!important;border-color:rgba(185,196,206,.17)!important}
+  body.atlas-site .pg-search__btn-submit{min-height:48px!important;background:#e7a34a!important;color:#1a1208!important;border:0!important;border-radius:12px!important;font-weight:800!important}
 }
 }
 @media (prefers-reduced-motion:reduce){body.atlas-site *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}

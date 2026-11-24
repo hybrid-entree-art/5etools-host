@@ -20,7 +20,7 @@
   body.atlas-classes #classtable h1,body.atlas-classes #classtable h2,body.atlas-classes #classtable h3{font-family:AtlasCond,Georgia,serif!important;color:#eef3f6!important}
   body.atlas-classes #classtable h1{font-size:30px!important;margin:0 0 10px!important}
   body.atlas-classes #classtable .ve-muted{color:#9aa8b4!important}
-  body.atlas-classes #atlasClassBack{position:sticky;top:58px;z-index:20;display:flex!important;align-items:center;gap:8px;width:100%;min-height:44px;margin:0 0 10px;padding:0 2px;border:0;border-bottom:1px solid rgba(182,194,204,.16);background:#0b0f14;color:#eef3f6;font:600 13px AtlasBody,system-ui,sans-serif;text-align:left}
+  body.atlas-classes #atlasClassBack{display:none!important;position:sticky;top:58px;z-index:20;align-items:center;gap:8px;width:100%;min-height:44px;margin:0 0 10px;padding:0 2px;border:0;border-bottom:1px solid rgba(182,194,204,.16);background:#0b0f14;color:#eef3f6;font:600 13px AtlasBody,system-ui,sans-serif;text-align:left}
   body.atlas-classes #atlasClassBack:before{content:"←";font-size:19px;color:#f0a742}
   body.atlas-classes #statsprof,body.atlas-classes .cls__stats,body.atlas-classes #pagecontent{background:#0b0f14!important;color:#c2ccd5!important}
   body.atlas-classes #statsprof table,body.atlas-classes .cls__stats table,body.atlas-classes #pagecontent table{background:#0b0f14!important;color:#c2ccd5!important;border-color:rgba(182,194,204,.16)!important}

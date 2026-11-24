@@ -4,14 +4,25 @@
   const body = document.body;
   const content = document.getElementById('contentwrapper');
   if (!content) return;
+  const appbar = document.querySelector('.atlas-appbar');
+  const appbarBack = appbar?.querySelector('a');
+  const appbarTitle = appbar?.querySelector('.atlas-appbar-title');
+  const sectionTitle = appbarTitle?.innerHTML || '';
+  const setItemTitle = () => {
+    const name = document.querySelector('#pagecontent h1')?.innerText.trim();
+    if (appbarTitle && name) appbarTitle.innerHTML = `${name}<small>Mostri</small>`;
+  };
 
   const openDetail = () => {
     body.classList.add('atlas-detail-open');
     content.scrollTop = 0;
+    setTimeout(setItemTitle, 100);
+    setTimeout(setItemTitle, 400);
   };
 
   const closeDetail = () => {
     body.classList.remove('atlas-detail-open');
+    if (appbarTitle) appbarTitle.innerHTML = sectionTitle;
     if (location.hash) {
       history.replaceState(null, '', location.pathname + location.search);
     }
@@ -20,6 +31,9 @@
   };
 
   document.getElementById('atlasDetailBack')?.addEventListener('click', closeDetail);
+  appbarBack?.addEventListener('click', (e) => {
+    if (body.classList.contains('atlas-detail-open')) { e.preventDefault(); closeDetail(); }
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && body.classList.contains('atlas-detail-open')) closeDetail();
   });

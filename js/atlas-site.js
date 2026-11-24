@@ -22,6 +22,9 @@
     <div class="atlas-sitebar-title">${title}<small>5e.tools core</small></div>
     <button type="button" class="atlas-site-filter" id="atlasSiteFilter" hidden>Filtri</button>`;
   body.prepend(appbar);
+  const appbarBack = appbar.querySelector('a');
+  const appbarTitle = appbar.querySelector('.atlas-sitebar-title');
+  const sectionTitle = appbarTitle?.innerHTML || '';
 
   const nativeFilter = [...document.querySelectorAll('#filter-search-group > button, #filtertools button')]
     .find((btn) => btn.textContent.trim().toLowerCase() === 'filter');
@@ -42,13 +45,19 @@
     const open = () => {
       body.classList.add('atlas-detail-open');
       content.scrollTop = 0;
+      const name = document.querySelector('#pagecontent h1')?.innerText.trim();
+      if (appbarTitle && name) appbarTitle.innerHTML = `${name}<small>${title}</small>`;
     };
     const close = () => {
       body.classList.remove('atlas-detail-open');
+      if (appbarTitle) appbarTitle.innerHTML = sectionTitle;
       if (location.hash) history.replaceState(null, '', location.pathname + location.search);
       document.getElementById('listcontainer')?.scrollIntoView({block: 'start'});
     };
     back.addEventListener('click', close);
+    appbarBack?.addEventListener('click', (e) => {
+      if (body.classList.contains('atlas-detail-open')) { e.preventDefault(); close(); }
+    });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && body.classList.contains('atlas-detail-open')) close();
     });

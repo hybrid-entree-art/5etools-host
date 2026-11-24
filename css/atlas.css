@@ -45,9 +45,10 @@
   body.atlas-spells #list .ve-lst__row-inner>span:nth-child(6):before{content:"Raggio"}
   body.atlas-spells #contentwrapper{display:none!important}
   body.atlas-spells.atlas-detail-open{overflow:hidden}
-  body.atlas-spells.atlas-detail-open .atlas-appbar,body.atlas-spells.atlas-detail-open .atlas-bottom{display:none!important}
-  body.atlas-spells.atlas-detail-open #contentwrapper{display:block!important;position:fixed;inset:0;z-index:90;width:auto!important;max-width:none!important;margin:0!important;padding:0 0 calc(96px + env(safe-area-inset-bottom))!important;overflow-y:auto;background:var(--atlas-bg);flex:none!important}
-  body.atlas-spells.atlas-detail-open #contentwrapper #atlasDetailBack{position:sticky;top:0;z-index:10;display:flex!important;align-items:center;gap:8px;width:100%;min-height:54px;padding:0 16px;border:0;border-bottom:1px solid var(--atlas-line);background:rgba(11,15,20,.96);backdrop-filter:blur(12px);color:var(--atlas-ink);font:600 14px var(--atlas-ui);text-align:left}
+  body.atlas-spells.atlas-detail-open .atlas-bottom{display:none!important}
+  body.atlas-spells.atlas-detail-open .atlas-filter{display:none!important}
+  body.atlas-spells.atlas-detail-open #contentwrapper{display:block!important;position:fixed;inset:58px 0 0 0;z-index:90;width:auto!important;max-width:none!important;margin:0!important;padding:0 0 calc(96px + env(safe-area-inset-bottom))!important;overflow-y:auto;background:var(--atlas-bg);flex:none!important}
+  body.atlas-spells.atlas-detail-open #contentwrapper #atlasDetailBack{display:none!important}
   body.atlas-spells.atlas-detail-open #contentwrapper #atlasDetailBack:before{content:"←";font-size:20px;color:var(--atlas-amber);line-height:1}
   body.atlas-spells.atlas-detail-open #contentwrapper #sublistcontainer,body.atlas-spells.atlas-detail-open #contentwrapper>.ve-col-12,body.atlas-spells.atlas-detail-open #contentwrapper>.ve-flex-vh-center{display:none!important}
   body.atlas-spells.atlas-detail-open #stat-tabs{display:none!important}
@@ -58,6 +59,7 @@
   body.atlas-spells #pagecontent>tr>td,body.atlas-spells #pagecontent>tr>th{display:block!important;width:auto!important;padding:7px 0!important;border:0!important;background:var(--atlas-bg)!important;color:var(--atlas-muted)!important;font:15px/1.55 var(--atlas-book)!important}
   body.atlas-spells #pagecontent>tr:first-child,body.atlas-spells #pagecontent>tr:first-child td,body.atlas-spells #pagecontent>tr:first-child th{display:none!important}
   body.atlas-spells #pagecontent th.ve-stats__th-name{padding:8px 0 14px!important;background:var(--atlas-bg)!important}
+  body.atlas-spells.atlas-detail-open #pagecontent .ve-stats__h-name{display:none!important}
   body.atlas-spells #pagecontent .ve-stats__h-name{font:700 30px/1.02 var(--atlas-head)!important;color:var(--atlas-ink)!important;letter-spacing:-.01em;margin-top:0!important;padding-top:0!important;background:var(--atlas-bg)!important}
   body.atlas-spells #pagecontent .ve-stats__wrp-h-source{display:flex!important;align-items:center;gap:7px;margin-top:7px!important}
   body.atlas-spells #pagecontent .ve-stats__h-source-abbreviation{font:700 12px var(--atlas-ui)!important;letter-spacing:.04em;color:var(--atlas-teal)!important;border:1px solid rgba(95,208,192,.35);border-radius:999px;padding:3px 7px!important}

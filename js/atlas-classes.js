@@ -7,6 +7,7 @@
   body.classList.add('atlas-classes');
 
   const title = document.querySelector('.atlas-sitebar-title');
+  const appbarBack = document.querySelector('.atlas-sitebar > a');
   const originalTitle = title?.innerHTML || 'Classi<small>5e.tools core</small>';
 
   const back = document.createElement('button');
@@ -48,6 +49,9 @@
     if (row) setTimeout(() => openClass(row), 120);
   }, true);
   back.addEventListener('click', closeClass);
+  appbarBack?.addEventListener('click', (e) => {
+    if (body.classList.contains('atlas-class-open')) { e.preventDefault(); closeClass(); }
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && body.classList.contains('atlas-class-open')) closeClass();
   });

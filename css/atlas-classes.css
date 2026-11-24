@@ -19,8 +19,8 @@
   body.atlas-classes #classtable .ve-cls-tbl .ve-roller{font:700 11px AtlasBody,system-ui,sans-serif!important;color:#1a1208!important;background:#e7a34a!important;border-radius:4px;padding:1px 4px!important}
   body.atlas-classes #classtable h1,body.atlas-classes #classtable h2,body.atlas-classes #classtable h3{font-family:AtlasCond,Georgia,serif!important;color:#d8e2ea!important}
   body.atlas-classes #classtable h1{font-size:30px!important;margin:0 0 10px!important}
-  body.atlas-classes #classtable .ve-muted{color:#8f9ca7!important}
-  body.atlas-classes #atlasClassBack{display:none!important;position:sticky;top:58px;z-index:20;align-items:center;gap:8px;width:100%;min-height:44px;margin:0 0 10px;padding:0 2px;border:0;border-bottom:1px solid rgba(185,196,206,.16);background:#1a2028;color:#d8e2ea;font:600 13px AtlasBody,system-ui,sans-serif;text-align:left}
+  body.atlas-classes #classtable .ve-muted{color:#a5b1bc!important}
+  body.atlas-classes #atlasClassBack{display:none!important;position:sticky;top:58px;z-index:20;align-items:center;gap:8px;width:100%;min-height:48px;margin:0 0 10px;padding:0 2px;border:0;border-bottom:1px solid rgba(185,196,206,.16);background:#1a2028;color:#d8e2ea;font:600 13px AtlasBody,system-ui,sans-serif;text-align:left}
   body.atlas-classes #atlasClassBack:before{content:"←";font-size:19px;color:#e7a34a}
   body.atlas-classes #pagecontent .ve-rd__title-link,body.atlas-classes #pagecontent .ve-rd__title-link *,body.atlas-classes #pagecontent .ve-rd__h-toggle,body.atlas-classes #pagecontent .ve-rd__h-toggle *,body.atlas-classes #pagecontent .ve-help-subtle,body.atlas-classes #pagecontent .ve-rd__stats-name-page{color:#63c8bc!important}
   body.atlas-classes #pagecontent .ve-help-subtle,body.atlas-classes #pagecontent .ve-rd__title-link,body.atlas-classes #pagecontent .ve-rd__title-link *,body.atlas-classes #pagecontent .ve-rd__h-toggle,body.atlas-classes #pagecontent .ve-rd__h-toggle *{opacity:1!important}
@@ -38,13 +38,13 @@
   body.atlas-classes #pagecontent strong,body.atlas-classes .cls__stats strong{color:#e7a34a!important}
   body.atlas-classes #subclasstabs{display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:6px;padding:10px 0 8px!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch}
   body.atlas-classes #subclasstabs>*{flex:0 0 auto!important}
-  body.atlas-classes #subclasstabs button,body.atlas-classes #subclasstabs select,body.atlas-classes #subclasstabs .cls-tabs__sel-preset{display:none!important;min-height:44px!important;border:1px solid rgba(185,196,206,.18)!important;border-radius:9px!important;background:#222a34!important;color:#b5c1cb!important;font:600 12px AtlasBody,system-ui,sans-serif!important;padding:0 10px!important}
+  body.atlas-classes #subclasstabs button,body.atlas-classes #subclasstabs select,body.atlas-classes #subclasstabs .cls-tabs__sel-preset{display:none!important;min-height:48px!important;border:1px solid rgba(185,196,206,.18)!important;border-radius:9px!important;background:#222a34!important;color:#b5c1cb!important;font:600 12px AtlasBody,system-ui,sans-serif!important;padding:0 10px!important}
   body.atlas-classes #subclasstabs .ve-active,body.atlas-classes #subclasstabs .cls__btn-cf--active{border-color:rgba(231,163,74,.6)!important;background:rgba(231,163,74,.12)!important;color:#e7a34a!important}
   body.atlas-classes #subclasstabs .cls__icn-subclass-source{color:#63c8bc!important;font-size:11px!important}
-  body.atlas-classes #sticky-nav{position:sticky;top:58px;z-index:15;min-height:44px;background:#1a2028!important;border-bottom:1px solid rgba(185,196,206,.14)}
+  body.atlas-classes #sticky-nav{position:sticky;top:58px;z-index:15;min-height:48px;background:#1a2028!important;border-bottom:1px solid rgba(185,196,206,.14)}
   body.atlas-classes #sticky-nav a,body.atlas-classes #sticky-nav button{color:#b5c1cb!important;font:600 12px AtlasBody,system-ui,sans-serif!important}
   body.atlas-classes #pagecontent>div{background:#1a2028!important;color:#b5c1cb!important}
-  body.atlas-classes #pagecontent [data-rd-h-toggle-button]{min-height:44px!important;font-family:AtlasBody,system-ui,sans-serif!important}
+  body.atlas-classes #pagecontent [data-rd-h-toggle-button]{min-height:48px!important;font-family:AtlasBody,system-ui,sans-serif!important}
   body.atlas-classes.atlas-class-open #listcontainer{display:none!important}
   body.atlas-classes.atlas-class-open #classtable{display:block!important;margin-top:0!important}
   body.atlas-classes.atlas-class-open .classes>hr{display:none!important}

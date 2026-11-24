@@ -38,3 +38,17 @@
   setInterval(setTitle, 1200);
   setTitle();
 })();
+
+(() => {
+  const hideBroken = () => {
+    document.querySelectorAll('#pagecontent img').forEach((img) => {
+      if (img.complete && img.naturalWidth === 0) img.classList.add('atlas-img-broken');
+      if (!img.dataset.atlasImgHook) {
+        img.dataset.atlasImgHook = '1';
+        img.addEventListener('error', () => img.classList.add('atlas-img-broken'));
+      }
+    });
+  };
+  setTimeout(hideBroken, 800);
+  setTimeout(hideBroken, 2000);
+})();

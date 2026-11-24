@@ -62,6 +62,24 @@
     const row = target?.closest('#list .ve-lst__row');
     if (row) setTimeout(() => openClass(row), 120);
   }, true);
+
+  const scrollToSubclass = () => {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+    const target = document.querySelector('#pagecontent .cls__feature-subclass, #pagecontent .cls__feature-subclass-reprint, #pagecontent .cls__feature-ua-subclass, #pagecontent .cls__feature-brew-subclass');
+    if (target) {
+      const y = target.getBoundingClientRect().top + window.scrollY - 150;
+      window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+    }
+  };
+  document.addEventListener('click', (e) => {
+    const t = e.target instanceof Element ? e.target : null;
+    const btn = t?.closest('#subclasstabs button');
+    if (!btn) return;
+    setTimeout(() => {
+      if ([...btn.classList].some((c) => c.startsWith('cls__btn-sc--active'))) scrollToSubclass();
+    }, 180);
+  });
+
   back.addEventListener('click', closeClass);
   appbarBack?.addEventListener('click', (e) => {
     if (body.classList.contains('atlas-class-open')) { e.preventDefault(); closeClass(); }

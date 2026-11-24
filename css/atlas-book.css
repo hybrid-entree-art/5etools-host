@@ -31,6 +31,11 @@
   body.atlas-book #pagecontent .ve-tbl-divider{border-color:#c9b28a!important;background:#c9b28a!important}
   body.atlas-book .atlas-sitebar-title{font-size:17px!important}
   body.atlas-book #atlasTocBtn{width:auto!important;min-width:48px!important;padding:0 10px!important;border:1px solid rgba(231,163,74,.4)!important;color:#e7a34a!important;font:700 12px AtlasBody,system-ui,sans-serif!important}
+  body.atlas-book #pagecontent .ve-rd__b-special,body.atlas-book #pagecontent .ve-rd__b-inset,body.atlas-book #pagecontent .ve-rd__inset{background:#e5d6b6!important;color:#2c241a!important;border:1px solid #c9b28a!important;border-radius:10px!important;padding:12px 14px!important;margin:12px 0!important}
+  body.atlas-book #pagecontent .ve-rd__b-readaloud,body.atlas-book #pagecontent .ve-rd__readaloud,body.atlas-book #pagecontent blockquote{background:#e9dcc0!important;color:#2c241a!important;border-left:3px solid #8a4d12!important;padding:10px 14px!important;margin:12px 0!important}
+  body.atlas-book #pagecontent .ve-rd__b-special *,body.atlas-book #pagecontent .ve-rd__b-inset *,body.atlas-book #pagecontent .ve-rd__b-readaloud *,body.atlas-book #pagecontent blockquote *{color:inherit}
+  body.atlas-book #pagecontent .ve-rd__b-special h4,body.atlas-book #pagecontent .ve-rd__b-inset h4,body.atlas-book #pagecontent .ve-rd__b-special .ve-rd__h,body.atlas-book #pagecontent .ve-rd__b-inset .ve-rd__h{color:#8a4d12!important}
+  body.atlas-book #pagecontent img.atlas-img-broken{display:none!important}
   body.atlas-book #pagecontent .ve-flex-vh-center,body.atlas-book #pagecontent .ve-btn{font-family:AtlasBody,system-ui,sans-serif!important}
 }
 }

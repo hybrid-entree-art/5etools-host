@@ -29,7 +29,7 @@
   body.atlas-classes #pagecontent strong,body.atlas-classes .cls__stats strong{color:#f0a742!important}
   body.atlas-classes #subclasstabs{display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:6px;padding:10px 0 8px!important;overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch}
   body.atlas-classes #subclasstabs>*{flex:0 0 auto!important}
-  body.atlas-classes #subclasstabs button,body.atlas-classes #subclasstabs select{min-height:44px!important;border:1px solid rgba(182,194,204,.18)!important;border-radius:9px!important;background:#141a21!important;color:#c2ccd5!important;font:600 12px AtlasBody,system-ui,sans-serif!important;padding:0 10px!important}
+  body.atlas-classes #subclasstabs button,body.atlas-classes #subclasstabs select,body.atlas-classes #subclasstabs .cls-tabs__sel-preset{display:none!important;min-height:44px!important;border:1px solid rgba(182,194,204,.18)!important;border-radius:9px!important;background:#141a21!important;color:#c2ccd5!important;font:600 12px AtlasBody,system-ui,sans-serif!important;padding:0 10px!important}
   body.atlas-classes #subclasstabs .ve-active,body.atlas-classes #subclasstabs .cls__btn-cf--active{border-color:rgba(240,167,66,.6)!important;background:rgba(240,167,66,.12)!important;color:#f0a742!important}
   body.atlas-classes #subclasstabs .cls__icn-subclass-source{color:#5fd0c0!important;font-size:11px!important}
   body.atlas-classes #sticky-nav{position:sticky;top:58px;z-index:15;min-height:44px;background:#0b0f14!important;border-bottom:1px solid rgba(182,194,204,.14)}

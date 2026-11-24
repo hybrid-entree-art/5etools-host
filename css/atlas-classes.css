@@ -22,6 +22,14 @@
   body.atlas-classes #classtable .ve-muted{color:#8f9ca7!important}
   body.atlas-classes #atlasClassBack{display:none!important;position:sticky;top:58px;z-index:20;align-items:center;gap:8px;width:100%;min-height:44px;margin:0 0 10px;padding:0 2px;border:0;border-bottom:1px solid rgba(185,196,206,.16);background:#1a2028;color:#d8e2ea;font:600 13px AtlasBody,system-ui,sans-serif;text-align:left}
   body.atlas-classes #atlasClassBack:before{content:"←";font-size:19px;color:#e7a34a}
+  body.atlas-classes #pagecontent .ve-rd__title-link,body.atlas-classes #pagecontent .ve-rd__title-link *,body.atlas-classes #pagecontent .ve-rd__h-toggle,body.atlas-classes #pagecontent .ve-rd__h-toggle *,body.atlas-classes #pagecontent .ve-help-subtle,body.atlas-classes #pagecontent .ve-rd__stats-name-page{color:#63c8bc!important}
+  body.atlas-classes #pagecontent .ve-help-subtle,body.atlas-classes #pagecontent .ve-rd__title-link,body.atlas-classes #pagecontent .ve-rd__title-link *,body.atlas-classes #pagecontent .ve-rd__h-toggle,body.atlas-classes #pagecontent .ve-rd__h-toggle *{opacity:1!important}
+  body.atlas-classes .cls-nav__head-inner,body.atlas-classes .cls-nav__head-inner *{color:#d8e2ea!important}
+  body.atlas-classes .cls-tabs__sc-not-shown,body.atlas-classes .cls-tabs__sc-not-shown *{color:#b5c1cb!important}
+  body.atlas-classes .classes a,body.atlas-classes #pagecontent a,body.atlas-classes .cls__stats a,body.atlas-classes #statsprof a,body.atlas-classes #classtable a{color:#63c8bc!important}
+  body.atlas-classes .cls-side__btn-toggle{color:#b5c1cb!important}
+  body.atlas-classes .cls-side__section,body.atlas-classes .cls-side__section *{color:#b5c1cb!important}
+  body.atlas-classes .cls-side__section a{color:#63c8bc!important}
   body.atlas-classes #statsprof,body.atlas-classes .cls__stats,body.atlas-classes #pagecontent{background:#1a2028!important;color:#b5c1cb!important;font-family:AtlasBody,system-ui,sans-serif!important;font-size:16px!important;line-height:1.65!important}
   body.atlas-classes #pagecontent p,body.atlas-classes .cls__stats p,body.atlas-classes #pagecontent li,body.atlas-classes .cls__stats li{font-family:AtlasBody,system-ui,sans-serif!important;font-size:16px!important;line-height:1.65!important}
   body.atlas-classes #statsprof table,body.atlas-classes .cls__stats table,body.atlas-classes #pagecontent table{background:#1a2028!important;color:#b5c1cb!important;border-color:rgba(185,196,206,.16)!important}

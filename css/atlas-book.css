@@ -20,6 +20,8 @@
   body.atlas-book #pagecontent a{color:#8a4d12!important;text-decoration-color:rgba(138,77,18,.4);text-underline-offset:2px}
   body.atlas-book #pagecontent strong,body.atlas-book #pagecontent b{color:#4a2d12!important}
   body.atlas-book #pagecontent i,body.atlas-book #pagecontent em{color:#6a4b28!important}
+  body.atlas-book #pagecontent .ve-rd__title-link,body.atlas-book #pagecontent .ve-rd__title-link *,body.atlas-book #pagecontent .ve-rd__h-toggle,body.atlas-book #pagecontent .ve-rd__h-toggle *,body.atlas-book #pagecontent .ve-help-subtle,body.atlas-book #pagecontent .ve-rd__title-link--inset{color:#6d4c2b!important}
+  body.atlas-book #pagecontent .ve-rd__title-link,body.atlas-book #pagecontent .ve-rd__title-link *,body.atlas-book #pagecontent .ve-rd__h-toggle,body.atlas-book #pagecontent .ve-rd__h-toggle *,body.atlas-book #pagecontent .ve-help-subtle{opacity:1!important}
   body.atlas-book #pagecontent .ve-rd__h{font-family:AtlasCond,Georgia,serif!important;color:#8a4d12!important;font-size:22px!important;margin-top:20px!important}
   body.atlas-book #pagecontent .ve-rd__h--3{font-size:18px!important}
   body.atlas-book #pagecontent p{line-height:1.68!important;margin:0 0 12px!important}

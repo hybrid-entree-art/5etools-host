@@ -56,10 +56,10 @@
   body.atlas-site #atlasSiteBack:before{content:"←";font-size:20px;color:#f0a742;line-height:1}
   body.atlas-site #contentwrapper>div:first-child,body.atlas-site #contentwrapper .ve-col-12.ve-mb-1.ve-hidden{display:none!important}
   body.atlas-site #wrp-pagecontent{padding:16px 16px 0!important;margin:0!important;max-width:none!important;background:#0b0f14!important}
-  body.atlas-site #pagecontent{width:100%!important;color:#c2ccd5!important;background:#0b0f14!important;font-family:AtlasBook,Georgia,serif}
+  body.atlas-site #pagecontent{width:100%!important;color:#c2ccd5!important;background:#0b0f14!important;font-family:AtlasBody,system-ui,sans-serif}
   body.atlas-site.atlas-detail-open #pagecontent{display:block!important;border-collapse:collapse!important}
   body.atlas-site.atlas-detail-open #pagecontent>tr{display:block!important;border:0!important;background:#0b0f14!important}
-  body.atlas-site.atlas-detail-open #pagecontent>tr>td,body.atlas-site.atlas-detail-open #pagecontent>tr>th{display:block!important;width:auto!important;padding:6px 0!important;border:0!important;background:#0b0f14!important;color:#c2ccd5!important;font:15px/1.55 AtlasBook,Georgia,serif!important}
+  body.atlas-site.atlas-detail-open #pagecontent>tr>td,body.atlas-site.atlas-detail-open #pagecontent>tr>th{display:block!important;width:auto!important;padding:6px 0!important;border:0!important;background:#0b0f14!important;color:#c2ccd5!important;font:16px/1.65 AtlasBody,system-ui,sans-serif!important}
   body.atlas-site.atlas-detail-open #pagecontent>tr:first-child{display:none!important}
   body.atlas-site.atlas-detail-open #pagecontent th.ve-stats__th-name{padding:4px 0 10px!important}
   body.atlas-site #pagecontent h1{font:700 30px/1.03 AtlasCond,Georgia,serif!important;color:#eef3f6!important;letter-spacing:-.01em}

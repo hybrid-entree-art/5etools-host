@@ -53,10 +53,10 @@
   body.atlas-spells.atlas-detail-open #contentwrapper #sublistcontainer,body.atlas-spells.atlas-detail-open #contentwrapper>.ve-col-12,body.atlas-spells.atlas-detail-open #contentwrapper>.ve-flex-vh-center{display:none!important}
   body.atlas-spells.atlas-detail-open #stat-tabs{display:none!important}
   body.atlas-spells #wrp-pagecontent{padding:22px 18px 0!important;margin:0!important;max-width:none!important;background:var(--atlas-bg)!important}
-  body.atlas-spells #pagecontent{display:block!important;width:100%!important;border-collapse:collapse!important;color:var(--atlas-ink)!important;font-family:var(--atlas-book);background:var(--atlas-bg)!important}
+  body.atlas-spells #pagecontent{display:block!important;width:100%!important;border-collapse:collapse!important;color:var(--atlas-ink)!important;font-family:var(--atlas-ui);background:var(--atlas-bg)!important}
   body.atlas-spells #pagecontent{display:block!important}
   body.atlas-spells #pagecontent>tr{display:block!important;border:0!important;background:var(--atlas-bg)!important}
-  body.atlas-spells #pagecontent>tr>td,body.atlas-spells #pagecontent>tr>th{display:block!important;width:auto!important;padding:7px 0!important;border:0!important;background:var(--atlas-bg)!important;color:var(--atlas-muted)!important;font:15px/1.55 var(--atlas-book)!important}
+  body.atlas-spells #pagecontent>tr>td,body.atlas-spells #pagecontent>tr>th{display:block!important;width:auto!important;padding:7px 0!important;border:0!important;background:var(--atlas-bg)!important;color:var(--atlas-muted)!important;font:16px/1.65 var(--atlas-ui)!important}
   body.atlas-spells #pagecontent>tr:first-child,body.atlas-spells #pagecontent>tr:first-child td,body.atlas-spells #pagecontent>tr:first-child th{display:none!important}
   body.atlas-spells #pagecontent th.ve-stats__th-name{padding:8px 0 14px!important;background:var(--atlas-bg)!important}
   body.atlas-spells.atlas-detail-open #pagecontent .ve-stats__h-name{display:none!important}
@@ -67,7 +67,7 @@
   body.atlas-spells #pagecontent>tr:nth-child(3) td{color:var(--atlas-teal)!important;font:700 13px var(--atlas-ui)!important;padding:0 0 13px!important;border-bottom:1px solid var(--atlas-line)!important;margin-bottom:4px}
   body.atlas-spells #pagecontent>tr:nth-child(n+4):nth-child(-n+7) td{display:flex!important;justify-content:space-between;gap:14px;padding:6px 0!important;border-bottom:1px solid rgba(182,194,204,.08)!important;font-family:var(--atlas-ui)!important;font-size:13px!important;color:var(--atlas-ink)!important}
   body.atlas-spells #pagecontent>tr:nth-child(n+4):nth-child(-n+7) td b{color:var(--atlas-faint)!important;font-weight:700!important;font-size:12px!important;letter-spacing:.06em;text-transform:uppercase;flex:none}
-  body.atlas-spells #pagecontent>tr:nth-child(n+8) td{padding-top:16px!important;color:var(--atlas-ink)!important;font:15px/1.65 var(--atlas-book)!important}
+  body.atlas-spells #pagecontent>tr:nth-child(n+8) td{padding-top:16px!important;color:var(--atlas-ink)!important;font:16px/1.7 var(--atlas-ui)!important}
   body.atlas-spells #pagecontent>tr:nth-child(9) td{margin-top:14px!important;padding:12px 0 0!important;border-top:1px solid var(--atlas-line)!important;font:11px/1.5 var(--atlas-ui)!important;color:var(--atlas-faint)!important}
   body.atlas-spells #pagecontent>tr:nth-child(10){display:none!important}
   body.atlas-spells #pagecontent p{margin:0 0 12px!important}

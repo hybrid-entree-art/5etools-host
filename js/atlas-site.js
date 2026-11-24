@@ -1,0 +1,78 @@
+/* 5E ATLAS — shared mobile shell for the remaining native 5e.tools pages. */
+(() => {
+  const body = document.body;
+  const page = body.dataset.atlasPage || (location.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '');
+  const titles = {
+    actions: 'Azioni', backgrounds: 'Background', bastions: 'Bastioni', book: 'Manuale',
+    books: 'Biblioteca', charcreationoptions: 'Creazione personaggio', classes: 'Classi',
+    conditionsdiseases: 'Condizioni e malattie', cultsboons: 'Culti e doni', decks: 'Mazzi',
+    deities: 'Divinità', encountergen: 'Generatore di incontri', feats: 'Talenti',
+    homecrafts: 'Artigianato', items: 'Oggetti', languages: 'Lingue', names: 'Nomi',
+    objects: 'Oggetti', optionalfeatures: 'Privilegi opzionali', psionics: 'Psionica',
+    races: 'Specie', recipes: 'Ricette', rewards: 'Ricompense', tables: 'Tabelle',
+    trapshazards: 'Trappole e pericoli', variantrules: 'Glossario', vehicles: 'Veicoli',
+  };
+  const title = body.dataset.atlasTitle || titles[page] || document.title.replace(' - 5etools', '');
+  body.classList.add('atlas-site');
+
+  const appbar = document.createElement('header');
+  appbar.className = 'atlas-sitebar';
+  appbar.innerHTML = `
+    <a href="atlas.html" aria-label="Torna alla home 5E Atlas"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></a>
+    <div class="atlas-sitebar-title">${title}<small>5e.tools core</small></div>
+    <button type="button" class="atlas-site-filter" id="atlasSiteFilter" hidden>Filtri</button>`;
+  body.prepend(appbar);
+
+  const nativeFilter = [...document.querySelectorAll('#filter-search-group > button, #filtertools button')]
+    .find((btn) => btn.textContent.trim().toLowerCase() === 'filter');
+  const filterBtn = document.getElementById('atlasSiteFilter');
+  if (nativeFilter && filterBtn) {
+    filterBtn.hidden = false;
+    filterBtn.addEventListener('click', () => nativeFilter.click());
+  }
+
+  const content = document.getElementById('contentwrapper');
+  if (content) {
+    const back = document.createElement('button');
+    back.type = 'button';
+    back.id = 'atlasSiteBack';
+    back.textContent = 'Indietro';
+    content.prepend(back);
+
+    const open = () => {
+      body.classList.add('atlas-detail-open');
+      content.scrollTop = 0;
+    };
+    const close = () => {
+      body.classList.remove('atlas-detail-open');
+      if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      document.getElementById('listcontainer')?.scrollIntoView({block: 'start'});
+    };
+    back.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && body.classList.contains('atlas-detail-open')) close();
+    });
+    document.addEventListener('click', (e) => {
+      const row = e.target.closest?.('#listcontainer a[href^="#"]');
+      if (row) setTimeout(open, 90);
+    });
+    if (window.__atlasSiteInitialHash && window.__atlasSiteInitialHash.length > 1) {
+      const openInitial = () => {
+        if (document.querySelector('#pagecontent h1')) open();
+        else setTimeout(openInitial, 150);
+      };
+      setTimeout(openInitial, 300);
+    }
+  }
+
+  const diceFab = document.querySelector('.rollbox-min');
+  if (diceFab) {
+    diceFab.setAttribute('aria-label', 'Apri tira-dadi');
+    diceFab.setAttribute('title', 'Apri tira-dadi');
+  }
+  const search = document.getElementById('lst__search');
+  if (search && !search.placeholder) {
+    search.placeholder = 'Cerca nel compendio…';
+    search.setAttribute('aria-label', 'Cerca nel compendio');
+  }
+})();

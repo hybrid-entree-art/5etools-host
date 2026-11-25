@@ -13,15 +13,48 @@
     {key: 'bestiary', href: 'bestiary.html', label: 'Mostri', icon: '<path d="M4 8c3-3 6-3 8 0 2-3 5-3 8 0v9c-3-2-6-2-8 0-2-2-5-2-8 0z"/>'},
     {key: 'menu', label: 'Menu', icon: '<path d="M4 7h16M4 12h16M4 17h16"/>', button: true},
   ];
-  const sections = [
-    ['Classi', 'classes.html', 'classes'],
-    ['Oggetti', 'items.html', 'items'],
-    ['Background', 'backgrounds.html', 'backgrounds'],
-    ['Talenti', 'feats.html', 'feats'],
-    ['Specie', 'races.html', 'races'],
-    ['Glossario', 'variantrules.html', 'variantrules'],
-    ['Cerca', 'search.html', 'search'],
-    ['Libreria', 'books.html', 'books'],
+  const groups = [
+    ['Giocatore', [
+      ['Classi', 'classes.html', 'classes'],
+      ['Incantesimi', 'spells.html', 'spells'],
+      ['Specie', 'races.html', 'races'],
+      ['Background', 'backgrounds.html', 'backgrounds'],
+      ['Talenti', 'feats.html', 'feats'],
+      ['Oggetti', 'items.html', 'items'],
+      ['Privilegi opzionali', 'optionalfeatures.html', 'optionalfeatures'],
+      ['Creazione PG', 'charcreationoptions.html', 'charcreationoptions'],
+      ['Psionica', 'psionics.html', 'psionics'],
+    ]],
+    ['Regole e Manuali', [
+      ['Biblioteca', 'books.html', 'books'],
+      ['Avventure', 'adventures.html', 'adventures'],
+      ['Glossario', 'variantrules.html', 'variantrules'],
+      ['Riferimento rapido', 'quickreference.html', 'quickreference'],
+      ['Azioni', 'actions.html', 'actions'],
+      ['Condizioni e malattie', 'conditionsdiseases.html', 'conditionsdiseases'],
+      ['Lingue', 'languages.html', 'languages'],
+      ['Divinità', 'deities.html', 'deities'],
+    ]],
+    ['Dungeon Master', [
+      ['Mostri', 'bestiary.html', 'bestiary'],
+      ['Trappole e pericoli', 'trapshazards.html', 'trapshazards'],
+      ['Culti e doni', 'cultsboons.html', 'cultsboons'],
+      ['Bastioni', 'bastions.html', 'bastions'],
+      ['Ricompense', 'rewards.html', 'rewards'],
+      ['Oggetti di scena', 'objects.html', 'objects'],
+      ['Veicoli', 'vehicles.html', 'vehicles'],
+      ['Tabelle', 'tables.html', 'tables'],
+      ['Mazzi', 'decks.html', 'decks'],
+    ]],
+    ['Strumenti', [
+      ['Cerca ovunque', 'search.html', 'search'],
+      ['Schermo DM', 'dmscreen.html', 'dmscreen'],
+      ['Generatore incontri', 'encountergen.html', 'encountergen'],
+      ['Generatore tesori', 'lootgen.html', 'lootgen'],
+      ['Calcolatore GS', 'crcalculator.html', 'crcalculator'],
+      ['Generatore nomi', 'names.html', 'names'],
+      ['Mappe', 'maps.html', 'maps'],
+    ]],
   ];
 
   document.querySelectorAll('.atlas-bottom, .bottom').forEach((el) => el.remove());
@@ -44,7 +77,7 @@
       <button type="button" data-atlas-menu-close aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
     </div>
     <div class="atlas-menu-list">
-      ${sections.map(([label, href, key]) => `<a href="${href}"${key === page ? ' aria-current="page"' : ''}>${label}<span>${key === page ? 'Sei qui' : '→'}</span></a>`).join('')}
+      ${groups.map(([gTitle, links]) => `<div class="atlas-menu-group"><h3>${gTitle}</h3><div class="atlas-menu-grid">${links.map(([label, href, key]) => `<a href="${href}"${key === page ? ' aria-current="page"' : ''}>${label}<span>${key === page ? 'Sei qui' : '→'}</span></a>`).join('')}</div></div>`).join('')}
     </div>`;
   document.body.append(dialog);
   document.body.classList.add('atlas-nav-on');

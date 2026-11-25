@@ -23,4 +23,38 @@
 }
 .atlas-global-nav a:focus-visible,.atlas-global-nav button:focus-visible,.atlas-menu a:focus-visible,.atlas-menu button:focus-visible{outline:2px solid #e7a34a!important;outline-offset:-2px!important}
 @media (max-width:360px){.atlas-global-nav a{font-size:10px}.atlas-global-nav svg{width:18px;height:18px}}
+
+  /* Floating controls: dice, bug report, scroll-to-top are three separate actions. */
+  .atlas-fab{display:none}
+  @media (max-width:767px){
+    .atlas-fab{display:flex;flex-direction:column;align-items:flex-end;gap:10px;position:fixed;right:14px;bottom:calc(158px + env(safe-area-inset-bottom));z-index:96}
+    .atlas-fab button{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid rgba(185,196,206,.28);background:#1a2028;color:#d8e2ea;box-shadow:0 8px 22px rgba(6,9,12,.5);cursor:pointer;padding:0;-webkit-tap-highlight-color:transparent}
+    .atlas-fab button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .atlas-fab button:active{transform:scale(.94)}
+    .atlas-fab button:focus-visible{outline:2px solid #e7a34a;outline-offset:2px}
+    .atlas-fab .atlas-fab-bug{color:#f0a0a0;border-color:rgba(240,160,160,.35)}
+    .atlas-fab .atlas-fab-top{color:#e7a34a;border-color:rgba(231,163,74,.45);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}
+    .atlas-fab .atlas-fab-top.is-visible{opacity:1;pointer-events:auto;transform:none}
+    /* Native dice roller becomes a clearly distinct amber die, never an arrow. */
+    body.atlas-site .rollbox-min,body.atlas-spells .rollbox-min,body.atlas-bestiary .rollbox-min{position:fixed!important;right:14px!important;bottom:calc(88px + env(safe-area-inset-bottom))!important;width:56px!important;height:56px!important;border:0!important;border-radius:50%!important;background:#e7a34a!important;color:#1a1208!important;box-shadow:0 10px 26px rgba(6,9,12,.55)!important;z-index:97!important;display:grid!important;place-items:center!important}
+    body.atlas-site .rollbox-min .glyphicon,body.atlas-spells .rollbox-min .glyphicon,body.atlas-bestiary .rollbox-min .glyphicon{font-size:0!important;width:26px!important;height:26px!important;display:block!important;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3 6.4 3.5-2.7 7.6H8.3L5.6 7.8 12 4.3Z'/%3E%3C/svg%3E") center/contain no-repeat;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3 6.4 3.5-2.7 7.6H8.3L5.6 7.8 12 4.3Z'/%3E%3C/svg%3E") center/contain no-repeat}
+    body.atlas-site .rollbox-min::after,body.atlas-spells .rollbox-min::after,body.atlas-bestiary .rollbox-min::after{content:"d20";position:absolute;bottom:3px;right:7px;font:800 9px/1 AtlasBody,system-ui,sans-serif;letter-spacing:.02em}
+    body.atlas-site .rollbox-min,body.atlas-spells .rollbox-min,body.atlas-bestiary .rollbox-min{overflow:visible!important}
+  }
+  .atlas-bug-dialog{position:fixed;inset:auto 0 0 0;width:100%;max-width:100%;max-height:88dvh;margin:0;padding:0;border:1px solid rgba(185,196,206,.18);border-radius:18px 18px 0 0;background:#222a34;color:#d8e2ea;box-shadow:0 -20px 60px rgba(10,14,18,.6)}
+  .atlas-bug-dialog::backdrop{background:rgba(10,14,18,.7)}
+  .atlas-bug-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(185,196,206,.14)}
+  .atlas-bug-head b{font:700 24px 'Modesto Condensed',Georgia,serif}
+  .atlas-bug-head button{display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:10px;background:transparent;color:#b5c1cb}
+  .atlas-bug-head button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .atlas-bug-body{display:grid;gap:10px;padding:14px 16px calc(18px + env(safe-area-inset-bottom));overflow:auto;max-height:calc(88dvh - 76px)}
+  .atlas-bug-body p{margin:0;color:#a5b1bc;font:13px/1.5 AtlasBody,system-ui,sans-serif}
+  .atlas-bug-body label{font:700 11px AtlasBody,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#e7a34a}
+  .atlas-bug-body textarea{width:100%;min-height:120px;resize:vertical;border:1px solid rgba(185,196,206,.22);border-radius:12px;background:#1a2028;color:#d8e2ea;font:14px/1.5 AtlasBody,system-ui,sans-serif;padding:10px 12px}
+  .atlas-bug-body textarea:focus{outline:2px solid #e7a34a;outline-offset:1px;border-color:#e7a34a}
+  .atlas-bug-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .atlas-bug-actions button{min-height:48px;border-radius:12px;border:1px solid rgba(185,196,206,.22);background:#2a3440;color:#d8e2ea;font:700 13px AtlasBody,system-ui,sans-serif;cursor:pointer;padding:0 10px}
+  .atlas-bug-actions .is-primary{background:#e7a34a;border-color:#e7a34a;color:#1a1208}
+  .atlas-bug-status{min-height:18px;color:#63c8bc;font:600 12px AtlasBody,system-ui,sans-serif}
+
 @media (prefers-reduced-motion:reduce){.atlas-global-nav *{transition:none!important}}

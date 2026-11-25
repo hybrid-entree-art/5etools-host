@@ -89,6 +89,81 @@
   dialog.addEventListener('click', (e) => { if (e.target === dialog) closeMenu(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
+
+  // Separate the dice roller from scroll-to-top; add an in-app bug report.
+  if (!document.querySelector('.atlas-fab')) {
+    const fab = document.createElement('div');
+    fab.className = 'atlas-fab';
+    fab.innerHTML = `
+      <button type="button" class="atlas-fab-top" aria-label="Torna in cima" title="Torna in cima"><svg viewBox="0 0 24 24"><path d="m5 14 7-7 7 7"/></svg></button>
+      <button type="button" class="atlas-fab-bug" aria-label="Segnala un problema" title="Segnala un problema"><svg viewBox="0 0 24 24"><path d="M9 6a3 3 0 0 1 6 0"/><path d="M6 13a6 6 0 0 1 12 0v2a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4z"/><path d="M3 10h3M18 10h3M3 17h3M18 17h3M12 13v6"/></svg></button>`;
+    document.body.append(fab);
+
+    const topBtn = fab.querySelector('.atlas-fab-top');
+    const syncTop = () => topBtn.classList.toggle('is-visible', window.scrollY > 240);
+    syncTop();
+    window.addEventListener('scroll', syncTop, {passive: true});
+    topBtn.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+
+    const dlg = document.createElement('dialog');
+    dlg.className = 'atlas-bug-dialog';
+    dlg.id = 'atlasBugDialog';
+    dlg.setAttribute('aria-labelledby', 'atlasBugTitle');
+    dlg.innerHTML = `
+      <div class="atlas-bug-head">
+        <b id="atlasBugTitle">Segnala un problema</b>
+        <button type="button" data-atlas-bug-close aria-label="Chiudi segnalazione"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div class="atlas-bug-body">
+        <p>Descrivi cosa non funziona. La segnalazione include pagina, viewport e browser; niente dati personali.</p>
+        <label for="atlasBugText">Cosa è successo?</label>
+        <textarea id="atlasBugText" placeholder="Es. nella scheda del Barbaro i tab sottoclasse non rispondono al tocco…"></textarea>
+        <div class="atlas-bug-actions">
+          <button type="button" data-atlas-bug-copy>Copia</button>
+          <button type="button" class="is-primary" data-atlas-bug-send>Apri issue GitHub</button>
+        </div>
+        <div class="atlas-bug-status" role="status" aria-live="polite"></div>
+      </div>`;
+    document.body.append(dlg);
+
+    const text = dlg.querySelector('#atlasBugText');
+    const status = dlg.querySelector('.atlas-bug-status');
+    const openBug = () => {
+      status.textContent = '';
+      if (!dlg.open) dlg.showModal();
+      setTimeout(() => text.focus(), 80);
+    };
+    const closeBug = () => { if (dlg.open) dlg.close(); };
+    const report = () => `[Atlas] ${text.value.trim() || '(nessuna descrizione)'}\n\nPagina: ${location.pathname}${location.search}${location.hash}\nViewport: ${innerWidth}x${innerHeight}\nUA: ${navigator.userAgent}`;
+
+    fab.querySelector('.atlas-fab-bug').addEventListener('click', openBug);
+    dlg.querySelector('[data-atlas-bug-close]').addEventListener('click', closeBug);
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) closeBug(); });
+
+    dlg.querySelector('[data-atlas-bug-copy]').addEventListener('click', async () => {
+      const body = report();
+      try {
+        await navigator.clipboard.writeText(body);
+        status.textContent = 'Segnalazione copiata negli appunti.';
+      } catch (_) {
+        const ta = document.createElement('textarea');
+        ta.value = body;
+        document.body.append(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        status.textContent = 'Segnalazione copiata.';
+      }
+    });
+
+    dlg.querySelector('[data-atlas-bug-send]').addEventListener('click', () => {
+      const title = encodeURIComponent('[Atlas] ' + (text.value.trim().slice(0, 80) || 'Problema UI'));
+      const body = encodeURIComponent(report());
+      window.open(`https://github.com/hybrid-entree-art/5etools-host/issues/new?title=${title}&body=${body}`, '_blank', 'noopener');
+      status.textContent = 'Issue aperta su GitHub: allega lo screenshot se puoi.';
+    });
+  }
+
   // Zero-cost image CDN: redirect 5e.tools img/ requests to public 5etools-img CDN.
   const IMG_CDN = 'https://cdn.jsdelivr.net/gh/5etools-mirror-3/5etools-img@main/';
   const hookRendererImages = () => {

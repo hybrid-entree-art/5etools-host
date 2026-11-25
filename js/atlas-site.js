@@ -89,6 +89,14 @@
 
   const diceFab = document.querySelector('.rollbox-min');
   if (diceFab) {
+    [
+      ['width', '56px'], ['height', '56px'], ['right', '14px'],
+      ['bottom', 'calc(88px + env(safe-area-inset-bottom))'], ['z-index', '97'],
+    ].forEach(([prop, value]) => diceFab.style.setProperty(prop, value, 'important'));
+    [
+      ['width', '56px'], ['height', '56px'], ['right', '14px'],
+      ['bottom', 'calc(88px + env(safe-area-inset-bottom))'], ['z-index', '97'],
+    ].forEach(([prop, value]) => diceFab.style.setProperty(prop, value, 'important'));
     diceFab.setAttribute('aria-label', 'Apri tira-dadi');
     diceFab.setAttribute('title', 'Apri tira-dadi');
   }

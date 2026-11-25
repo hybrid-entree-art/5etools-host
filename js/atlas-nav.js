@@ -90,6 +90,42 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
 
+
+  // Native dice roller polish: Italian placeholder + accessible close control.
+  const polishRollbox = () => {
+    const box = document.querySelector('.rollbox');
+    if (!box) return;
+    const ipt = box.querySelector('.ipt-roll');
+    if (ipt) {
+      ipt.placeholder = 'Es. 8d6+6 oppure /help';
+      ipt.setAttribute('aria-label', 'Tiro di dado');
+    }
+    const close = box.querySelector('.glyphicon-remove');
+    if (close) {
+      close.setAttribute('role', 'button');
+      close.setAttribute('tabindex', '0');
+      close.setAttribute('aria-label', 'Chiudi tira-dadi');
+      if (!close.dataset.atlasCloseBound) {
+        close.dataset.atlasCloseBound = '1';
+        close.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') close.click(); });
+      }
+    }
+    // Inline overrides beat the native !important rules regardless of CSS order/layers.
+    const set = (el, props) => { if (el) Object.entries(props).forEach(([k, v]) => el.style.setProperty(k, v, 'important')); };
+    set(box, {position: 'fixed', right: '14px', left: 'auto', bottom: 'calc(82px + env(safe-area-inset-bottom))', width: 'min(340px, calc(100vw - 28px))', 'max-height': 'calc(100dvh - 180px)', height: 'auto', padding: '0', border: '1px solid rgba(185,196,206,.2)', 'border-radius': '16px', background: '#1a2028', color: '#d8e2ea', 'box-shadow': '0 18px 50px rgba(6,9,12,.65)', 'z-index': '140', overflow: 'hidden'});
+    set(box.querySelector('.head-roll'), {display: 'flex', 'align-items': 'center', 'justify-content': 'space-between', 'min-height': '48px', padding: '0 8px 0 14px', background: '#222a34', color: '#d8e2ea', 'border-bottom': '1px solid rgba(185,196,206,.16)'});
+    set(box.querySelector('.hdr-roll'), {font: '700 20px/1 AtlasCond,Georgia,serif', color: '#d8e2ea', 'letter-spacing': '.02em'});
+    set(box.querySelector('.glyphicon-remove'), {display: 'grid', 'place-items': 'center', width: '48px', height: '48px', color: '#b5c1cb', 'font-size': '16px', cursor: 'pointer'});
+    set(box.querySelector('.out-roll'), {'min-height': '96px', 'max-height': 'calc(100dvh - 300px)', 'overflow-y': 'auto', padding: '12px 14px', background: '#1a2028', color: '#d8e2ea', font: '14px/1.55 AtlasBody,system-ui,sans-serif'});
+    if (ipt) set(ipt, {display: 'block', width: 'calc(100% - 28px)', 'min-height': '48px', margin: '10px 14px 14px', padding: '0 12px', border: '1px solid rgba(185,196,206,.22)', 'border-radius': '12px', background: '#222a34', color: '#d8e2ea', font: '15px AtlasBody,system-ui,sans-serif'});
+  };
+  document.addEventListener('click', (e) => {
+    const target = e.target instanceof Element ? e.target : null;
+    if (target?.closest('.rollbox-min')) {
+      [0, 80, 300, 700].forEach((ms) => setTimeout(polishRollbox, ms));
+    }
+  });
+
   // Separate the dice roller from scroll-to-top; add an in-app bug report.
   if (!document.querySelector('.atlas-fab')) {
     const fab = document.createElement('div');
